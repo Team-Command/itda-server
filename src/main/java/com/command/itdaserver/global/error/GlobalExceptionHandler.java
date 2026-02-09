@@ -29,7 +29,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleConstraintViolationException(ConstraintViolationException e) {
 
         ErrorCode errorCode = ErrorCode.BAD_REQUEST;
-        ErrorResponse response = ErrorResponse.of(errorCode, errorCode.getErrorMessage());
+        ErrorResponse response = ErrorResponse.of(errorCode, e.getMessage());
         log.error("유효성 검사 처리중 에러: ", e);
 
         return new ResponseEntity<>(response, HttpStatus.valueOf(errorCode.getStatusCode()));
