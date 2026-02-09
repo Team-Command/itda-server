@@ -1,9 +1,11 @@
 package com.command.itdaserver.global.config;
 
+import com.command.itdaserver.global.error.GlobalExceptionFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
@@ -18,6 +20,8 @@ import java.util.List;
 @Configuration
 @RequiredArgsConstructor
 public class SecurityConfig {
+
+    private final GlobalExceptionFilter globalExceptionFilter;
 
     @Value("${cors.allowed-origins.local}")
     private String localOrigin;
@@ -43,20 +47,20 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .anyRequest().permitAll()
                 )
+                .with(
+                        new SecurityFilterConfig(globalExceptionFilter),
+                        Customizer.withDefaults()
+                )
                 .build();
     }
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
-
         CorsConfiguration configuration = new CorsConfiguration();
 
-        configuration.setAllowedOrigins(List.of(
-                localOrigin,
-                devOrigin,
-                mainOrigin
-        ));
-
+        configuration.setAllowedOrigins(
+                List.of(localOrigin, devOrigin, mainOrigin)
+        );
         configuration.setAllowedMethods(
                 List.of("OPTIONS", "GET", "POST", "PUT", "PATCH", "DELETE")
         );
