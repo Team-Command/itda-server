@@ -19,7 +19,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handItdaException(ItdaException e) {
 
         ErrorCode errorCode = e.getErrorCode();
-        ErrorResponse response = ErrorResponse.of(errorCode, errorCode.getErrorMessage());
+        ErrorResponse response = ErrorResponse.of(errorCode, e.getMessage());
         log.error("비지니스 로직 처리중 에러: ", e);
         return new ResponseEntity<>(response, HttpStatus.valueOf(errorCode.getStatusCode()));
     }
