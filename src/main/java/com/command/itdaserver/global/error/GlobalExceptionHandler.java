@@ -50,6 +50,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handlerException(Exception e) {
 
+        log.error("예상하지 못한 에러: ", e);
         ErrorCode errorCode = ErrorCode.INTERNAL_SERVER_ERROR;
         ErrorResponse response = ErrorResponse.of(errorCode, e.getMessage());
 
