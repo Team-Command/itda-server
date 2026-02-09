@@ -42,7 +42,7 @@ public class GlobalExceptionFilter extends OncePerRequestFilter {
                     500,
                     ErrorResponse.of(
                             500,
-                            e.getMessage()
+                            "예상치 못한 오류가 발생했습니다."
                     )
             );
         }
