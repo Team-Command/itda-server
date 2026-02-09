@@ -16,7 +16,7 @@ public class GlobalExceptionHandler {
 
     //비즈니스 로직에서의 에러
     @ExceptionHandler(ItdaException.class)
-    public ResponseEntity<ErrorResponse> handClimException(ItdaException e) {
+    public ResponseEntity<ErrorResponse> handItdaException(ItdaException e) {
 
         ErrorCode errorCode = e.getErrorCode();
         ErrorResponse response = ErrorResponse.of(errorCode, errorCode.getErrorMessage());
