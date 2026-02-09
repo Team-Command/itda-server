@@ -37,7 +37,14 @@ public class GlobalExceptionFilter extends OncePerRequestFilter {
             writerErrorResponse(response, errorCode.getStatusCode(), ErrorResponse.of(errorCode, errorCode.getErrorMessage()));
         } catch (Exception e){
             log.error("예상하지 못한 에러", e);
-            writerErrorResponse(response, response.getStatus(), ErrorResponse.of(response.getStatus(),e.getMessage()));
+            writerErrorResponse(
+                    response,
+                    500,
+                    ErrorResponse.of(
+                            500,
+                            e.getMessage()
+                    )
+            );
         }
     }
 
