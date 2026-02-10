@@ -1,0 +1,67 @@
+package com.command.itdaserver.domain.user.domain;
+
+import com.command.itdaserver.domain.user.domain.enums.*;
+import com.command.itdaserver.global.entity.BaseIdEntity;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+
+@Entity
+@Table(name = "users")
+@AttributeOverride(name = "id", column = @Column(name = "u_id"))
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class User extends BaseIdEntity {
+
+    @Column(name = "user_name", unique = true, nullable = false)
+    private String userName; //유저아이디(로그인용)
+
+    private String password; //Oauth로그인시 null
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private AuthProvider provider;
+
+    @Column(nullable = false, unique = true)
+    private String email;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Major major;
+
+    @Column(name = "custom_major")
+    private String customMajor; //major가 ETC일때만 값 존재
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private School school;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Grade grade;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Role role;
+
+    @Builder
+    public User(String userName, String password, AuthProvider provider,
+                String email, Major major, String customMajor,
+                School school, Grade grade, Role role){
+        this.userName = userName;
+        this.password = password;
+        this.provider = provider != null ? provider : AuthProvider.LOCAL;
+        this.email = email;
+        this.major = major;
+        this.customMajor = customMajor;
+        this.school = school;
+        this.grade = grade;
+        this.role = role != null ? role : Role.USER;
+    }
+
+
+}
