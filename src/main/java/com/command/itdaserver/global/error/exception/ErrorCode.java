@@ -18,8 +18,8 @@ public enum ErrorCode {
     USER_ACCESS_DENIED(403, "해당 유저에 관한 권한이 없습니다."),
 
     // general
-    BAD_REQUEST(400, "프론트 탓"),
-    INTERNAL_SERVER_ERROR(500, "서버 탓");
+    BAD_REQUEST(400, "잘못된 요청입니다."),
+    INTERNAL_SERVER_ERROR(500, "내부 서버 오류가 발생했습니다.");
 
     private final int statusCode;
     private final String errorMessage;
