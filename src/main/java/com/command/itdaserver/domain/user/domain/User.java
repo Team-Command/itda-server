@@ -17,14 +17,17 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User extends BaseIdEntity {
 
-    @Column(name = "user_name", unique = true, nullable = false)
-    private String userName; //유저아이디(로그인용)
+    @Column(name = "user_id", unique = true, nullable = false)
+    private String userId; //유저아이디(로그인용)
 
     private String password; //Oauth로그인시 null
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private AuthProvider provider;
+
+    @Column(nullable = false)
+    private String name;
 
     @Column(nullable = false, unique = true)
     private String email;
@@ -49,12 +52,13 @@ public class User extends BaseIdEntity {
     private Role role;
 
     @Builder
-    public User(String userName, String password, AuthProvider provider,
-                String email, Major major, String customMajor,
+    public User(String userId, String password, AuthProvider provider,
+                String name, String email, Major major, String customMajor,
                 School school, Grade grade, Role role){
-        this.userName = userName;
+        this.userId = userId;
         this.password = password;
         this.provider = provider != null ? provider : AuthProvider.LOCAL;
+        this.name = name;
         this.email = email;
         this.major = major;
         this.customMajor = customMajor;
