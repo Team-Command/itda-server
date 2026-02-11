@@ -5,7 +5,6 @@ import com.command.itdaserver.domain.auth.exception.DuplicateUserIdException;
 import com.command.itdaserver.domain.auth.presentation.dto.request.SignUpRequest;
 import com.command.itdaserver.domain.user.domain.User;
 import com.command.itdaserver.domain.user.domain.enums.AuthProvider;
-import com.command.itdaserver.domain.user.domain.enums.Major;
 import com.command.itdaserver.domain.user.domain.enums.Role;
 import com.command.itdaserver.domain.user.domain.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -13,9 +12,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
