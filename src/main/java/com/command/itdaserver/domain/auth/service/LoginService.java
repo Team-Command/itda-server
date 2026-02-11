@@ -27,7 +27,7 @@ public class LoginService {
     private Long sessionExpiration;
 
     @Transactional(readOnly = true)
-    public String excute(LoginRequest request){
+    public String execute(LoginRequest request){
         log.info("로그인 시도 - userId: {}", request.userId());
 
         Authentication authentication = authenticationManager.authenticate(
