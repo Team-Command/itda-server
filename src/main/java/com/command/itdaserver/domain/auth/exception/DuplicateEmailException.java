@@ -4,6 +4,8 @@ import com.command.itdaserver.global.error.exception.ErrorCode;
 import com.command.itdaserver.global.error.exception.ItdaException;
 
 public class DuplicateEmailException extends ItdaException {
+    public static final ItdaException EXCEPTION = new DuplicateEmailException();
+
     public DuplicateEmailException() {
         super(ErrorCode.DUPLICATE_EMAIL);
     }
