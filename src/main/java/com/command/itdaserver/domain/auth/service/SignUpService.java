@@ -22,7 +22,7 @@ public class SignUpService {
     private final PasswordEncoder passwordEncoder;
 
     @Transactional
-    public void signUp(SignUpRequest request){
+    public void excute(SignUpRequest request){
         log.info("회원가입 시도 - userId: {}", request.userId());
 
         validateDuplicateUser(request);
