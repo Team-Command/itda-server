@@ -1,14 +1,10 @@
 package com.command.itdaserver.domain.user.domain;
 
-import com.command.itdaserver.domain.auth.service.command.SignUpCommand;
 import com.command.itdaserver.domain.user.domain.enums.*;
 import com.command.itdaserver.global.entity.BaseIdEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 
 @Entity
@@ -16,6 +12,8 @@ import lombok.NoArgsConstructor;
 @AttributeOverride(name = "id", column = @Column(name = "u_id"))
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@Builder
 public class User extends BaseIdEntity {
 
     @Column(name = "user_id", unique = true, nullable = false)
@@ -51,38 +49,4 @@ public class User extends BaseIdEntity {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Role role;
-
-    @Builder
-    private User(String userId, String password, AuthProvider provider,
-                 String name, String email, Major major, String customMajor,
-                 School school, Grade grade, Role role) {
-        this.userId = userId;
-        this.password = password;
-        this.provider = provider;
-        this.name = name;
-        this.email = email;
-        this.major = major;
-        this.customMajor = customMajor;
-        this.school = school;
-        this.grade = grade;
-        this.role = role;
-    }
-
-    public static User createLocalUser(SignUpCommand command, String encodedPassword) {
-        return User.builder()
-                .userId(command.userId())
-                .password(encodedPassword)
-                .provider(AuthProvider.LOCAL)
-                .name(command.name())
-                .email(command.email())
-                .major(command.major())
-                .customMajor(command.customMajor())
-                .school(command.school())
-                .grade(command.grade())
-                .role(Role.USER)
-                .build();
-    }
-
-
-
 }
