@@ -29,7 +29,7 @@ public class User extends BaseIdEntity {
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = true) @Email
     private String email;
 
     @Enumerated(EnumType.STRING)
