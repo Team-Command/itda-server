@@ -40,12 +40,12 @@ public class SignUpService {
     private void validateDuplicateUser(SignUpRequest request) {
         if (userRepository.existsByUserId(request.userId())) {
             log.warn("중복된 userId로 회원가입 시도 - userId: {}", request.userId());
-            throw new DuplicateUserIdException();
+            throw DuplicateUserIdException.EXCEPTION;
         }
 
         if (userRepository.existsByEmail(request.email())) {
             log.warn("중복된 email로 회원가입 시도 - email: {}", request.email());
-            throw new DuplicateEmailException();
+            throw DuplicateEmailException.EXCEPTION;
         }
     }
 }
