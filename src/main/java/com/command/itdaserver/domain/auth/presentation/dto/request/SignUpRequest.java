@@ -3,10 +3,12 @@ package com.command.itdaserver.domain.auth.presentation.dto.request;
 import com.command.itdaserver.domain.user.domain.enums.Grade;
 import com.command.itdaserver.domain.user.domain.enums.Major;
 import com.command.itdaserver.domain.user.domain.enums.School;
+import com.command.itdaserver.global.validation.ValidCustomMajor;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
+@ValidCustomMajor
 public record SignUpRequest(
         @NotBlank(message = "이름은 필수입니다.")
         String name,
@@ -26,7 +28,7 @@ public record SignUpRequest(
         @NotNull(message = "전공은 필수입니다.")
         Major major,
 
-        String customMajor, //major가 ETC일 때만 필수(서비스에서 검증)
+        String customMajor, //major가 ETC일 때만 필수
 
         @NotNull(message = "학교는 필수입니다.")
         School school,
