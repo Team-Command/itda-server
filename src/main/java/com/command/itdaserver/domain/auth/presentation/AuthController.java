@@ -23,7 +23,7 @@ public class AuthController {
 
     @PostMapping("/signup")
     public ResponseEntity<SignUpResponse> signUp(@Valid @RequestBody SignUpRequest request){
-        signUpService.excute(request);
+        signUpService.execute(request);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(new SignUpResponse("회원가입이 되었습니다, 로그인 후 서비스를 이용해주세요."));
     }
