@@ -2,10 +2,8 @@ package com.command.itdaserver.domain.auth.service;
 
 import com.command.itdaserver.domain.auth.exception.DuplicateEmailException;
 import com.command.itdaserver.domain.auth.exception.DuplicateUserIdException;
-import com.command.itdaserver.domain.auth.presentation.dto.request.SignUpRequest;
+import com.command.itdaserver.domain.auth.service.command.SignUpCommand;
 import com.command.itdaserver.domain.user.domain.User;
-import com.command.itdaserver.domain.user.domain.enums.AuthProvider;
-import com.command.itdaserver.domain.user.domain.enums.Role;
 import com.command.itdaserver.domain.user.domain.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,14 +20,14 @@ public class SignUpService {
     private final PasswordEncoder passwordEncoder;
 
     @Transactional
-    public void execute(SignUpRequest request){
-        log.info("회원가입 시도 - userId: {}", request.userId());
+    public void execute(SignUpCommand command){
+        log.info("회원가입 시도 - userId: {}", command.userId());
 
-        validateDuplicateUser(request);
+        validateDuplicateUser(command);
 
-        String encodedPassword = passwordEncoder.encode(request.password());
+        String encodedPassword = passwordEncoder.encode(command.password());
 
-        User user = User.createLocalUser(request, encodedPassword);
+        User user = User.createLocalUser(command, encodedPassword);
 
         userRepository.save(user);
 
@@ -37,14 +35,14 @@ public class SignUpService {
     }
 
 
-    private void validateDuplicateUser(SignUpRequest request) {
-        if (userRepository.existsByUserId(request.userId())) {
-            log.warn("중복된 userId로 회원가입 시도 - userId: {}", request.userId());
+    private void validateDuplicateUser(SignUpCommand command) {
+        if (userRepository.existsByUserId(command.userId())) {
+            log.warn("중복된 userId로 회원가입 시도 - userId: {}", command.userId());
             throw DuplicateUserIdException.EXCEPTION;
         }
 
-        if (userRepository.existsByEmail(request.email())) {
-            log.warn("중복된 email로 회원가입 시도 - email: {}", request.email());
+        if (userRepository.existsByEmail(command.email())) {
+            log.warn("중복된 email로 회원가입 시도 - email: {}", command.email());
             throw DuplicateEmailException.EXCEPTION;
         }
     }

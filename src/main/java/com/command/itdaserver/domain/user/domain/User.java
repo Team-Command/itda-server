@@ -1,6 +1,6 @@
 package com.command.itdaserver.domain.user.domain;
 
-import com.command.itdaserver.domain.auth.presentation.dto.request.SignUpRequest;
+import com.command.itdaserver.domain.auth.service.command.SignUpCommand;
 import com.command.itdaserver.domain.user.domain.enums.*;
 import com.command.itdaserver.global.entity.BaseIdEntity;
 import jakarta.persistence.*;
@@ -68,17 +68,17 @@ public class User extends BaseIdEntity {
         this.role = role;
     }
 
-    public static User createLocalUser(SignUpRequest request, String encodedPassword) {
+    public static User createLocalUser(SignUpCommand command, String encodedPassword) {
         return User.builder()
-                .userId(request.userId())
+                .userId(command.userId())
                 .password(encodedPassword)
                 .provider(AuthProvider.LOCAL)
-                .name(request.name())
-                .email(request.email())
-                .major(request.major())
-                .customMajor(request.customMajor())
-                .school(request.school())
-                .grade(request.grade())
+                .name(command.name())
+                .email(command.email())
+                .major(command.major())
+                .customMajor(command.customMajor())
+                .school(command.school())
+                .grade(command.grade())
                 .role(Role.USER)
                 .build();
     }
