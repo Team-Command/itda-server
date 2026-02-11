@@ -20,7 +20,7 @@ public record SignUpRequest(
         String userId,
 
         @NotBlank(message = "비밀번호는 필수입니다.")
-        @Size(min = 8, max = 30, message = "비밀번호는 8자 이상 20자 이하여야 합니다.")
+        @Size(min = 8, max = 30, message = "비밀번호는 8자 이상 30자 이하여야 합니다.")
         @Pattern(
                 regexp = "^(?=.*[a-zA-Z])(?=.*\\d)(?=.*[@$!%*?&#])[A-Za-z\\d@$!%*?&#]+$",
                 message = "비밀번호는 영문, 숫자, 특수문자(@$!%*?&#)를 각각 최소 1자 이상 포함해야 합니다."
