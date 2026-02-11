@@ -20,7 +20,7 @@ public enum ErrorCode {
 
     // auth - 새로 추가!
     DUPLICATE_USER_ID(409, "이미 존재하는 아이디입니다."),
-    DUPLICATE_EMAIL(409, "이미 존재하는 이메일입니다."),
+    DUPLICATE_EMAIL(409, "이미 가입된 이메일입니다."),
 
     // general
     BAD_REQUEST(400, "잘못된 요청입니다."),
