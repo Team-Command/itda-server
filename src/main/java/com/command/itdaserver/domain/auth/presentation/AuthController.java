@@ -6,7 +6,6 @@ import com.command.itdaserver.domain.auth.presentation.dto.response.LoginRespons
 import com.command.itdaserver.domain.auth.presentation.dto.response.SignUpResponse;
 import com.command.itdaserver.domain.auth.service.LoginService;
 import com.command.itdaserver.domain.auth.service.SignUpService;
-import com.command.itdaserver.domain.auth.service.command.SignUpCommand;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -29,8 +28,7 @@ public class AuthController {
 
     @PostMapping("/signup")
     public ResponseEntity<SignUpResponse> signUp(@Valid @RequestBody SignUpRequest request){
-        SignUpCommand command = SignUpCommand.from(request);
-        signUpService.execute(command);
+        signUpService.execute(request);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(new SignUpResponse("회원가입이 되었습니다, 로그인 후 서비스를 이용해주세요."));
     }
