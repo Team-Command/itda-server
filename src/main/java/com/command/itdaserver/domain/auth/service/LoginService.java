@@ -26,7 +26,6 @@ public class LoginService {
     @Value("${session.expiration:1800}")
     private Long sessionExpiration;
 
-    @Transactional(readOnly = true)
     public String execute(LoginRequest request){
         log.info("로그인 시도 - userId: {}", request.userId());
 
