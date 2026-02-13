@@ -4,16 +4,15 @@ import com.command.itdaserver.domain.auth.presentation.dto.request.LoginRequest;
 import com.command.itdaserver.domain.auth.presentation.dto.request.SignUpRequest;
 import com.command.itdaserver.domain.auth.presentation.dto.response.LoginResponse;
 import com.command.itdaserver.domain.auth.presentation.dto.response.SignUpResponse;
+import com.command.itdaserver.domain.auth.service.LoginResult;
 import com.command.itdaserver.domain.auth.service.LoginService;
 import com.command.itdaserver.domain.auth.service.SignUpService;
-import jakarta.servlet.http.Cookie;
+import com.command.itdaserver.global.util.CookieUtil;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,6 +27,7 @@ public class AuthController {
 
     private final SignUpService signUpService;
     private final LoginService loginService;
+    private final CookieUtil cookieUtil;
 
     @Value("${app.cookie.secure}")
     private boolean cookieSecure;
@@ -47,21 +47,14 @@ public class AuthController {
             @RequestBody LoginRequest request,
             HttpServletResponse response
     ){
-        String sessionId = loginService.execute(request);
+        LoginResult result = loginService.execute(request);
 
-        addSessionCookie(response, sessionId);
+        cookieUtil.addSessionCookie(response, result.sessionId());
+
+        if (result.rememberMeToken() != null) {
+            cookieUtil.addRememberMeCookie(response, result.rememberMeToken());
+        }
 
         return ResponseEntity.ok(new LoginResponse("로그인 성공"));
-    }
-
-    private void addSessionCookie(HttpServletResponse response, String sessionId) {
-        ResponseCookie cookie = ResponseCookie.from("SESSION_ID", sessionId)
-                .httpOnly(true)
-                .secure(cookieSecure)
-                .path("/")
-                .sameSite("Lax")
-                .build();
-
-        response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
     }
 }
