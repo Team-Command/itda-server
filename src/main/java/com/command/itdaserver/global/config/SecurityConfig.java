@@ -1,5 +1,6 @@
 package com.command.itdaserver.global.config;
 
+import com.command.itdaserver.global.auth.filter.SessionAuthenticationFilter;
 import com.command.itdaserver.global.error.GlobalExceptionFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,8 +12,6 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
@@ -26,6 +25,7 @@ import java.util.List;
 public class SecurityConfig {
 
     private final GlobalExceptionFilter globalExceptionFilter;
+    private final SessionAuthenticationFilter sessionAuthenticationFilter;
 
     @Value("${cors.allowed-origins.local}")
     private String localOrigin;
@@ -52,7 +52,7 @@ public class SecurityConfig {
                         .anyRequest().permitAll()
                 )
                 .with(
-                        new SecurityFilterConfig(globalExceptionFilter),
+                        new SecurityFilterConfig(globalExceptionFilter, sessionAuthenticationFilter),
                         Customizer.withDefaults()
                 )
                 .build();

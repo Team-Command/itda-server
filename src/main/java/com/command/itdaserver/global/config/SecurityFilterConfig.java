@@ -1,5 +1,6 @@
 package com.command.itdaserver.global.config;
 
+import com.command.itdaserver.global.auth.filter.SessionAuthenticationFilter;
 import com.command.itdaserver.global.error.GlobalExceptionFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.config.annotation.SecurityConfigurerAdapter;
@@ -12,12 +13,17 @@ public class SecurityFilterConfig
         extends SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity> {
 
     private final GlobalExceptionFilter globalExceptionFilter;
+    private final SessionAuthenticationFilter sessionAuthenticationFilter;
 
     @Override
     public void configure(HttpSecurity http) {
         http.addFilterBefore(
                 globalExceptionFilter,
                 UsernamePasswordAuthenticationFilter.class
+        );
+        http.addFilterAfter(
+                sessionAuthenticationFilter,
+                GlobalExceptionFilter.class
         );
     }
 }
