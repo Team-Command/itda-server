@@ -25,6 +25,13 @@ public class CustomUserDetails implements UserDetails {
         this.role = user.getRole().name();
     }
 
+    public CustomUserDetails(String userId, String email, String role) {
+        this.userId = userId;
+        this.email = email;
+        this.password = null;
+        this.role = role;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.singleton(
