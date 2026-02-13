@@ -7,6 +7,7 @@ import lombok.Getter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 import org.springframework.data.redis.core.TimeToLive;
+import org.springframework.data.redis.core.index.Indexed;
 
 import java.util.UUID;
 
@@ -19,8 +20,11 @@ public class UserSession {
     @Id
     private String sessionId; // UUID로 생성한 세션 ID
 
+    @Indexed
     private String userId;
+
     private String email;
+
     private String role;
 
     @TimeToLive
