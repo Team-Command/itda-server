@@ -11,7 +11,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -53,14 +55,13 @@ public class AuthController {
     }
 
     private void addSessionCookie(HttpServletResponse response, String sessionId) {
-        Cookie cookie = new Cookie("SESSION_ID", sessionId);
-        cookie.setHttpOnly(true);      // XSS 방어
-        cookie.setSecure(cookieSecure);        // HTTPS만 전송
-        cookie.setPath("/");           // 모든 경로에서 전송
-        cookie.setMaxAge(sessionExpiration);        // 30분
+        ResponseCookie cookie = ResponseCookie.from("SESSION_ID", sessionId)
+                .httpOnly(true)
+                .secure(cookieSecure)
+                .path("/")
+                .sameSite("Lax")
+                .build();
 
-
-        response.addCookie(cookie);
+        response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
     }
-
 }
