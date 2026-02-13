@@ -4,6 +4,7 @@ import com.command.itdaserver.domain.auth.domain.UserSession;
 import com.command.itdaserver.domain.auth.domain.repository.SessionRepository;
 import com.command.itdaserver.domain.auth.presentation.dto.request.LoginRequest;
 import com.command.itdaserver.domain.auth.presentation.dto.response.LoginResponse;
+import com.command.itdaserver.domain.user.exception.UserNotFoundException;
 import com.command.itdaserver.global.auth.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -39,6 +40,7 @@ public class LoginService {
 
         sessionRepository.delete(
                 sessionRepository.findByUserId(userDetails.getUserId())
+                        .orElseThrow(() -> UserNotFoundException.EXCEPTION)
         );
 
         UserSession session = UserSession.create(
