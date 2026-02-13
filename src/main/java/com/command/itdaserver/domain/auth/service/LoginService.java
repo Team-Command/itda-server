@@ -1,6 +1,8 @@
 package com.command.itdaserver.domain.auth.service;
 
+import com.command.itdaserver.domain.auth.domain.RememberMeToken;
 import com.command.itdaserver.domain.auth.domain.UserSession;
+import com.command.itdaserver.domain.auth.domain.repository.RememberMeRepository;
 import com.command.itdaserver.domain.auth.domain.repository.SessionRepository;
 import com.command.itdaserver.domain.auth.presentation.dto.request.LoginRequest;
 import com.command.itdaserver.domain.auth.presentation.dto.response.LoginResponse;
@@ -23,11 +25,12 @@ public class LoginService {
 
     private final AuthenticationManager authenticationManager;
     private final SessionRepository sessionRepository;
+    private final RememberMeRepository rememberMeRepository;
 
     @Value("${session.expiration:1800}")
     private int sessionExpiration;
 
-    public String execute(LoginRequest request){
+    public LoginResult execute(LoginRequest request) {
         log.info("로그인 시도 - userId: {}", request.userId());
 
         Authentication authentication = authenticationManager.authenticate(
@@ -52,7 +55,21 @@ public class LoginService {
         log.info("로그인 성공 - userId: {}, sessionId: {}",
                 userDetails.getUserId(), session.getSessionId());
 
-        return session.getSessionId();
-    }
+        String rememberMeToken = null;
+        if (request.rememberMe()) {
+            // 기존 Remember Me 토큰 삭제
+            rememberMeRepository.findByUserId(userDetails.getUserId())
+                    .ifPresent(rememberMeRepository::delete);
 
+            // 새 Remember Me 토큰 생성
+            RememberMeToken rememberMe = RememberMeToken.create(
+                    userDetails.getUserId()
+            );
+            rememberMeRepository.save(rememberMe);
+            rememberMeToken = rememberMe.getToken();
+
+            log.info("Remember Me 토큰 생성 - userId: {}", userDetails.getUserId());
+        }
+        return new LoginResult(session.getSessionId(), rememberMeToken);
+    }
 }
