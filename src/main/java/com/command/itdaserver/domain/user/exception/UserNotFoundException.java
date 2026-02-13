@@ -1,6 +1,5 @@
 package com.command.itdaserver.domain.user.exception;
 
-import com.command.itdaserver.domain.auth.exception.DuplicateEmailException;
 import com.command.itdaserver.global.error.exception.ErrorCode;
 import com.command.itdaserver.global.error.exception.ItdaException;
 

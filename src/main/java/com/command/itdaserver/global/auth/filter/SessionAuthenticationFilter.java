@@ -3,7 +3,6 @@ package com.command.itdaserver.global.auth.filter;
 import com.command.itdaserver.domain.auth.domain.UserSession;
 import com.command.itdaserver.domain.auth.domain.repository.RememberMeRepository;
 import com.command.itdaserver.domain.auth.domain.repository.SessionRepository;
-import com.command.itdaserver.domain.user.domain.User;
 import com.command.itdaserver.domain.user.domain.repository.UserRepository;
 import com.command.itdaserver.global.auth.CustomUserDetails;
 import com.command.itdaserver.global.util.CookieUtil;

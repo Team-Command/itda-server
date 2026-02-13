@@ -5,8 +5,6 @@ import com.command.itdaserver.domain.auth.domain.UserSession;
 import com.command.itdaserver.domain.auth.domain.repository.RememberMeRepository;
 import com.command.itdaserver.domain.auth.domain.repository.SessionRepository;
 import com.command.itdaserver.domain.auth.presentation.dto.request.LoginRequest;
-import com.command.itdaserver.domain.auth.presentation.dto.response.LoginResponse;
-import com.command.itdaserver.domain.user.exception.UserNotFoundException;
 import com.command.itdaserver.global.auth.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,9 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
