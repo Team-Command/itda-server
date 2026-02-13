@@ -28,9 +28,9 @@ public class UserSession {
     private String role;
 
     @TimeToLive
-    private Long expiration; // TTL (초 단위) - 예: 1800 (30분)
+    private int expiration; // TTL (초 단위) - 예: 1800 (30분)
 
-    public static UserSession create(String userId, String email, String role, Long expiration) {
+    public static UserSession create(String userId, String email, String role, int expiration) {
         return UserSession.builder()
                 .sessionId(UUID.randomUUID().toString()) // 랜덤 세션 ID
                 .userId(userId)

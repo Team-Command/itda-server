@@ -10,6 +10,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,6 +26,12 @@ public class AuthController {
 
     private final SignUpService signUpService;
     private final LoginService loginService;
+
+    @Value("${app.cookie.secure}")
+    private boolean cookieSecure;
+
+    @Value("${session.expiration}")
+    private int sessionExpiration;
 
     @PostMapping("/signup")
     public ResponseEntity<SignUpResponse> signUp(@Valid @RequestBody SignUpRequest request){
@@ -48,9 +55,9 @@ public class AuthController {
     private void addSessionCookie(HttpServletResponse response, String sessionId) {
         Cookie cookie = new Cookie("SESSION_ID", sessionId);
         cookie.setHttpOnly(true);      // XSS 방어
-        cookie.setSecure(true);        // HTTPS만 전송
+        cookie.setSecure(cookieSecure);        // HTTPS만 전송
         cookie.setPath("/");           // 모든 경로에서 전송
-        cookie.setMaxAge(1800);        // 30분
+        cookie.setMaxAge(sessionExpiration);        // 30분
 
 
         response.addCookie(cookie);
