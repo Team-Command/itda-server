@@ -14,6 +14,7 @@ import java.util.UUID;
 @Getter
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @RedisHash(value = "session") // Redis Key: "session:{sessionId}"
 public class UserSession {
 
