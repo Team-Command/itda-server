@@ -37,7 +37,9 @@ public class LoginService {
         );
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
 
-        sessionRepository.deleteByUserId(userDetails.getUserId());
+        sessionRepository.delete(
+                sessionRepository.findByUserId(userDetails.getUserId())
+        );
 
         UserSession session = UserSession.create(
                 userDetails.getUserId(),
