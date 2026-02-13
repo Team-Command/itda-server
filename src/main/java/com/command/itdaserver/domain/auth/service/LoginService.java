@@ -38,10 +38,8 @@ public class LoginService {
         );
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
 
-        sessionRepository.delete(
-                sessionRepository.findByUserId(userDetails.getUserId())
-                        .orElseThrow(() -> UserNotFoundException.EXCEPTION)
-        );
+        sessionRepository.findByUserId(userDetails.getUserId())
+                .ifPresent(sessionRepository::delete);
 
         UserSession session = UserSession.create(
                 userDetails.getUserId(),
