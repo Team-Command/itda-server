@@ -1,11 +1,14 @@
 package com.command.itdaserver.global.config;
 
+import com.command.itdaserver.global.auth.filter.SessionAuthenticationFilter;
 import com.command.itdaserver.global.error.GlobalExceptionFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
@@ -22,6 +25,7 @@ import java.util.List;
 public class SecurityConfig {
 
     private final GlobalExceptionFilter globalExceptionFilter;
+    private final SessionAuthenticationFilter sessionAuthenticationFilter;
 
     @Value("${cors.allowed-origins.local}")
     private String localOrigin;
@@ -48,7 +52,7 @@ public class SecurityConfig {
                         .anyRequest().permitAll()
                 )
                 .with(
-                        new SecurityFilterConfig(globalExceptionFilter),
+                        new SecurityFilterConfig(globalExceptionFilter, sessionAuthenticationFilter),
                         Customizer.withDefaults()
                 )
                 .build();
@@ -72,5 +76,12 @@ public class SecurityConfig {
         source.registerCorsConfiguration("/**", configuration);
 
         return source;
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(
+            AuthenticationConfiguration authenticationConfiguration
+    ) throws Exception {
+        return authenticationConfiguration.getAuthenticationManager();
     }
 }
