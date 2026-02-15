@@ -3,16 +3,20 @@ package com.command.itdaserver.domain.auth.presentation;
 import com.command.itdaserver.domain.auth.presentation.dto.request.LoginRequest;
 import com.command.itdaserver.domain.auth.presentation.dto.request.SignUpRequest;
 import com.command.itdaserver.domain.auth.presentation.dto.response.LoginResponse;
+import com.command.itdaserver.domain.auth.presentation.dto.response.LogoutResponse;
 import com.command.itdaserver.domain.auth.presentation.dto.response.SignUpResponse;
 import com.command.itdaserver.domain.auth.service.LoginResult;
 import com.command.itdaserver.domain.auth.service.LoginService;
+import com.command.itdaserver.domain.auth.service.LogoutService;
 import com.command.itdaserver.domain.auth.service.SignUpService;
+import com.command.itdaserver.global.auth.CustomUserDetails;
 import com.command.itdaserver.global.util.CookieUtil;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,6 +30,7 @@ public class AuthController {
 
     private final SignUpService signUpService;
     private final LoginService loginService;
+    private final LogoutService logoutService;
     private final CookieUtil cookieUtil;
 
 
@@ -50,5 +55,12 @@ public class AuthController {
         }
 
         return ResponseEntity.ok(new LoginResponse("로그인 성공"));
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<LogoutResponse> logout(@AuthenticationPrincipal CustomUserDetails customUserDetails){
+        logoutService.execute(customUserDetails);
+
+        return ResponseEntity.ok(new LogoutResponse("로그아웃에 성공했습니다."));
     }
 }
