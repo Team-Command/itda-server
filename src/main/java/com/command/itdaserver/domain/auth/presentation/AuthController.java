@@ -61,8 +61,6 @@ public class AuthController {
     public ResponseEntity<LogoutResponse> logout(@AuthenticationPrincipal CustomUserDetails customUserDetails){
         logoutService.execute(customUserDetails);
 
-        return ResponseEntity
-                .status(200)
-                .body(new LogoutResponse("로그아웃에 성공했습니다."));
+        return ResponseEntity.ok(new LogoutResponse("로그아웃에 성공했습니다."));
     }
 }
