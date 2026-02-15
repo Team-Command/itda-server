@@ -39,3 +39,6 @@ out/
 ### env ###
 .env
 
+## Ai Models ###
+.claude
+.serena

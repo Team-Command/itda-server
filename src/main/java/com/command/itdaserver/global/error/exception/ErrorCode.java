@@ -22,6 +22,10 @@ public enum ErrorCode {
     DUPLICATE_USER_ID(409, "이미 존재하는 아이디입니다."),
     DUPLICATE_EMAIL(409, "이미 가입된 이메일입니다."),
 
+    // post
+    INVALID_DEADLINE(400, "마감 시간이 현재 시간보다 이전입니다."),
+    POST_NOT_FOUND(404, "해당 게시글이 존재하지 않습니다."),
+
     // general
     BAD_REQUEST(400, "잘못된 요청입니다."),
     INTERNAL_SERVER_ERROR(500, "내부 서버 오류가 발생했습니다.");
