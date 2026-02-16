@@ -1,6 +1,6 @@
 package com.command.itdaserver.domain.auth.presentation;
 
-import com.command.itdaserver.domain.auth.domain.enums.Session;
+import com.command.itdaserver.domain.auth.domain.enums.CookieNames;
 import com.command.itdaserver.domain.auth.presentation.dto.request.LoginRequest;
 import com.command.itdaserver.domain.auth.presentation.dto.request.SignUpRequest;
 import com.command.itdaserver.domain.auth.presentation.dto.response.LoginResponse;
@@ -63,8 +63,8 @@ public class AuthController {
             HttpServletResponse response){
         logoutService.execute(customUserDetails);
 
-        cookieUtil.removeCookie(response, Session.SESSION_ID.getName());
-        cookieUtil.removeCookie(response, Session.REMEMBER_ME.getName());
+        cookieUtil.removeCookie(response, CookieNames.SESSION_ID.getName());
+        cookieUtil.removeCookie(response, CookieNames.REMEMBER_ME.getName());
 
         return ResponseEntity.ok(new LogoutResponse("로그아웃에 성공했습니다."));
     }

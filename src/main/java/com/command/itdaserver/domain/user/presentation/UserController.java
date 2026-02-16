@@ -1,6 +1,6 @@
 package com.command.itdaserver.domain.user.presentation;
 
-import com.command.itdaserver.domain.auth.domain.enums.Session;
+import com.command.itdaserver.domain.auth.domain.enums.CookieNames;
 import com.command.itdaserver.domain.user.presentation.dto.response.DeleteUserResponse;
 import com.command.itdaserver.domain.user.service.DeleteUserAccountService;
 import com.command.itdaserver.global.auth.CustomUserDetails;
@@ -28,8 +28,8 @@ public class UserController {
     ) {
         deleteUserAccount.execute(customUserDetails);
 
-        cookieUtil.removeCookie(response, Session.SESSION_ID.getName());
-        cookieUtil.removeCookie(response, Session.REMEMBER_ME.getName());
+        cookieUtil.removeCookie(response, CookieNames.SESSION_ID.getName());
+        cookieUtil.removeCookie(response, CookieNames.REMEMBER_ME.getName());
 
         return ResponseEntity.ok(new DeleteUserResponse("회원 탈퇴가 완료되었습니다"));
     }

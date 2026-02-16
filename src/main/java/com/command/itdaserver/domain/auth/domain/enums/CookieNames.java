@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum Session {
+public enum CookieNames {
     SESSION_ID("SESSION_ID"),
     REMEMBER_ME("REMEMBER_ME");
 
