@@ -4,7 +4,6 @@ import com.command.itdaserver.domain.user.presentation.dto.response.DeleteUserRe
 import com.command.itdaserver.domain.user.service.DeleteUserAccountService;
 import com.command.itdaserver.global.auth.CustomUserDetails;
 import com.command.itdaserver.global.util.CookieUtil;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
