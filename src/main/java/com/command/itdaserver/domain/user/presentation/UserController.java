@@ -1,6 +1,7 @@
 package com.command.itdaserver.domain.user.presentation;
 
 import com.command.itdaserver.domain.auth.presentation.dto.response.LogoutResponse;
+import com.command.itdaserver.domain.user.presentation.dto.response.DeleteUserResponse;
 import com.command.itdaserver.domain.user.service.DeleteUserAccount;
 import com.command.itdaserver.global.auth.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
@@ -18,10 +19,10 @@ public class UserController {
     private final DeleteUserAccount deleteUserAccount;
 
     @DeleteMapping
-    public ResponseEntity<String> deleteUserAccount(@AuthenticationPrincipal CustomUserDetails customUserDetails) {
+    public ResponseEntity<DeleteUserResponse> deleteUserAccount(@AuthenticationPrincipal CustomUserDetails customUserDetails) {
         deleteUserAccount.execute(customUserDetails);
 
-        return ResponseEntity.ok(new LogoutResponse("로그아웃에 성공했습니다."));
+        return ResponseEntity.ok(new DeleteUserResponse("회원 탈퇴에 성공했습니다. "));
     }
 
 }
