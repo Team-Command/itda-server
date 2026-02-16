@@ -6,13 +6,24 @@ import lombok.extern.slf4j.Slf4j;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+
 @Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
+    // 인증 로직에서의 에러
+    @ExceptionHandler(AuthenticationException.class)
+    public ResponseEntity<?> handleAuthenticationException(AuthenticationException e) {
+        ErrorCode errorCode = ErrorCode.USER_NOT_MATCHED;
+        ErrorResponse response = ErrorResponse.of(errorCode, e.getMessage());
+        log.error("인증/인가 로직 처리중 에러: ", e);
+        return new ResponseEntity<>(response, HttpStatus.valueOf(errorCode.getStatusCode()));
+    }
 
     //비즈니스 로직에서의 에러
     @ExceptionHandler(ItdaException.class)
