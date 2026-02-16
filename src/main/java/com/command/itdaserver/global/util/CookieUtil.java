@@ -35,20 +35,8 @@ public class CookieUtil {
         response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
     }
 
-    public void removeSessionCookie(HttpServletResponse response) {
-        ResponseCookie cookie = ResponseCookie.from("SESSION_ID", "")
-                .httpOnly(true)
-                .secure(cookieSecure)
-                .path("/")
-                .sameSite("Lax")
-                .maxAge(0)
-                .build();
-
-        response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
-    }
-
-    public void removeRememberMeCookie(HttpServletResponse response) {
-        ResponseCookie cookie = ResponseCookie.from("REMEMBER_ME")
+    public void removeCookie(HttpServletResponse response, String name) {
+        ResponseCookie cookie = ResponseCookie.from(name, "")
                 .httpOnly(true)
                 .secure(cookieSecure)
                 .path("/")

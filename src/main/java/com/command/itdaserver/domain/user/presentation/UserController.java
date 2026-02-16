@@ -21,6 +21,9 @@ public class UserController {
 
     private final DeleteUserAccountService deleteUserAccount;
 
+    private static final String sessionId = "SESSION_ID";
+    private static final String rememberMe = "REMEMBER_ME";
+
     @DeleteMapping
     public ResponseEntity<DeleteUserResponse> deleteUserAccount(
             @AuthenticationPrincipal CustomUserDetails customUserDetails,
@@ -28,8 +31,8 @@ public class UserController {
     ) {
         deleteUserAccount.execute(customUserDetails);
 
-        cookieUtil.removeSessionCookie(response);
-        cookieUtil.removeRememberMeCookie(response);
+        cookieUtil.removeCookie(response, sessionId);
+        cookieUtil.removeCookie(response, rememberMe);
 
         return ResponseEntity.ok(new DeleteUserResponse("회원 탈퇴가 완료되었습니다"));
     }

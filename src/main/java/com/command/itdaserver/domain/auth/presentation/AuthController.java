@@ -28,11 +28,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/auth")
 @RequiredArgsConstructor
 public class AuthController {
+    private final CookieUtil cookieUtil;
 
     private final SignUpService signUpService;
     private final LoginService loginService;
     private final LogoutService logoutService;
-    private final CookieUtil cookieUtil;
+
+    private static final String sessionId = "SESSION_ID";
+    private static final String rememberMe = "REMEMBER_ME";
 
 
     @PostMapping("/signup")
@@ -64,8 +67,8 @@ public class AuthController {
             HttpServletResponse response){
         logoutService.execute(customUserDetails);
 
-        cookieUtil.removeSessionCookie(response);
-        cookieUtil.removeRememberMeCookie(response);
+        cookieUtil.removeCookie(response, sessionId);
+        cookieUtil.removeCookie(response, rememberMe);
 
         return ResponseEntity.ok(new LogoutResponse("로그아웃에 성공했습니다."));
     }
