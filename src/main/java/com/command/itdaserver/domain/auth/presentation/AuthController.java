@@ -11,7 +11,6 @@ import com.command.itdaserver.domain.auth.service.LogoutService;
 import com.command.itdaserver.domain.auth.service.SignUpService;
 import com.command.itdaserver.global.auth.CustomUserDetails;
 import com.command.itdaserver.global.util.CookieUtil;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
