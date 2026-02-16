@@ -22,7 +22,6 @@ public class UserController {
     public ResponseEntity<DeleteUserResponse> deleteUserAccount(@AuthenticationPrincipal CustomUserDetails customUserDetails) {
         deleteUserAccount.execute(customUserDetails);
 
-        return ResponseEntity.ok(new DeleteUserResponse("회원 탈퇴에 성공했습니다. "));
+        return ResponseEntity.ok(new DeleteUserResponse("회원 탈퇴가 완료되었습니다"));
     }
-
 }
