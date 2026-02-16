@@ -11,6 +11,7 @@ import com.command.itdaserver.domain.auth.service.LogoutService;
 import com.command.itdaserver.domain.auth.service.SignUpService;
 import com.command.itdaserver.global.auth.CustomUserDetails;
 import com.command.itdaserver.global.util.CookieUtil;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -58,8 +59,13 @@ public class AuthController {
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<LogoutResponse> logout(@AuthenticationPrincipal CustomUserDetails customUserDetails){
+    public ResponseEntity<LogoutResponse> logout(
+            @AuthenticationPrincipal CustomUserDetails customUserDetails,
+            HttpServletResponse response){
         logoutService.execute(customUserDetails);
+
+        cookieUtil.removeSessionCookie(response);
+        cookieUtil.removeRememberMeCookie(response);
 
         return ResponseEntity.ok(new LogoutResponse("로그아웃에 성공했습니다."));
     }
