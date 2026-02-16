@@ -7,4 +7,5 @@ import java.util.Optional;
 
 public interface SessionRepository extends CrudRepository<UserSession, String> {
     Optional<UserSession> findByUserId(String userId);
+    void deleteByUserId(String userId);
 }

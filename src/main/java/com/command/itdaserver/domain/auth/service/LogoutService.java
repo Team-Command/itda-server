@@ -4,6 +4,7 @@ import com.command.itdaserver.domain.auth.domain.repository.RememberMeRepository
 import com.command.itdaserver.domain.auth.domain.repository.SessionRepository;
 import com.command.itdaserver.global.auth.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -18,5 +19,7 @@ public class LogoutService {
                     sessionRepository.delete(session);
                     rememberMeRepository.deleteByUserId(customUserDetails.getUserId());
                 });
+
+        SecurityContextHolder.clearContext();
     }
 }

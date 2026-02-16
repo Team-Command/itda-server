@@ -34,4 +34,16 @@ public class CookieUtil {
 
         response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
     }
+
+    public void removeCookie(HttpServletResponse response, String name) {
+        ResponseCookie cookie = ResponseCookie.from(name, "")
+                .httpOnly(true)
+                .secure(cookieSecure)
+                .path("/")
+                .sameSite("Lax")
+                .maxAge(0)
+                .build();
+
+        response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
+    }
 }

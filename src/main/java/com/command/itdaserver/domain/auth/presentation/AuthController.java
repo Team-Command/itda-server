@@ -1,5 +1,6 @@
 package com.command.itdaserver.domain.auth.presentation;
 
+import com.command.itdaserver.domain.auth.domain.enums.CookieNames;
 import com.command.itdaserver.domain.auth.presentation.dto.request.LoginRequest;
 import com.command.itdaserver.domain.auth.presentation.dto.request.SignUpRequest;
 import com.command.itdaserver.domain.auth.presentation.dto.response.LoginResponse;
@@ -27,12 +28,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/auth")
 @RequiredArgsConstructor
 public class AuthController {
+    private final CookieUtil cookieUtil;
 
     private final SignUpService signUpService;
     private final LoginService loginService;
     private final LogoutService logoutService;
-    private final CookieUtil cookieUtil;
-
 
     @PostMapping("/signup")
     public ResponseEntity<SignUpResponse> signUp(@Valid @RequestBody SignUpRequest request){
@@ -58,8 +58,13 @@ public class AuthController {
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<LogoutResponse> logout(@AuthenticationPrincipal CustomUserDetails customUserDetails){
+    public ResponseEntity<LogoutResponse> logout(
+            @AuthenticationPrincipal CustomUserDetails customUserDetails,
+            HttpServletResponse response){
         logoutService.execute(customUserDetails);
+
+        cookieUtil.removeCookie(response, CookieNames.SESSION_ID.getName());
+        cookieUtil.removeCookie(response, CookieNames.REMEMBER_ME.getName());
 
         return ResponseEntity.ok(new LogoutResponse("로그아웃에 성공했습니다."));
     }
