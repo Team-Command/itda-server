@@ -18,8 +18,10 @@ public class DeleteUserAccountService {
     public void execute(CustomUserDetails customUserDetails) {
         String deleteUserId = customUserDetails.getUserId();
 
-        sessionRepository.deleteByUserId(deleteUserId);
-        userRepository.deleteByUserId(deleteUserId);
+        userRepository.findByUserId(deleteUserId).ifPresent(user -> {
+            sessionRepository.deleteByUserId(deleteUserId);
+            userRepository.delete(user);
+        });
 
         SecurityContextHolder.clearContext();
     }
