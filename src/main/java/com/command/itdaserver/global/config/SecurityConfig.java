@@ -49,7 +49,8 @@ public class SecurityConfig {
                 .headers(headers ->
                         headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin))
                 .authorizeHttpRequests(auth -> auth
-                        .anyRequest().permitAll()
+                        .requestMatchers("/auth/login", "/auth/signup").permitAll()
+                        .anyRequest().authenticated()
                 )
                 .with(
                         new SecurityFilterConfig(globalExceptionFilter, sessionAuthenticationFilter),
