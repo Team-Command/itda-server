@@ -5,10 +5,10 @@ import com.command.itdaserver.domain.user.domain.enums.Grade;
 import com.command.itdaserver.domain.user.domain.enums.Major;
 import com.command.itdaserver.domain.user.domain.enums.School;
 import lombok.Builder;
-import lombok.Setter;
+import lombok.Getter;
 
 @Builder
-@Setter
+@Getter
 public class UserResponse{
         private String name;
         private String userId;
