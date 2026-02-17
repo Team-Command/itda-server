@@ -40,6 +40,6 @@ public class UserController {
 
     @GetMapping("/me")
     public UserResponse getMyProfile(@AuthenticationPrincipal CustomUserDetails customUserDetails) {
-        return queryMyProfileService.execute(customUserDetails);
+        return queryMyProfileService.execute(customUserDetails.getUserId());
     }
 }

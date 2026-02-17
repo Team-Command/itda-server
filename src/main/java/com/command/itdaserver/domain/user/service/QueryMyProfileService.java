@@ -15,8 +15,8 @@ public class QueryMyProfileService {
     private final UserRepository userRepository;
 
     @Transactional(readOnly = true)
-    public UserResponse execute(CustomUserDetails customUserDetails) {
-        User user = userRepository.findByUserId(customUserDetails.getUserId())
+    public UserResponse execute(String userId) {
+        User user = userRepository.findByUserId(userId)
                 .orElseThrow(() -> UserNotFoundException.EXCEPTION);
 
         return UserResponse.from(user);
