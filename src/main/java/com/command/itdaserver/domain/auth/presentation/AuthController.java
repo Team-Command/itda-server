@@ -70,7 +70,7 @@ public class AuthController {
     }
 
     @PostMapping("password/verification")
-    public ResponseEntity<?> sendVerificationEmail(
+    public ResponseEntity<MessageResponse> sendVerificationEmail(
             @RequestBody SendVerificationEmailRequest request
             ){
         passwordResetService.execute(request.email());
