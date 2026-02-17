@@ -4,7 +4,6 @@ import com.command.itdaserver.domain.user.domain.User;
 import com.command.itdaserver.domain.user.domain.repository.UserRepository;
 import com.command.itdaserver.domain.user.exception.UserNotFoundException;
 import com.command.itdaserver.domain.user.presentation.dto.response.UserResponse;
-import com.command.itdaserver.global.auth.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
