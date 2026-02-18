@@ -7,7 +7,7 @@ import com.command.itdaserver.domain.post.domain.enums.AnswerType;
 import com.command.itdaserver.domain.post.domain.repository.PostRepository;
 import com.command.itdaserver.domain.post.exceptions.PostNotFoundException;
 import com.command.itdaserver.domain.post.presentation.dto.request.CreateFormRequest;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
