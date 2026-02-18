@@ -15,11 +15,4 @@ public record CreatePostRequest(
 
         @NotNull(message = "신청 마감일은 필수입니다.")
         LocalDateTime applyDeadline
-) {
-
-    public CreatePostRequest {
-        if (applyDeadline != null && applyDeadline.isBefore(LocalDateTime.now())) {
-            throw new InvalidDeadlineException();
-        }
-    }
-}
+) {}

@@ -23,7 +23,7 @@ public enum ErrorCode {
     DUPLICATE_EMAIL(409, "이미 가입된 이메일입니다."),
 
     // post
-    INVALID_DEADLINE(400, "마감 시간이 현재 시간보다 이전입니다."),
+    INVALID_DEADLINE(400, "마감 기간이 현재 기간보다 이전입니다."),
     POST_NOT_FOUND(404, "해당 게시글이 존재하지 않습니다."),
     INVALID_OBJECT_QUESTION(400, "객관식 질문이나, 보기가 존재하지 않습니다."),
 
