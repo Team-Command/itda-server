@@ -1,5 +1,6 @@
 package com.command.itdaserver.domain.post.domain;
 
+import com.command.itdaserver.domain.user.domain.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -27,8 +28,9 @@ public class Post {
     @Column(name = "title", nullable = false)
     private String title;
 
-    @Column(name = "writer", nullable = false)
-    private String writer;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "writer_id", nullable = false)
+    private User writer;
 
     @Lob
     @NotBlank
@@ -37,7 +39,7 @@ public class Post {
 
     @CreationTimestamp
     @Column(nullable = false, name = "created_at")
-    private LocalDateTime createdAt = LocalDateTime.now();
+    private LocalDateTime createdAt;
 
     @NotNull
     @Column(name = "apply_deadline", nullable = false)
@@ -47,10 +49,9 @@ public class Post {
     private List<Question> questions = new ArrayList<>();
 
     @Builder
-    public Post(String title, String description, LocalDateTime applyDeadline, String writer) {
+    public Post(String title, String description, LocalDateTime applyDeadline, User writer) {
         this.title = title;
         this.description = description;
-        this.createdAt = LocalDateTime.now();
         this.applyDeadline = applyDeadline;
         this.writer = writer;
     }
