@@ -11,7 +11,7 @@ import com.command.itdaserver.domain.post.domain.repository.QuestionOptionReposi
 import com.command.itdaserver.domain.post.domain.repository.QuestionRepository;
 import com.command.itdaserver.domain.post.exceptions.DuplicateAnswerException;
 import com.command.itdaserver.domain.post.exceptions.InvalidQuestionOptionException;
-import com.command.itdaserver.domain.post.exceptions.MissingSelectedOptionException;
+import com.command.itdaserver.domain.post.exceptions.RequiredAnswerMissingException;
 import com.command.itdaserver.domain.post.exceptions.PostNotFoundException;
 import com.command.itdaserver.domain.post.exceptions.QuestionNotFoundException;
 import com.command.itdaserver.domain.post.presentation.dto.request.SubmitAnswerRequest;
@@ -62,8 +62,10 @@ public class SubmitAnswerService {
 
             if (question.getAnswerType() == AnswerType.OBJECTIVE) {
 
-                if (dto.getSelectedOptionIds() == null || dto.getSelectedOptionIds().isEmpty()) {
-                    throw MissingSelectedOptionException.EXCEPTION;
+                boolean noOptionSelected = dto.getSelectedOptionIds() == null || dto.getSelectedOptionIds().isEmpty();
+                if (noOptionSelected) {
+                    if (question.isRequired()) throw RequiredAnswerMissingException.EXCEPTION;
+                    continue;
                 }
 
                 List<AnswerResponse.SelectedOptionDto> selectedOptionDtos = new ArrayList<>();
@@ -88,6 +90,12 @@ public class SubmitAnswerService {
                 responses.add(new AnswerResponse(question, selectedOptionDtos));
 
             } else { // SUBJECTIVE
+
+                boolean noTextAnswer = dto.getTextAnswer() == null || dto.getTextAnswer().isBlank();
+                if (noTextAnswer) {
+                    if (question.isRequired()) throw RequiredAnswerMissingException.EXCEPTION;
+                    continue;
+                }
 
                 answerRepository.save(Answer.builder()
                         .answerer(answerer)
