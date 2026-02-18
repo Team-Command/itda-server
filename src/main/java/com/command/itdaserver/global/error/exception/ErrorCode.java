@@ -25,6 +25,7 @@ public enum ErrorCode {
     // post
     INVALID_DEADLINE(400, "마감 시간이 현재 시간보다 이전입니다."),
     POST_NOT_FOUND(404, "해당 게시글이 존재하지 않습니다."),
+    INVALID_OBJECT_QUESTION(400, "객관식 질문이나, 보기가 존재하지 않습니다."),
 
     // general
     BAD_REQUEST(400, "잘못된 요청입니다."),

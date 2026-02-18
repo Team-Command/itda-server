@@ -5,6 +5,7 @@ import com.command.itdaserver.domain.post.domain.Question;
 import com.command.itdaserver.domain.post.domain.QuestionOption;
 import com.command.itdaserver.domain.post.domain.enums.AnswerType;
 import com.command.itdaserver.domain.post.domain.repository.PostRepository;
+import com.command.itdaserver.domain.post.exceptions.MissingQuestionOptionException;
 import com.command.itdaserver.domain.post.exceptions.PostNotFoundException;
 import com.command.itdaserver.domain.post.presentation.dto.request.CreateFormRequest;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,6 +39,9 @@ public class CreateApplyFormService {
                     .required(qDto.getRequired())
                     .build();
             if (qDto.getAnswerType() == AnswerType.OBJECTIVE) { // 객관식인 경우 옵션 추가
+                if (qDto.getOptions().isEmpty()) {
+                    throw new MissingQuestionOptionException();
+                }
                 for (var optDto : qDto.getOptions()) {
                     QuestionOption option = QuestionOption.builder()
                             .answerNumber(optDto.getAnswerNumber())
