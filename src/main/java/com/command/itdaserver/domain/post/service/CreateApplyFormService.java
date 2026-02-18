@@ -39,7 +39,7 @@ public class CreateApplyFormService {
                     .required(qDto.getRequired())
                     .build();
             if (qDto.getAnswerType() == AnswerType.OBJECTIVE) { // 객관식인 경우 옵션 추가
-                if (qDto.getOptions().isEmpty()) {
+                if (qDto.getOptions() == null  || qDto.getOptions().isEmpty()) {
                     throw new MissingQuestionOptionException();
                 }
                 for (var optDto : qDto.getOptions()) {
