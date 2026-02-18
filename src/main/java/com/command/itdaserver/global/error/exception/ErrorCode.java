@@ -25,7 +25,11 @@ public enum ErrorCode {
     // post
     INVALID_DEADLINE(400, "마감 기간이 현재 기간보다 이전입니다."),
     POST_NOT_FOUND(404, "해당 게시글이 존재하지 않습니다."),
-    INVALID_OBJECT_QUESTION(400, "객관식 질문이나, 보기가 존재하지 않습니다."),
+    MISSING_QUESTION_OPTION(400, "객관식 질문에 보기가 없습니다."),
+    MISSING_SELECTED_OPTION(400, "객관식 질문에 선택한 옵션이 없습니다."),
+    QUESTION_NOT_FOUND(404, "해당 질문이 존재하지 않습니다."),
+    INVALID_QUESTION_OPTION(400, "해당 질문에 존재하지 않는 옵션입니다."),
+    DUPLICATE_ANSWER(409, "이미 해당 질문에 답변을 제출하셨습니다."),
 
     // general
     BAD_REQUEST(400, "잘못된 요청입니다."),

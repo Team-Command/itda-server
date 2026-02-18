@@ -6,6 +6,6 @@ import com.command.itdaserver.global.error.exception.ItdaException;
 public class MissingQuestionOptionException extends ItdaException {
     public static final ItdaException EXCEPTION = new MissingQuestionOptionException();
     public MissingQuestionOptionException() {
-        super(ErrorCode.INVALID_OBJECT_QUESTION);
+        super(ErrorCode.MISSING_QUESTION_OPTION);
     }
 }
