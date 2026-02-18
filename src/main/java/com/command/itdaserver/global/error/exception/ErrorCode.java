@@ -31,6 +31,7 @@ public enum ErrorCode {
     INVALID_QUESTION_OPTION(400, "해당 질문에 존재하지 않는 옵션입니다."),
     DUPLICATE_ANSWER(409, "이미 해당 질문에 답변을 제출하셨습니다."),
     REQUIRED_ANSWER_MISSING(400, "필수 질문에 답변이 없습니다."),
+    MULTIPLE_SELECTION_NOT_ALLOWED(400, "단일 선택만 가능한 질문입니다."),
 
     // general
     BAD_REQUEST(400, "잘못된 요청입니다."),

@@ -11,6 +11,7 @@ import com.command.itdaserver.domain.post.domain.repository.QuestionOptionReposi
 import com.command.itdaserver.domain.post.domain.repository.QuestionRepository;
 import com.command.itdaserver.domain.post.exceptions.DuplicateAnswerException;
 import com.command.itdaserver.domain.post.exceptions.InvalidQuestionOptionException;
+import com.command.itdaserver.domain.post.exceptions.MultipleSelectionNotAllowedException;
 import com.command.itdaserver.domain.post.exceptions.RequiredAnswerMissingException;
 import com.command.itdaserver.domain.post.exceptions.PostNotFoundException;
 import com.command.itdaserver.domain.post.exceptions.QuestionNotFoundException;
@@ -50,11 +51,11 @@ public class SubmitAnswerService {
 
         for (SubmitAnswerRequest.AnswerDto dto : request.getAnswers()) {
 
-            // 2-2: questionId가 해당 post 소속인지 검증
+            // questionId가 해당 post 소속인지 검증
             Question question = questionRepository.findByIdAndPost(dto.getQuestionId(), post)
                     .orElseThrow(QuestionNotFoundException::new);
 
-            // 2-3: 중복 제출 방지
+            // 중복 제출 방지
             if (answerRepository.existsByAnswererAndQuestion(answerer, question)) {
                 throw DuplicateAnswerException.EXCEPTION;
             }
@@ -62,15 +63,21 @@ public class SubmitAnswerService {
             if (question.getAnswerType() == AnswerType.OBJECTIVE) {
 
                 boolean noOptionSelected = dto.getSelectedOptionIds() == null || dto.getSelectedOptionIds().isEmpty();
+                // 객관식인데 옵션을 하나도 선택하지 않은 경우
                 if (noOptionSelected) {
                     if (question.isRequired()) throw RequiredAnswerMissingException.EXCEPTION;
                     continue;
                 }
 
+                // 객관식인데 multiple이 false인데 여러 옵션 선택한 경우 예외
+                if (!question.isMultiple() && dto.getSelectedOptionIds().size() > 1) {
+                    throw MultipleSelectionNotAllowedException.EXCEPTION;
+                }
+
                 List<AnswerResponse.SelectedOptionDto> selectedOptionDtos = new ArrayList<>();
 
                 for (Long optionId : dto.getSelectedOptionIds()) {
-                    // 2-1: option이 해당 question 소속인지 검증
+                    // option이 해당 question 소속인지 검증
                     QuestionOption option = questionOptionRepository.findByIdAndQuestion(optionId, question)
                             .orElseThrow(InvalidQuestionOptionException::new);
 
