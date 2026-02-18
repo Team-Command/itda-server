@@ -20,7 +20,9 @@ public class CreateFormRequest {
         private String questionContent; // 질문 내용
         @NotNull
         private AnswerType answerType; // 답변 유형 (객관식, 주관식 등)
+        @NotNull
         private Boolean multiple; // 객관식 질문에서 여러 답변 허용 여부
+        @NotNull
         private Boolean required; // 질문에서 필수 응답 여부
         private List<OptionDto> options; // 객관식 질문의 선택지 목록
     }
