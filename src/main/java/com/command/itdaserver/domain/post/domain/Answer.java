@@ -2,7 +2,6 @@ package com.command.itdaserver.domain.post.domain;
 
 import com.command.itdaserver.domain.user.domain.User;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Builder;

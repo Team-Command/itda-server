@@ -1,6 +1,5 @@
 package com.command.itdaserver.domain.post.presentation.dto.request;
 
-import com.command.itdaserver.domain.post.exceptions.InvalidDeadlineException;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
