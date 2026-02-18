@@ -2,7 +2,6 @@ package com.command.itdaserver.domain.auth.presentation;
 
 import com.command.itdaserver.domain.auth.domain.enums.CookieNames;
 import com.command.itdaserver.domain.auth.presentation.dto.request.LoginRequest;
-import com.command.itdaserver.domain.auth.presentation.dto.request.SendVerificationEmailRequest;
 import com.command.itdaserver.domain.auth.presentation.dto.request.SignUpRequest;
 import com.command.itdaserver.domain.auth.presentation.dto.request.VerifyEmailCodeRequest;
 import com.command.itdaserver.domain.auth.presentation.dto.response.LoginResponse;
@@ -74,9 +73,9 @@ public class AuthController {
 
     @PostMapping("password/verification")
     public ResponseEntity<MessageResponse> sendVerificationEmail(
-            @RequestBody SendVerificationEmailRequest request
+            @AuthenticationPrincipal CustomUserDetails userDetails
             ){
-        passwordResetService.execute(request.email());
+        passwordResetService.execute(userDetails.getEmail());
         return ResponseEntity.ok(MessageResponse.of("해당 이메일로 인증번호가 발송되었습니다, 인증코드를 입력해주세요."));
     }
 
