@@ -18,9 +18,8 @@ import com.command.itdaserver.domain.post.presentation.dto.request.SubmitAnswerR
 import com.command.itdaserver.domain.post.presentation.dto.response.AnswerResponse;
 import com.command.itdaserver.domain.user.domain.User;
 import com.command.itdaserver.domain.user.domain.repository.UserRepository;
+import com.command.itdaserver.domain.user.exception.UserNotFoundException;
 import com.command.itdaserver.global.auth.CustomUserDetails;
-import com.command.itdaserver.global.error.exception.ErrorCode;
-import com.command.itdaserver.global.error.exception.ItdaException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -45,7 +44,7 @@ public class SubmitAnswerService {
                 .orElseThrow(PostNotFoundException::new);
 
         User answerer = userRepository.findByUserId(userDetails.getUserId())
-                .orElseThrow(() -> new ItdaException(ErrorCode.USER_NOT_FOUND));
+                .orElseThrow(UserNotFoundException::new);
 
         List<AnswerResponse> responses = new ArrayList<>();
 
