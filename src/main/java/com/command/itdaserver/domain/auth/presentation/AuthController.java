@@ -4,9 +4,11 @@ import com.command.itdaserver.domain.auth.domain.enums.CookieNames;
 import com.command.itdaserver.domain.auth.presentation.dto.request.LoginRequest;
 import com.command.itdaserver.domain.auth.presentation.dto.request.SendVerificationEmailRequest;
 import com.command.itdaserver.domain.auth.presentation.dto.request.SignUpRequest;
+import com.command.itdaserver.domain.auth.presentation.dto.request.VerifyEmailCodeRequest;
 import com.command.itdaserver.domain.auth.presentation.dto.response.LoginResponse;
 import com.command.itdaserver.domain.auth.presentation.dto.response.LogoutResponse;
 import com.command.itdaserver.domain.auth.presentation.dto.response.SignUpResponse;
+import com.command.itdaserver.domain.auth.presentation.dto.response.VerifyEmailCodeResponse;
 import com.command.itdaserver.domain.auth.service.*;
 import com.command.itdaserver.global.auth.CustomUserDetails;
 import com.command.itdaserver.global.common.response.MessageResponse;
@@ -33,6 +35,7 @@ public class AuthController {
     private final LoginService loginService;
     private final LogoutService logoutService;
     private final PasswordResetService passwordResetService;
+    private final VerifyEmailCodeService verifyEmailCodeService;
 
     @PostMapping("/signup")
     public ResponseEntity<SignUpResponse> signUp(@Valid @RequestBody SignUpRequest request){
@@ -75,5 +78,13 @@ public class AuthController {
             ){
         passwordResetService.execute(request.email());
         return ResponseEntity.ok(MessageResponse.of("해당 이메일로 인증번호가 발송되었습니다, 인증코드를 입력해주세요."));
+    }
+
+    @PostMapping("password/verification/confirm")
+    public ResponseEntity<VerifyEmailCodeResponse> verifyEmailCode(
+            @RequestBody VerifyEmailCodeRequest request
+            ){
+        String resetToken = verifyEmailCodeService.execute(request.email(), request.code());
+        return ResponseEntity.ok(new VerifyEmailCodeResponse(resetToken));
     }
 }
