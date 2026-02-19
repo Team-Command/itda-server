@@ -58,7 +58,7 @@ public class Post {
 
     public void addQuestion(Question question) {
         questions.add(question);
-        question.setPost(this);
+        question.assignPost(this);
     }
 
 }

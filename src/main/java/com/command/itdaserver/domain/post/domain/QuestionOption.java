@@ -8,8 +8,6 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -26,7 +24,6 @@ public class QuestionOption {
     @NotBlank
     private String answerContent;
 
-    @Setter
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "question_id")
     @JsonIgnore
@@ -36,6 +33,10 @@ public class QuestionOption {
     public QuestionOption(Integer answerNumber, String answerContent) {
         this.answerNumber = answerNumber;
         this.answerContent = answerContent;
+    }
+
+    void assignQuestion(Question question) {
+        this.question = question;
     }
 
 }

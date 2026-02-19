@@ -9,8 +9,6 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +22,6 @@ public class Question {
     @Column(name = "question_id")
     private Long id;
 
-    @Setter
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id")
     @JsonIgnore
@@ -59,9 +56,13 @@ public class Question {
         this.required = required;
     }
 
+    void assignPost(Post post) {
+        this.post = post;
+    }
+
     public void addOptions(QuestionOption option) {
         options.add(option);
-        option.setQuestion(this);
+        option.assignQuestion(this);
     }
 
 }
