@@ -6,6 +6,7 @@ import com.command.itdaserver.domain.user.domain.enums.Major;
 import com.command.itdaserver.domain.user.domain.enums.School;
 
 public record UserResponse(
+        String serImage,
         String name,
         String userId,
         String email,

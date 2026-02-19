@@ -25,6 +25,8 @@ public class User extends BaseIdEntity {
     @Column(nullable = false)
     private AuthProvider provider;
 
+    private String userImage;
+
     @Column(nullable = false)
     private String name;
 
