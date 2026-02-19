@@ -5,6 +5,7 @@ import com.command.itdaserver.domain.auth.domain.PasswordResetToken;
 import com.command.itdaserver.domain.auth.domain.repository.EmailVerificationRepository;
 import com.command.itdaserver.domain.auth.domain.repository.PasswordResetTokenRepository;
 import com.command.itdaserver.domain.auth.exception.VerificationCodeExpiredException;
+import com.command.itdaserver.domain.auth.exception.VerificationCodeNotMatchedException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +21,7 @@ public class VerifyEmailCodeService {
                 .orElseThrow(() -> VerificationCodeExpiredException.EXCEPTION);
 
         if (!verification.isValid(code)){
-            throw VerificationCodeExpiredException.EXCEPTION;
+            throw VerificationCodeNotMatchedException.EXCEPTION;
         }
 
         emailVerificationRepository.delete(verification);
