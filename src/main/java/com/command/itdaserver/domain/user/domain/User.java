@@ -25,7 +25,7 @@ public class User extends BaseIdEntity {
     @Column(nullable = false)
     private AuthProvider provider;
 
-    private String userImage;
+    private String userImage; // 추후 s3 도입 후 리펙터링 예정
 
     @Column(nullable = false)
     private String name;
