@@ -36,7 +36,7 @@ public class PostController {
     @PostMapping("/post")
     public PostResponse createPost(@AuthenticationPrincipal CustomUserDetails customUserDetails,
                                    @Valid @RequestBody CreatePostRequest request) {
-        return new PostResponse(createPostService.execute(request, customUserDetails));
+        return createPostService.execute(request, customUserDetails);
     }
 
     @PostMapping("/{postId}/apply-form")

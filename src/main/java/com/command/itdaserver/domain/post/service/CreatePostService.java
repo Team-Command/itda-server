@@ -4,6 +4,7 @@ import com.command.itdaserver.domain.post.domain.Post;
 import com.command.itdaserver.domain.post.domain.repository.PostRepository;
 import com.command.itdaserver.domain.post.exceptions.InvalidDeadlineException;
 import com.command.itdaserver.domain.post.presentation.dto.request.CreatePostRequest;
+import com.command.itdaserver.domain.post.presentation.dto.response.PostResponse;
 import com.command.itdaserver.domain.user.domain.repository.UserRepository;
 import com.command.itdaserver.domain.user.exception.UserNotFoundException;
 import com.command.itdaserver.global.auth.CustomUserDetails;
@@ -21,7 +22,7 @@ public class CreatePostService {
     private final UserRepository userRepository;
 
     @Transactional
-    public Post execute(CreatePostRequest request, CustomUserDetails customUserDetails) {
+    public PostResponse execute(CreatePostRequest request, CustomUserDetails customUserDetails) {
         if (request.applyDeadline().isBefore(LocalDateTime.now())) {
             throw new InvalidDeadlineException();
         }
@@ -32,6 +33,6 @@ public class CreatePostService {
                 .writer(userRepository.findByUserId(customUserDetails.getUserId()).orElseThrow(UserNotFoundException::new))
                 .build();
 
-        return postRepository.save(post);
+        return new PostResponse(postRepository.save(post));
     }
 }
