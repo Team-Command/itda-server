@@ -40,7 +40,7 @@ public class CreateApplyFormService {
                     .build();
             if (qDto.getAnswerType() == AnswerType.OBJECTIVE) { // 객관식인 경우 옵션 추가
                 if (qDto.getOptions() == null  || qDto.getOptions().isEmpty()) {
-                    throw new MissingQuestionOptionException();
+                    throw MissingQuestionOptionException.EXCEPTION;
                 }
                 for (var optDto : qDto.getOptions()) {
                     QuestionOption option = QuestionOption.builder()
