@@ -18,6 +18,7 @@ public record UserResponse(
 
     public static UserResponse from(User user) {
         return new UserResponse(
+                user.getUserImage(),
                 user.getName(),
                 user.getUserId(),
                 user.getEmail(),
