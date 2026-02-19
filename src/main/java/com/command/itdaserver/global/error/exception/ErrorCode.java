@@ -11,7 +11,7 @@ public enum ErrorCode {
     //user
     INVALID_USER(401, "유효 하지 않은 사용자입니다."),
     INVALID_CUSTOM_MAJOR(400, "기타 전공 선택 시 전공명을 입력해야 합니다."),
-    USER_NOT_FOUND(404,"사용자를 찾을 수 없습니다."),
+    USER_NOT_FOUND(404, "존재하지 않는 사용자입니다."),
 
     // auth - 새로 추가!
     DUPLICATE_USER_ID(409, "이미 존재하는 아이디입니다."),
