@@ -1,16 +1,17 @@
 package com.command.itdaserver.domain.auth.presentation;
 
 import com.command.itdaserver.domain.auth.domain.enums.CookieNames;
+import com.command.itdaserver.domain.auth.presentation.dto.request.ChangePasswordRequest;
 import com.command.itdaserver.domain.auth.presentation.dto.request.LoginRequest;
 import com.command.itdaserver.domain.auth.presentation.dto.request.SignUpRequest;
+import com.command.itdaserver.domain.auth.presentation.dto.request.VerifyEmailCodeRequest;
 import com.command.itdaserver.domain.auth.presentation.dto.response.LoginResponse;
 import com.command.itdaserver.domain.auth.presentation.dto.response.LogoutResponse;
 import com.command.itdaserver.domain.auth.presentation.dto.response.SignUpResponse;
-import com.command.itdaserver.domain.auth.service.LoginResult;
-import com.command.itdaserver.domain.auth.service.LoginService;
-import com.command.itdaserver.domain.auth.service.LogoutService;
-import com.command.itdaserver.domain.auth.service.SignUpService;
+import com.command.itdaserver.domain.auth.presentation.dto.response.VerifyEmailCodeResponse;
+import com.command.itdaserver.domain.auth.service.*;
 import com.command.itdaserver.global.auth.CustomUserDetails;
+import com.command.itdaserver.global.common.response.MessageResponse;
 import com.command.itdaserver.global.util.CookieUtil;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -18,10 +19,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
@@ -33,6 +31,9 @@ public class AuthController {
     private final SignUpService signUpService;
     private final LoginService loginService;
     private final LogoutService logoutService;
+    private final PasswordResetService passwordResetService;
+    private final VerifyEmailCodeService verifyEmailCodeService;
+    private final ChangePasswordService changePasswordService;
 
     @PostMapping("/signup")
     public ResponseEntity<SignUpResponse> signUp(@Valid @RequestBody SignUpRequest request){
@@ -67,5 +68,33 @@ public class AuthController {
         cookieUtil.removeCookie(response, CookieNames.REMEMBER_ME.getName());
 
         return ResponseEntity.ok(new LogoutResponse("로그아웃에 성공했습니다."));
+    }
+
+    @PostMapping("password/verification")
+    public ResponseEntity<MessageResponse> sendVerificationEmail(
+            @AuthenticationPrincipal CustomUserDetails userDetails
+            ){
+        passwordResetService.execute(userDetails.getEmail());
+        return ResponseEntity.ok(MessageResponse.of("해당 이메일로 인증번호가 발송되었습니다, 인증코드를 입력해주세요."));
+    }
+
+    @PostMapping("password/verification/confirm")
+    public ResponseEntity<VerifyEmailCodeResponse> verifyEmailCode(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @RequestBody VerifyEmailCodeRequest request
+            ){
+        verifyEmailCodeService.validateEmail(userDetails.getEmail(), request.email());
+        String resetToken = verifyEmailCodeService.execute(request.email(), request.code());
+        return ResponseEntity.ok(new VerifyEmailCodeResponse(resetToken));
+    }
+
+    @PatchMapping("password")
+    public ResponseEntity<MessageResponse> changePassword(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @RequestBody ChangePasswordRequest request
+            ){
+        changePasswordService.execute(userDetails.getEmail(), userDetails.getUserId(), request);
+
+        return ResponseEntity.ok(MessageResponse.of("비밀번호가 변경되었습니다."));
     }
 }
