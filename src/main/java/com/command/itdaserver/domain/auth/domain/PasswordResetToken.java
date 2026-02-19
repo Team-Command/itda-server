@@ -22,11 +22,13 @@ public class PasswordResetToken {
     @TimeToLive
     private int expiration;
 
+    private static final int EXPIRATION_IN_SECONDS = 600; // 10분
+
     public static PasswordResetToken create(String email) {
         return PasswordResetToken.builder()
                 .token(UUID.randomUUID().toString())
                 .email(email)
-                .expiration(600) // 10분
+                .expiration(EXPIRATION_IN_SECONDS)
                 .build();
     }
 }

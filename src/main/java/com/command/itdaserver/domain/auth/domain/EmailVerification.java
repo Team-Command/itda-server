@@ -21,11 +21,13 @@ public class EmailVerification {
     @TimeToLive
     private int expiration;
 
+    private static final int EXPIRATION_IN_SECONDS = 300; // 5분
+
     public static EmailVerification create(String email, String code) {
         return EmailVerification.builder()
                 .email(email)
                 .code(code)
-                .expiration(300) // 5분
+                .expiration(EXPIRATION_IN_SECONDS) // 5분
                 .build();
     }
 
