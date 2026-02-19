@@ -30,7 +30,7 @@ public class PostController {
 
     @GetMapping("/{postId}")
     public PostResponse getPost(@PathVariable Long postId) {
-        return new PostResponse(getPostService.getPost(postId));
+        return getPostService.getPost(postId);
     }
 
     @PostMapping("/post")
