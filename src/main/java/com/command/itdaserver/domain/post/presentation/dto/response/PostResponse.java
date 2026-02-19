@@ -7,6 +7,7 @@ import lombok.Data;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 @Data
 public class PostResponse {
@@ -17,7 +18,7 @@ public class PostResponse {
     private String description;
     private LocalDateTime createdAt;
     private LocalDateTime applyDeadline;
-    private List<Question> questions = new ArrayList<>();
+    private List<QuestionResponse> questions = new ArrayList<>();
 
     public PostResponse(Post post) {
         this.postId = post.getId();
@@ -26,6 +27,8 @@ public class PostResponse {
         this.description = post.getDescription();
         this.createdAt = post.getCreatedAt();
         this.applyDeadline = post.getApplyDeadline();
-        this.questions = post.getQuestions();
+        this.questions = post.getQuestions().stream()
+                .map(QuestionResponse::new)
+                .toList();
     }
 }

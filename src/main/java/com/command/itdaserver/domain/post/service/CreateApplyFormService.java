@@ -8,6 +8,7 @@ import com.command.itdaserver.domain.post.domain.repository.PostRepository;
 import com.command.itdaserver.domain.post.exceptions.MissingQuestionOptionException;
 import com.command.itdaserver.domain.post.exceptions.PostNotFoundException;
 import com.command.itdaserver.domain.post.presentation.dto.request.CreateFormRequest;
+import com.command.itdaserver.domain.post.presentation.dto.response.QuestionResponse;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,10 +23,10 @@ public class CreateApplyFormService {
     private final PostRepository postRepository;
 
     @Transactional
-    public List<Question> execute(Long postId, CreateFormRequest request) {
+    public List<QuestionResponse> execute(Long postId, CreateFormRequest request) {
 
         // 반환을 위해 저장할 Question 리스트
-        List<Question> questions = new ArrayList<>();
+        List<QuestionResponse> questions = new ArrayList<>();
 
         Post post = postRepository.findById(postId)
                 .orElseThrow(PostNotFoundException::new);
@@ -51,8 +52,8 @@ public class CreateApplyFormService {
                 }
             }
             post.addQuestion(question); // Cascade 이기 때문에 DB 저장됨
-            questions.add(question);
+            questions.add(new QuestionResponse(question));
         }
-        return  questions;
+        return questions;
     }
 }

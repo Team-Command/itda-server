@@ -6,6 +6,7 @@ import com.command.itdaserver.domain.post.presentation.dto.request.CreatePostReq
 import com.command.itdaserver.domain.post.presentation.dto.request.SubmitAnswerRequest;
 import com.command.itdaserver.domain.post.presentation.dto.response.AnswerResponse;
 import com.command.itdaserver.domain.post.presentation.dto.response.PostResponse;
+import com.command.itdaserver.domain.post.presentation.dto.response.QuestionResponse;
 import com.command.itdaserver.domain.post.service.CreateApplyFormService;
 import com.command.itdaserver.domain.post.service.CreatePostService;
 import com.command.itdaserver.domain.post.service.GetPostService;
@@ -40,7 +41,7 @@ public class PostController {
     }
 
     @PostMapping("/{postId}/apply-form")
-    public List<Question> createApplyForm(@PathVariable Long postId, @Valid @RequestBody CreateFormRequest request) {
+    public List<QuestionResponse> createApplyForm(@PathVariable Long postId, @Valid @RequestBody CreateFormRequest request) {
         return createApplyFormService.execute(postId, request);
     }
 
