@@ -25,7 +25,7 @@ public class PasswordResetService {
     }
 
     private String generateCode() {
-        return String.format("%06d", new Random().nextInt(1000000));
+        return String.format("%06d", new java.security.SecureRandom().nextInt(1000000));
     }
 
     private void sendEmail(String email, String code) {
