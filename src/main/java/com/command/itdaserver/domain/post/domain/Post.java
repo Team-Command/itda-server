@@ -1,6 +1,7 @@
 package com.command.itdaserver.domain.post.domain;
 
 import com.command.itdaserver.domain.user.domain.User;
+import com.command.itdaserver.global.entity.BaseIdEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -17,12 +18,7 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Post {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "post_id")
-    private Long id;
+public class Post extends BaseIdEntity {
 
     @NotBlank
     @Column(name = "title", nullable = false)
