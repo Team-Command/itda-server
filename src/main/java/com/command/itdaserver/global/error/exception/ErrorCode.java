@@ -22,6 +22,17 @@ public enum ErrorCode {
     RESET_TOKEN_NOT_FOUND(401, "유효하지 않은 비밀번호 재설정 토큰입니다."),
     EMAIL_NOT_MATCHED(400, "요청의 이메일이 인증된 사용자의 이메일과 일치하지 않습니다."),
 
+    // post
+    INVALID_DEADLINE(400, "마감 기간이 현재 기간보다 이전입니다."),
+    POST_NOT_FOUND(404, "해당 게시글이 존재하지 않습니다."),
+    MISSING_QUESTION_OPTION(400, "객관식 질문에 보기가 없습니다."),
+    MISSING_SELECTED_OPTION(400, "객관식 질문에 선택한 옵션이 없습니다."),
+    QUESTION_NOT_FOUND(404, "해당 질문이 존재하지 않습니다."),
+    INVALID_QUESTION_OPTION(400, "해당 질문에 존재하지 않는 옵션입니다."),
+    DUPLICATE_ANSWER(409, "이미 해당 질문에 답변을 제출하셨습니다."),
+    REQUIRED_ANSWER_MISSING(400, "필수 질문에 답변이 없습니다."),
+    MULTIPLE_SELECTION_NOT_ALLOWED(400, "단일 선택만 가능한 질문입니다."),
+
     // general
     BAD_REQUEST(400, "잘못된 요청입니다."),
     INTERNAL_SERVER_ERROR(500, "내부 서버 오류가 발생했습니다.");
