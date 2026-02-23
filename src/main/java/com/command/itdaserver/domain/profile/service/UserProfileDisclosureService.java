@@ -10,6 +10,7 @@ import com.command.itdaserver.global.auth.CustomUserDetails;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
@@ -17,6 +18,7 @@ public class UserProfileDisclosureService {
     private final UserRepository userRepository;
     private final UserDisclosureRepository userDisclosureRepository;
 
+    @Transactional
     public void execute(
             UserPublicProfileRequest request,
             CustomUserDetails customUserDetails
