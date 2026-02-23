@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
+@RequiredArgsConstructor
 public class UserProfileDisclosureService {
     private final UserRepository userRepository;
     private final UserDisclosureRepository userDisclosureRepository;
