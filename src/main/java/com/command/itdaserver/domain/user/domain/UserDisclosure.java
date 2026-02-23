@@ -17,20 +17,20 @@ public class UserDisclosure extends BaseIdEntity {
     private User user;
 
     @Column(nullable = false)
-    private boolean name;
+    private boolean isNamePublic;
 
     @Column(nullable = false)
-    private boolean email;
+    private boolean isEmailPublic;
 
     @Column(nullable = false)
-    private boolean major;
+    private boolean isMajorPublic;
 
     @Column(nullable = false)
-    private boolean customMajor;
+    private boolean isCustomMajorPublic;
 
     @Column(nullable = false)
-    private boolean school;
+    private boolean isSchoolPublic;
 
     @Column(nullable = false)
-    private boolean grade;
+    private boolean isGradePublic;
 }
