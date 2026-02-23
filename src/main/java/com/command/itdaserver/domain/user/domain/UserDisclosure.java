@@ -1,5 +1,6 @@
 package com.command.itdaserver.domain.user.domain;
 
+import com.command.itdaserver.domain.profile.presentation.dto.request.UserPublicProfileRequest;
 import com.command.itdaserver.global.entity.BaseIdEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -33,4 +34,13 @@ public class UserDisclosure extends BaseIdEntity {
 
     @Column(nullable = false)
     private boolean isGradePublic;
+
+    public void update(UserPublicProfileRequest request) {
+        this.isNamePublic = request.isNamePublic();
+        this.isEmailPublic = request.isEmailPublic();
+        this.isMajorPublic = request.isMajorPublic();
+        this.isCustomMajorPublic = request.isCustomMajorPublic();
+        this.isSchoolPublic = request.isSchoolPublic();
+        this.isGradePublic = request.isGradePublic();
+    }
 }
