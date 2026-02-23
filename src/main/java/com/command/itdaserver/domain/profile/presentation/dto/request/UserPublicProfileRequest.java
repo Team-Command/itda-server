@@ -1,4 +1,4 @@
-package com.command.itdaserver.domain.user.presentation.dto.request;
+package com.command.itdaserver.domain.profile.presentation.dto.request;
 
 public record UserPublicProfileRequest(
         boolean isNamePublic,
