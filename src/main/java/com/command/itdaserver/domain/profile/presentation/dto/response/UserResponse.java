@@ -1,4 +1,4 @@
-package com.command.itdaserver.domain.user.presentation.dto.response;
+package com.command.itdaserver.domain.profile.presentation.dto.response;
 
 import com.command.itdaserver.domain.user.domain.User;
 import com.command.itdaserver.domain.user.domain.enums.Grade;

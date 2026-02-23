@@ -3,6 +3,7 @@ package com.command.itdaserver.domain.profile.service;
 import com.command.itdaserver.domain.profile.exception.UserDisclosureNotFoundException;
 import com.command.itdaserver.domain.user.domain.User;
 import com.command.itdaserver.domain.user.domain.UserDisclosure;
+import com.command.itdaserver.domain.user.domain.enums.Major;
 import com.command.itdaserver.domain.user.domain.repository.UserDisclosureRepository;
 import com.command.itdaserver.domain.user.domain.repository.UserRepository;
 import com.command.itdaserver.domain.profile.presentation.dto.request.UserPublicProfileRequest;

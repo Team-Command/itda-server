@@ -1,11 +1,10 @@
 package com.command.itdaserver.domain.user.presentation;
 
 import com.command.itdaserver.domain.auth.domain.enums.CookieNames;
-import com.command.itdaserver.domain.profile.presentation.dto.response.UserPublicProfileResponse;
 import com.command.itdaserver.domain.user.presentation.dto.response.DeleteUserResponse;
-import com.command.itdaserver.domain.user.presentation.dto.response.UserResponse;
+import com.command.itdaserver.domain.profile.presentation.dto.response.UserResponse;
 import com.command.itdaserver.domain.user.service.DeleteUserAccountService;
-import com.command.itdaserver.domain.user.service.QueryMyProfileService;
+import com.command.itdaserver.domain.profile.service.QueryMyProfileService;
 import com.command.itdaserver.global.auth.CustomUserDetails;
 import com.command.itdaserver.global.util.CookieUtil;
 import jakarta.servlet.http.HttpServletResponse;
@@ -24,7 +23,6 @@ public class UserController {
     private final CookieUtil cookieUtil;
 
     private final DeleteUserAccountService deleteUserAccount;
-    private final QueryMyProfileService queryMyProfileService;
 
     @DeleteMapping
     public ResponseEntity<DeleteUserResponse> deleteUserAccount(
@@ -37,10 +35,5 @@ public class UserController {
         cookieUtil.removeCookie(response, CookieNames.REMEMBER_ME.getName());
 
         return ResponseEntity.ok(new DeleteUserResponse("회원 탈퇴가 완료되었습니다"));
-    }
-
-    @GetMapping("/me")
-    public UserResponse getMyProfile(@AuthenticationPrincipal CustomUserDetails customUserDetails) {
-        return queryMyProfileService.execute(customUserDetails.getUserId());
     }
 }
