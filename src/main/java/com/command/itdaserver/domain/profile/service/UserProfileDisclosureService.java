@@ -4,6 +4,7 @@ import com.command.itdaserver.domain.user.domain.repository.UserDisclosureReposi
 import com.command.itdaserver.domain.user.domain.repository.UserRepository;
 import com.command.itdaserver.domain.profile.presentation.dto.request.UserPublicProfileRequest;
 import com.command.itdaserver.domain.profile.presentation.dto.response.UserPublicProfileResponse;
+import com.command.itdaserver.global.auth.CustomUserDetails;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,7 +15,12 @@ public class UserProfileDisclosureService {
     private final UserRepository userRepository;
     private final UserDisclosureRepository userDisclosureRepository;
 
-    public UserPublicProfileResponse execute(UserPublicProfileRequest request) {
+    public UserPublicProfileResponse execute(
+            UserPublicProfileRequest request,
+            CustomUserDetails customUserDetails
+    ) {
+        String userId = customUserDetails.getUserId();
+
 
     }
 }

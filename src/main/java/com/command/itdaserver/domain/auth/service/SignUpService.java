@@ -4,8 +4,10 @@ import com.command.itdaserver.domain.auth.exception.DuplicateEmailException;
 import com.command.itdaserver.domain.auth.exception.DuplicateUserIdException;
 import com.command.itdaserver.domain.auth.presentation.dto.request.SignUpRequest;
 import com.command.itdaserver.domain.user.domain.User;
+import com.command.itdaserver.domain.user.domain.UserDisclosure;
 import com.command.itdaserver.domain.user.domain.enums.AuthProvider;
 import com.command.itdaserver.domain.user.domain.enums.Role;
+import com.command.itdaserver.domain.user.domain.repository.UserDisclosureRepository;
 import com.command.itdaserver.domain.user.domain.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class SignUpService {
 
     private final UserRepository userRepository;
+    private final UserDisclosureRepository userDisclosureRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Transactional
@@ -42,6 +45,17 @@ public class SignUpService {
                 .role(Role.USER)
                 .build();
 
+        UserDisclosure userDisclosure = UserDisclosure.builder()
+                .user(user)
+                .isNamePublic(true)
+                .isEmailPublic(true)
+                .isMajorPublic(true)
+                .isCustomMajorPublic(true)
+                .isSchoolPublic(true)
+                .isGradePublic(true)
+                .build();
+
+        userDisclosureRepository.save(userDisclosure);
         userRepository.save(user);
 
         log.info("회원가입 완료 - userId: {}", user.getUserId());
