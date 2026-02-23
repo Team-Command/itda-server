@@ -1,10 +1,10 @@
 package com.command.itdaserver.domain.profile.service;
 
 import com.command.itdaserver.domain.user.domain.User;
+import com.command.itdaserver.domain.user.domain.UserDisclosure;
 import com.command.itdaserver.domain.user.domain.repository.UserDisclosureRepository;
 import com.command.itdaserver.domain.user.domain.repository.UserRepository;
 import com.command.itdaserver.domain.profile.presentation.dto.request.UserPublicProfileRequest;
-import com.command.itdaserver.domain.profile.presentation.dto.response.UserPublicProfileResponse;
 import com.command.itdaserver.domain.user.exception.UserNotFoundException;
 import com.command.itdaserver.global.auth.CustomUserDetails;
 import lombok.AccessLevel;
@@ -17,7 +17,7 @@ public class UserProfileDisclosureService {
     private final UserRepository userRepository;
     private final UserDisclosureRepository userDisclosureRepository;
 
-    public UserPublicProfileResponse execute(
+    public void execute(
             UserPublicProfileRequest request,
             CustomUserDetails customUserDetails
     ) {
@@ -26,6 +26,11 @@ public class UserProfileDisclosureService {
         User user = userRepository.findByUserId(userId)
                 .orElseThrow(() -> UserNotFoundException.EXCEPTION);
 
+        UserDisclosure userDisclosure = userDisclosureRepository.findByUser(user)
+                .orElseThrow(() -> UserNotFoundException.EXCEPTION);
 
+        userDisclosure.update(request);
+
+        userDisclosureRepository.save(userDisclosure);
     }
 }
