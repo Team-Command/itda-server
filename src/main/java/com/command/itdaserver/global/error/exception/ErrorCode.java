@@ -8,6 +8,9 @@ import lombok.Getter;
 @AllArgsConstructor
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum ErrorCode {
+    // profile
+    USER_DISCLOSURE_NOT_FOUND(404, "해당 유저에 관한 공개유무를 조회할 수 없습니다."),
+
     //user
     INVALID_USER(401, "유효 하지 않은 사용자입니다."),
     INVALID_CUSTOM_MAJOR(400, "기타 전공 선택 시 전공명을 입력해야 합니다."),

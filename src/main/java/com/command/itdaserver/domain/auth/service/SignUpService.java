@@ -45,6 +45,8 @@ public class SignUpService {
                 .role(Role.USER)
                 .build();
 
+        userRepository.save(user);
+
         UserDisclosure userDisclosure = UserDisclosure.builder()
                 .user(user)
                 .isNamePublic(true)
@@ -56,7 +58,6 @@ public class SignUpService {
                 .build();
 
         userDisclosureRepository.save(userDisclosure);
-        userRepository.save(user);
 
         log.info("회원가입 완료 - userId: {}", user.getUserId());
     }
