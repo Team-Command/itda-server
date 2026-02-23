@@ -1,6 +1,7 @@
 package com.command.itdaserver.domain.user.presentation;
 
 import com.command.itdaserver.domain.auth.domain.enums.CookieNames;
+import com.command.itdaserver.domain.profile.presentation.dto.response.UserPublicProfileResponse;
 import com.command.itdaserver.domain.user.presentation.dto.response.DeleteUserResponse;
 import com.command.itdaserver.domain.user.presentation.dto.response.UserResponse;
 import com.command.itdaserver.domain.user.service.DeleteUserAccountService;

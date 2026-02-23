@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public record UserPublicProfileResponse(
+        String userImage,
         String userId,
         String name,
         String email,
@@ -19,6 +20,7 @@ public record UserPublicProfileResponse(
 ) {
     public static UserPublicProfileResponse from(User user, UserDisclosure disclosure) {
         return new UserPublicProfileResponse(
+                user.getUserImage(),
                 user.getUserId(),
                 disclosure.isNamePublic() ? user.getName() : null,
                 disclosure.isEmailPublic() ? user.getEmail() : null,
