@@ -4,6 +4,7 @@ import com.command.itdaserver.domain.profile.presentation.dto.request.UserPublic
 import com.command.itdaserver.domain.profile.presentation.dto.response.UserPublicProfileResponse;
 import com.command.itdaserver.domain.profile.presentation.dto.response.UserResponse;
 import com.command.itdaserver.domain.profile.service.QueryMyProfileService;
+import com.command.itdaserver.domain.profile.service.QueryProfileDisclosureService;
 import com.command.itdaserver.domain.profile.service.QueryUserProfileService;
 import com.command.itdaserver.domain.profile.service.UserProfileDisclosureService;
 import com.command.itdaserver.global.auth.CustomUserDetails;
@@ -20,6 +21,7 @@ public class ProfileController {
     private final QueryMyProfileService queryMyProfileService;
     private final QueryUserProfileService queryUserProfileService;
     private final UserProfileDisclosureService userProfileDisclosureService;
+    private final QueryProfileDisclosureService queryProfileDisclosureService;
 
     @GetMapping("/{userId}")
     public UserPublicProfileResponse queryUserProfile(@PathVariable String userId) {
@@ -39,5 +41,12 @@ public class ProfileController {
     @GetMapping("/me")
     public UserResponse getMyProfile(@AuthenticationPrincipal CustomUserDetails customUserDetails) {
         return queryMyProfileService.execute(customUserDetails.getUserId());
+    }
+
+    @GetMapping("/disclosure")
+    public UserPublicProfileResponse getUserProfileDisclosure(
+            @AuthenticationPrincipal CustomUserDetails customUserDetails
+    ) {
+        return queryUserProfileService.execute(customUserDetails.getUserId());
     }
 }
