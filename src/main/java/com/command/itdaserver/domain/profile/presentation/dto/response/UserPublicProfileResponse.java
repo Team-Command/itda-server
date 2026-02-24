@@ -7,7 +7,6 @@ import com.command.itdaserver.domain.user.domain.enums.Major;
 import com.command.itdaserver.domain.user.domain.enums.School;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
 public record UserPublicProfileResponse(
         String userImage,
         String userId,
@@ -22,8 +21,8 @@ public record UserPublicProfileResponse(
         return new UserPublicProfileResponse(
                 user.getUserImage(),
                 user.getUserId(),
-                disclosure.isNamePublic() ? user.getName() : null,
-                disclosure.isEmailPublic() ? user.getEmail() : null,
+                disclosure.isNamePublic() ? user.getName() : "false",
+                disclosure.isEmailPublic() ? user.getEmail() : "false",
                 disclosure.isMajorPublic() ? user.getMajor() : null,
                 disclosure.isMajorPublic() ? user.getCustomMajor() : null,
                 disclosure.isGradePublic() ? user.getGrade() : null,

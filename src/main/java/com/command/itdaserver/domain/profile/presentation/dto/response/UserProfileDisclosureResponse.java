@@ -2,7 +2,7 @@ package com.command.itdaserver.domain.profile.presentation.dto.response;
 
 import com.command.itdaserver.domain.user.domain.UserDisclosure;
 
-public record MyPublicProfileResponse(
+public record UserProfileDisclosureResponse(
         boolean isNamePublic,
         boolean isEmailPublic,
         boolean isMajorPublic,
@@ -10,8 +10,8 @@ public record MyPublicProfileResponse(
         boolean isGradePublic,
         boolean isSchoolPublic
 ) {
-    public static MyPublicProfileResponse of(UserDisclosure userDisclosure) {
-        return new MyPublicProfileResponse(
+    public static UserProfileDisclosureResponse of(UserDisclosure userDisclosure) {
+        return new UserProfileDisclosureResponse(
                 userDisclosure.isNamePublic(),
                 userDisclosure.isEmailPublic(),
                 userDisclosure.isMajorPublic(),

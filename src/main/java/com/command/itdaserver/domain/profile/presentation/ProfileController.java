@@ -2,9 +2,7 @@ package com.command.itdaserver.domain.profile.presentation;
 
 import com.command.itdaserver.domain.profile.presentation.dto.request.UserPublicProfileRequest;
 import com.command.itdaserver.domain.profile.presentation.dto.response.MyProfileResponse;
-import com.command.itdaserver.domain.profile.presentation.dto.response.MyPublicProfileResponse;
 import com.command.itdaserver.domain.profile.presentation.dto.response.UserPublicProfileResponse;
-import com.command.itdaserver.domain.profile.presentation.dto.response.UserResponse;
 import com.command.itdaserver.domain.profile.service.QueryMyProfileService;
 import com.command.itdaserver.domain.profile.service.QueryUserProfileService;
 import com.command.itdaserver.domain.profile.service.UserProfileDisclosureService;
