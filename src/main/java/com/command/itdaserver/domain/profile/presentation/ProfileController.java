@@ -1,6 +1,7 @@
 package com.command.itdaserver.domain.profile.presentation;
 
 import com.command.itdaserver.domain.profile.presentation.dto.request.UserPublicProfileRequest;
+import com.command.itdaserver.domain.profile.presentation.dto.response.UserProfileDisclosureResponse;
 import com.command.itdaserver.domain.profile.presentation.dto.response.UserPublicProfileResponse;
 import com.command.itdaserver.domain.profile.presentation.dto.response.UserResponse;
 import com.command.itdaserver.domain.profile.service.QueryMyProfileService;
@@ -44,9 +45,9 @@ public class ProfileController {
     }
 
     @GetMapping("/disclosure")
-    public UserPublicProfileResponse getUserProfileDisclosure(
+    public UserProfileDisclosureResponse getUserProfileDisclosure(
             @AuthenticationPrincipal CustomUserDetails customUserDetails
     ) {
-        return queryUserProfileService.execute(customUserDetails.getUserId());
+        return queryProfileDisclosureService.execute(customUserDetails);
     }
 }
