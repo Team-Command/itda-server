@@ -1,7 +1,7 @@
 package com.command.itdaserver.domain.profile.service;
 
 import com.command.itdaserver.domain.profile.exception.UserDisclosureNotFoundException;
-import com.command.itdaserver.domain.profile.presentation.dto.response.UserProfileDisclosureResponse;
+import com.command.itdaserver.domain.profile.presentation.dto.response.UserPublicProfileResponse;
 import com.command.itdaserver.domain.user.domain.User;
 import com.command.itdaserver.domain.user.domain.UserDisclosure;
 import com.command.itdaserver.domain.user.domain.repository.UserDisclosureRepository;
@@ -18,13 +18,13 @@ public class QueryProfileDisclosureService {
     private final UserDisclosureRepository userDisclosureRepository;
 
     @Transactional(readOnly = true)
-    public UserProfileDisclosureResponse execute(String userId) {
+    public UserPublicProfileResponse execute(String userId) {
         User user = userRepository.findByUserId(userId)
                 .orElseThrow(() -> UserNotFoundException.EXCEPTION);
 
         UserDisclosure userDisclosure = userDisclosureRepository.findByUser(user)
                 .orElseThrow(() -> UserDisclosureNotFoundException.EXCEPTION);
 
-        return UserProfileDisclosureResponse.of(userDisclosure);
+        return UserPublicProfileResponse.from(user, userDisclosure);
     }
 }

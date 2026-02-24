@@ -1,8 +1,6 @@
 package com.command.itdaserver.domain.profile.service;
 
 import com.command.itdaserver.domain.profile.exception.UserDisclosureNotFoundException;
-import com.command.itdaserver.domain.profile.presentation.dto.response.MyProfileResponse;
-import com.command.itdaserver.domain.profile.presentation.dto.response.UserProfileDisclosureResponse;
 import com.command.itdaserver.domain.user.domain.User;
 import com.command.itdaserver.domain.user.domain.UserDisclosure;
 import com.command.itdaserver.domain.user.domain.repository.UserDisclosureRepository;
