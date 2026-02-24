@@ -21,8 +21,8 @@ public record UserPublicProfileResponse(
         return new UserPublicProfileResponse(
                 user.getUserImage(),
                 user.getUserId(),
-                disclosure.isNamePublic() ? user.getName() : "false",
-                disclosure.isEmailPublic() ? user.getEmail() : "false",
+                disclosure.isNamePublic() ? user.getName() : null,
+                disclosure.isEmailPublic() ? user.getEmail() : null,
                 disclosure.isMajorPublic() ? user.getMajor() : null,
                 disclosure.isMajorPublic() ? user.getCustomMajor() : null,
                 disclosure.isGradePublic() ? user.getGrade() : null,
