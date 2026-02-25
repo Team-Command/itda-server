@@ -29,7 +29,7 @@ public class ProfileController {
         return queryUserProfileService.execute(userId);
     }
 
-    @PatchMapping("/visability")
+    @PatchMapping("/visibility")
     public ResponseEntity<MessageResponse> updateUserProfileDisclosure(
             @AuthenticationPrincipal CustomUserDetails customUserDetails,
             @RequestBody UserPublicProfileRequest request
