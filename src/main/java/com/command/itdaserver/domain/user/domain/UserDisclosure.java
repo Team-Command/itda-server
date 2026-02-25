@@ -43,4 +43,16 @@ public class UserDisclosure extends BaseIdEntity {
         this.isSchoolPublic = request.isSchoolPublic();
         this.isGradePublic = request.isGradePublic();
     }
+
+    public static UserDisclosure of(User user) {
+        return UserDisclosure.builder()
+                .user(user)
+                .isNamePublic(true)
+                .isEmailPublic(true)
+                .isMajorPublic(true)
+                .isCustomMajorPublic(true)
+                .isSchoolPublic(true)
+                .isGradePublic(true)
+                .build();
+    }
 }

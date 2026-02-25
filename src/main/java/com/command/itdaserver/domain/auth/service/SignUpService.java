@@ -32,31 +32,10 @@ public class SignUpService {
 
         String encodedPassword = passwordEncoder.encode(request.password());
 
-        User user = User.builder()
-                .userId(request.userId())
-                .password(encodedPassword)
-                .provider(AuthProvider.LOCAL)
-                .name(request.name())
-                .email(request.email())
-                .major(request.major())
-                .customMajor(request.customMajor())
-                .school(request.school())
-                .grade(request.grade())
-                .role(Role.USER)
-                .build();
-
+        User user = User.of(request, encodedPassword);
         userRepository.save(user);
 
-        UserDisclosure userDisclosure = UserDisclosure.builder()
-                .user(user)
-                .isNamePublic(true)
-                .isEmailPublic(true)
-                .isMajorPublic(true)
-                .isCustomMajorPublic(true)
-                .isSchoolPublic(true)
-                .isGradePublic(true)
-                .build();
-
+        UserDisclosure userDisclosure = UserDisclosure.of(user);
         userDisclosureRepository.save(userDisclosure);
 
         log.info("회원가입 완료 - userId: {}", user.getUserId());
