@@ -24,7 +24,7 @@ public record UserPublicProfileResponse(
                 disclosure.isNamePublic() ? user.getName() : null,
                 disclosure.isEmailPublic() ? user.getEmail() : null,
                 disclosure.isMajorPublic() ? user.getMajor() : null,
-                disclosure.isMajorPublic() ? user.getCustomMajor() : null,
+                disclosure.isCustomMajorPublic() ? user.getCustomMajor() : null,
                 disclosure.isGradePublic() ? user.getGrade() : null,
                 disclosure.isSchoolPublic() ? user.getSchool() : null
         );
