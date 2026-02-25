@@ -1,10 +1,12 @@
 package com.command.itdaserver.domain.user.domain;
 
+import com.command.itdaserver.domain.auth.presentation.dto.request.SignUpRequest;
 import com.command.itdaserver.domain.user.domain.enums.*;
 import com.command.itdaserver.global.entity.BaseIdEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.*;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 
 @Entity
@@ -55,5 +57,20 @@ public class User extends BaseIdEntity {
 
     public void changePassword(String encodedPassword) {
         this.password = encodedPassword;
+    }
+
+    public static User of(SignUpRequest request, String password) {
+
+        User user = User.builder()
+                .userId(request.userId())
+                .password(password)
+                .email(request.email())
+                .major(request.major())
+                .customMajor(request.customMajor())
+                .school(request.school())
+                .grade(request.grade())
+                .build();
+
+        return user;
     }
 }
