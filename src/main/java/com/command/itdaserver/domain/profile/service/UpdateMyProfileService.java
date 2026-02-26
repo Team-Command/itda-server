@@ -17,15 +17,16 @@ public class UpdateMyProfileService {
 
     @Transactional
     public void execute(UserProfileRequest request, CustomUserDetails customUserDetails) {
-        if(userRepository.findByUserId(request.userId()).isPresent()) {
-            throw UserIdDuplicateException.EXCEPTION;
-        }
+        userRepository.findByUserId(request.userId())
+                .ifPresent(foundUser -> {
+                    if (!foundUser.getId().equals(customUserDetails.getId())) {
+                        throw UserIdDuplicateException.EXCEPTION;
+                    }
+                });
 
         User user = userRepository.findById(customUserDetails.getId())
                 .orElseThrow(() -> UserNotFoundException.EXCEPTION);
 
         user.update(request);
-
-        userRepository.save(user);
     }
 }
