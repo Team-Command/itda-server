@@ -1,5 +1,6 @@
 package com.command.itdaserver.domain.profile.service;
 
+import com.command.itdaserver.domain.profile.exception.UserIdDuplicateException;
 import com.command.itdaserver.domain.profile.presentation.dto.request.UserProfileRequest;
 import com.command.itdaserver.domain.user.domain.repository.UserDisclosureRepository;
 import com.command.itdaserver.domain.user.domain.repository.UserRepository;
@@ -14,6 +15,8 @@ public class UpdateMyProfileService {
 
     public void execute(UserProfileRequest request){
         userRepository.findByUserId(request.userId())
-                .or(() -> )
+                .orElseThrow(() -> UserIdDuplicateException.EXCEPTION);
+
+        
     }
 }
