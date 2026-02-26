@@ -19,6 +19,8 @@ public class UserSession {
     @Id
     private String sessionId; // UUID로 생성한 세션 ID
 
+    private Long userPk;
+
     @Indexed
     private String userId;
 
