@@ -66,6 +66,7 @@ public class User extends BaseIdEntity {
 
         User user = User.builder()
                 .userId(request.userId())
+                .name(request.name())
                 .password(password)
                 .email(request.email())
                 .major(request.major())
