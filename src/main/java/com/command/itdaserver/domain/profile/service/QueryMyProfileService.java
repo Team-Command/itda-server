@@ -20,11 +20,8 @@ public class QueryMyProfileService {
 
     @Transactional(readOnly = true)
     public UserResponse execute(CustomUserDetails customUserDetails) {
-        User user = userRepository.findByUserId(customUserDetails.getUserId())
+        User user = userRepository.findById(customUserDetails.getId())
                 .orElseThrow(() -> UserNotFoundException.EXCEPTION);
-
-        UserDisclosure userDisclosure = userDisclosureRepository.findByUser(user)
-                .orElseThrow(() -> UserDisclosureNotFoundException.EXCEPTION);
 
         return UserResponse.from(user);
     }
