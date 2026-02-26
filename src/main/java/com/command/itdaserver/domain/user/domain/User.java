@@ -73,6 +73,8 @@ public class User extends BaseIdEntity {
                 .customMajor(request.customMajor())
                 .school(request.school())
                 .grade(request.grade())
+                .provider(AuthProvider.LOCAL)
+                .role(Role.USER)
                 .build();
 
         return user;
