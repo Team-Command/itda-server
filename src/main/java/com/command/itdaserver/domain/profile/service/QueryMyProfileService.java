@@ -7,6 +7,7 @@ import com.command.itdaserver.domain.user.domain.repository.UserDisclosureReposi
 import com.command.itdaserver.domain.user.domain.repository.UserRepository;
 import com.command.itdaserver.domain.user.exception.UserNotFoundException;
 import com.command.itdaserver.domain.profile.presentation.dto.response.UserResponse;
+import com.command.itdaserver.global.auth.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,8 +19,8 @@ public class QueryMyProfileService {
     private final UserDisclosureRepository userDisclosureRepository;
 
     @Transactional(readOnly = true)
-    public UserResponse execute(String userId) {
-        User user = userRepository.findByUserId(userId)
+    public UserResponse execute(CustomUserDetails customUserDetails) {
+        User user = userRepository.findByUserId(customUserDetails.getUserId())
                 .orElseThrow(() -> UserNotFoundException.EXCEPTION);
 
         UserDisclosure userDisclosure = userDisclosureRepository.findByUser(user)

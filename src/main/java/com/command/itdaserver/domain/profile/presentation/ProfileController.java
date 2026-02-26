@@ -40,7 +40,7 @@ public class ProfileController {
 
     @GetMapping("/me")
     public UserResponse getMyProfile(@AuthenticationPrincipal CustomUserDetails customUserDetails) {
-        return queryMyProfileService.execute(customUserDetails.getUserId());
+        return queryMyProfileService.execute(customUserDetails);
     }
 
     @GetMapping("/disclosure")
