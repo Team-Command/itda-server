@@ -23,6 +23,7 @@ public enum ErrorCode {
     DUPLICATE_EMAIL(409, "이미 가입된 이메일입니다."),
 
     // post
+    INVALID_MAJOR(400, "존재하지 않는 전공입니다."),
     INVALID_DEADLINE(400, "마감 기간이 현재 기간보다 이전입니다."),
     POST_NOT_FOUND(404, "해당 게시글이 존재하지 않습니다."),
     MISSING_QUESTION_OPTION(400, "객관식 질문에 보기가 없습니다."),
