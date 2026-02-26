@@ -21,9 +21,8 @@ public class QueryProfileDisclosureService {
 
     @Transactional(readOnly = true)
     public UserProfileDisclosureResponse execute(CustomUserDetails customUserDetails) {
-        String userId = customUserDetails.getUserId();
 
-        User user = userRepository.findByUserId(userId)
+        User user = userRepository.findById(customUserDetails.getId())
                 .orElseThrow(() -> UserNotFoundException.EXCEPTION);
 
         UserDisclosure userDisclosure = userDisclosureRepository.findByUser(user)

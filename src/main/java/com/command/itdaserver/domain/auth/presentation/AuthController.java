@@ -93,7 +93,7 @@ public class AuthController {
             @AuthenticationPrincipal CustomUserDetails userDetails,
             @RequestBody ChangePasswordRequest request
             ){
-        changePasswordService.execute(userDetails.getEmail(), userDetails.getUserId(), request);
+        changePasswordService.execute(userDetails.getEmail(), userDetails.getId(), request);
 
         return ResponseEntity.ok(MessageResponse.of("비밀번호가 변경되었습니다."));
     }

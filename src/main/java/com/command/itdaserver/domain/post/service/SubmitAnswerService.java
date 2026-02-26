@@ -44,7 +44,7 @@ public class SubmitAnswerService {
         Post post = postRepository.findById(postId)
                 .orElseThrow(PostNotFoundException::new);
 
-        User answerer = userRepository.findByUserId(userDetails.getUserId())
+        User answerer = userRepository.findById(userDetails.getId())
                 .orElseThrow(UserNotFoundException::new);
 
         List<AnswerResponse> responses = new ArrayList<>();

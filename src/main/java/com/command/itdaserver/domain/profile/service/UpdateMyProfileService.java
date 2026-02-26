@@ -21,7 +21,7 @@ public class UpdateMyProfileService {
             throw UserIdDuplicateException.EXCEPTION;
         }
 
-        User user = userRepository.findByUserId(customUserDetails.getUserId())
+        User user = userRepository.findById(customUserDetails.getId())
                 .orElseThrow(() -> UserNotFoundException.EXCEPTION);
 
         user.update(request);

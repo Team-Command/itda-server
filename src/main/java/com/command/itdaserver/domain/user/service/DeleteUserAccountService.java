@@ -1,7 +1,9 @@
 package com.command.itdaserver.domain.user.service;
 
 import com.command.itdaserver.domain.auth.domain.repository.SessionRepository;
+import com.command.itdaserver.domain.user.domain.User;
 import com.command.itdaserver.domain.user.domain.repository.UserRepository;
+import com.command.itdaserver.domain.user.exception.UserNotFoundException;
 import com.command.itdaserver.global.auth.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -16,11 +18,10 @@ public class DeleteUserAccountService {
 
     @Transactional
     public void execute(CustomUserDetails customUserDetails) {
-        String deleteUserId = customUserDetails.getUserId();
 
-        userRepository.findByUserId(deleteUserId).ifPresent(user -> {
-            sessionRepository.deleteByUserId(deleteUserId);
-            userRepository.delete(user);
+        userRepository.findById(customUserDetails.getId()).ifPresent(deleteUser -> {
+            sessionRepository.deleteByUserId(deleteUser.getUserId());
+            userRepository.delete(deleteUser);
         });
 
         SecurityContextHolder.clearContext();
