@@ -1,13 +1,11 @@
 package com.command.itdaserver.domain.profile.presentation;
 
+import com.command.itdaserver.domain.profile.presentation.dto.request.UserProfileRequest;
 import com.command.itdaserver.domain.profile.presentation.dto.request.UserPublicProfileRequest;
 import com.command.itdaserver.domain.profile.presentation.dto.response.UserProfileDisclosureResponse;
 import com.command.itdaserver.domain.profile.presentation.dto.response.UserPublicProfileResponse;
 import com.command.itdaserver.domain.profile.presentation.dto.response.UserResponse;
-import com.command.itdaserver.domain.profile.service.QueryMyProfileService;
-import com.command.itdaserver.domain.profile.service.QueryProfileDisclosureService;
-import com.command.itdaserver.domain.profile.service.QueryUserProfileService;
-import com.command.itdaserver.domain.profile.service.UserProfileDisclosureService;
+import com.command.itdaserver.domain.profile.service.*;
 import com.command.itdaserver.global.auth.CustomUserDetails;
 import com.command.itdaserver.global.common.response.MessageResponse;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +21,7 @@ public class ProfileController {
     private final QueryUserProfileService queryUserProfileService;
     private final UserProfileDisclosureService userProfileDisclosureService;
     private final QueryProfileDisclosureService queryProfileDisclosureService;
+    private final UpdateMyProfileService updateMyProfileService;
 
     @GetMapping("/{userId}")
     public UserPublicProfileResponse queryUserProfile(@PathVariable String userId) {
@@ -49,5 +48,14 @@ public class ProfileController {
             @AuthenticationPrincipal CustomUserDetails customUserDetails
     ) {
         return queryProfileDisclosureService.execute(customUserDetails);
+    }
+
+    @PutMapping
+    public ResponseEntity<MessageResponse> updateUserProfile(
+            @RequestBody UserProfileRequest request,
+            @AuthenticationPrincipal CustomUserDetails customUserDetails) {
+        updateMyProfileService.execute(request, customUserDetails);
+
+        return ResponseEntity.ok(MessageResponse.of("프로필 정보가 변경되었습니다."));
     }
 }
