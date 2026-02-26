@@ -5,11 +5,13 @@ import com.command.itdaserver.domain.post.presentation.dto.request.CreatePostReq
 import com.command.itdaserver.domain.post.presentation.dto.request.SubmitAnswerRequest;
 import com.command.itdaserver.domain.post.presentation.dto.response.AnswerResponse;
 import com.command.itdaserver.domain.post.presentation.dto.response.PostResponse;
+import com.command.itdaserver.domain.post.presentation.dto.response.PostSummaryResponse;
 import com.command.itdaserver.domain.post.presentation.dto.response.QuestionResponse;
 import com.command.itdaserver.domain.post.service.CreateApplyFormService;
 import com.command.itdaserver.domain.post.service.CreatePostService;
 import com.command.itdaserver.domain.post.service.GetPostService;
 import com.command.itdaserver.domain.post.service.SubmitAnswerService;
+import com.command.itdaserver.domain.post.service.GetPostsService;
 import com.command.itdaserver.domain.post.service.ToggleBookmarkService;
 import com.command.itdaserver.domain.post.service.ToggleLikeService;
 import com.command.itdaserver.global.auth.CustomUserDetails;
@@ -26,11 +28,18 @@ import java.util.List;
 public class PostController {
 
     private final GetPostService getPostService;
+    private final GetPostsService getPostsService;
     private final CreatePostService createPostService;
     private final CreateApplyFormService createApplyFormService;
     private final SubmitAnswerService submitAnswerService;
     private final ToggleLikeService toggleLikeService;
     private final ToggleBookmarkService toggleBookmarkService;
+
+    @GetMapping
+    public List<PostSummaryResponse> getPosts(@RequestParam(defaultValue = "0") int page,
+                                              @AuthenticationPrincipal CustomUserDetails userDetails) {
+        return getPostsService.execute(page, userDetails);
+    }
 
     @GetMapping("/{postId}")
     public PostResponse getPost(@PathVariable Long postId,

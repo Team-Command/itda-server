@@ -88,6 +88,10 @@ public class Post extends BaseIdEntity {
         this.hashtags = hashtags != null ? hashtags : new ArrayList<>();
     }
 
+    public boolean isClosed() {
+        return applyDeadline.isBefore(LocalDateTime.now());
+    }
+
     public void addQuestion(Question question) {
         questions.add(question);
         question.assignPost(this);
