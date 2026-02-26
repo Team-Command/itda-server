@@ -41,6 +41,7 @@ public class LoginService {
                 .ifPresent(sessionRepository::delete);
 
         UserSession session = UserSession.create(
+                userDetails.getId(),
                 userDetails.getUserId(),
                 userDetails.getEmail(),
                 userDetails.getRole(),
@@ -48,6 +49,7 @@ public class LoginService {
         );
 
         sessionRepository.save(session);
+
         log.info("로그인 성공 - userId: {}, sessionId: {}",
                 userDetails.getUserId(), session.getSessionId());
 
