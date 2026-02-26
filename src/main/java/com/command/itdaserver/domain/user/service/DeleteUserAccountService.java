@@ -23,7 +23,8 @@ public class DeleteUserAccountService {
     public void execute(CustomUserDetails customUserDetails) {
 
         userRepository.findById(customUserDetails.getId()).ifPresent(deleteUser -> {
-            userDisclosureRepository.deleteById(deleteUser.getId());
+            userDisclosureRepository.findByUser(deleteUser)
+                    .ifPresent(userDisclosureRepository::delete);
             sessionRepository.deleteByUserId(deleteUser.getUserId());
             userRepository.delete(deleteUser);
         });
