@@ -8,12 +8,14 @@ import com.command.itdaserver.domain.user.exception.UserNotFoundException;
 import com.command.itdaserver.global.auth.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
 public class UpdateMyProfileService {
     private final UserRepository userRepository;
 
+    @Transactional
     public void execute(UserProfileRequest request, CustomUserDetails customUserDetails) {
         userRepository.findByUserId(request.userId())
                 .orElseThrow(() -> UserIdDuplicateException.EXCEPTION);
@@ -21,7 +23,8 @@ public class UpdateMyProfileService {
         User user = userRepository.findByUserId(customUserDetails.getUserId())
                 .orElseThrow(() -> UserNotFoundException.EXCEPTION);
 
-        user.
+        user.update(request);
 
+        userRepository.save(user);
     }
 }
