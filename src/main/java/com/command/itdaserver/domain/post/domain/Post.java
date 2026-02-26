@@ -1,6 +1,7 @@
 package com.command.itdaserver.domain.post.domain;
 
 import com.command.itdaserver.domain.user.domain.User;
+import com.command.itdaserver.domain.user.domain.enums.Major;
 import com.command.itdaserver.global.entity.BaseIdEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -43,6 +44,12 @@ public class Post extends BaseIdEntity {
     @Column(name = "apply_deadline", nullable = false)
     private LocalDateTime applyDeadline;
 
+    @ElementCollection
+    @CollectionTable(name = "post_majors", joinColumns = @JoinColumn(name = "post_id"))
+    @Enumerated(EnumType.STRING)
+    @Column(name = "major")
+    private List<Major> majors = new ArrayList<>();
+
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Question> questions = new ArrayList<>();
 
@@ -59,11 +66,12 @@ public class Post extends BaseIdEntity {
     private Set<User> bookmarkedByUsers = new HashSet<>();
 
     @Builder
-    public Post(String title, String description, LocalDateTime applyDeadline, User writer) {
+    public Post(String title, String description, LocalDateTime applyDeadline, User writer, List<Major> majors) {
         this.title = title;
         this.description = description;
         this.applyDeadline = applyDeadline;
         this.writer = writer;
+        this.majors = majors != null ? majors : new ArrayList<>();
     }
 
     public void addQuestion(Question question) {

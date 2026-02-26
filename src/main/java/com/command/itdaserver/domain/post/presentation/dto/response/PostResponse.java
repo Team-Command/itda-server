@@ -1,6 +1,7 @@
 package com.command.itdaserver.domain.post.presentation.dto.response;
 
 import com.command.itdaserver.domain.post.domain.Post;
+import com.command.itdaserver.domain.user.domain.enums.Major;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -16,6 +17,7 @@ public class PostResponse {
     private String description;
     private LocalDateTime createdAt;
     private LocalDateTime applyDeadline;
+    private List<Major> majors;
     private long likeCount;
     private boolean isLikedByMe;
     private boolean isBookmarked;
@@ -28,6 +30,7 @@ public class PostResponse {
         this.description = post.getDescription();
         this.createdAt = post.getCreatedAt();
         this.applyDeadline = post.getApplyDeadline();
+        this.majors = post.getMajors();
         this.likeCount = post.getLikeCount();
         this.isLikedByMe = isLikedByMe;
         this.isBookmarked = isBookmarked;
