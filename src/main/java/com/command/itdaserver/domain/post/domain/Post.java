@@ -13,7 +13,9 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -44,6 +46,18 @@ public class Post extends BaseIdEntity {
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Question> questions = new ArrayList<>();
 
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "post_likes",
+            joinColumns = @JoinColumn(name = "post_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private Set<User> likedByUsers = new HashSet<>();
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "post_bookmarks",
+            joinColumns = @JoinColumn(name = "post_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private Set<User> bookmarkedByUsers = new HashSet<>();
+
     @Builder
     public Post(String title, String description, LocalDateTime applyDeadline, User writer) {
         this.title = title;
@@ -55,6 +69,26 @@ public class Post extends BaseIdEntity {
     public void addQuestion(Question question) {
         questions.add(question);
         question.assignPost(this);
+    }
+
+    public void toggleLike(User user) {
+        if (!likedByUsers.remove(user)) likedByUsers.add(user);
+    }
+
+    public boolean isLikedBy(User user) {
+        return likedByUsers.contains(user);
+    }
+
+    public long getLikeCount() {
+        return likedByUsers.size();
+    }
+
+    public void toggleBookmark(User user) {
+        if (!bookmarkedByUsers.remove(user)) bookmarkedByUsers.add(user);
+    }
+
+    public boolean isBookmarkedBy(User user) {
+        return bookmarkedByUsers.contains(user);
     }
 
 }

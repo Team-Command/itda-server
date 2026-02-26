@@ -1,6 +1,5 @@
 package com.command.itdaserver.domain.post.presentation;
 
-import com.command.itdaserver.domain.post.domain.Question;
 import com.command.itdaserver.domain.post.presentation.dto.request.CreateFormRequest;
 import com.command.itdaserver.domain.post.presentation.dto.request.CreatePostRequest;
 import com.command.itdaserver.domain.post.presentation.dto.request.SubmitAnswerRequest;
@@ -11,6 +10,8 @@ import com.command.itdaserver.domain.post.service.CreateApplyFormService;
 import com.command.itdaserver.domain.post.service.CreatePostService;
 import com.command.itdaserver.domain.post.service.GetPostService;
 import com.command.itdaserver.domain.post.service.SubmitAnswerService;
+import com.command.itdaserver.domain.post.service.ToggleBookmarkService;
+import com.command.itdaserver.domain.post.service.ToggleLikeService;
 import com.command.itdaserver.global.auth.CustomUserDetails;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -28,10 +29,13 @@ public class PostController {
     private final CreatePostService createPostService;
     private final CreateApplyFormService createApplyFormService;
     private final SubmitAnswerService submitAnswerService;
+    private final ToggleLikeService toggleLikeService;
+    private final ToggleBookmarkService toggleBookmarkService;
 
     @GetMapping("/{postId}")
-    public PostResponse getPost(@PathVariable Long postId) {
-        return getPostService.getPost(postId);
+    public PostResponse getPost(@PathVariable Long postId,
+                                @AuthenticationPrincipal CustomUserDetails userDetails) {
+        return getPostService.getPost(postId, userDetails);
     }
 
     @PostMapping("/post")
@@ -50,6 +54,18 @@ public class PostController {
                                               @AuthenticationPrincipal CustomUserDetails customUserDetails,
                                               @Valid @RequestBody SubmitAnswerRequest request) {
         return submitAnswerService.execute(postId, request, customUserDetails);
+    }
+
+    @PostMapping("/{postId}/like")
+    public void toggleLike(@PathVariable Long postId,
+                           @AuthenticationPrincipal CustomUserDetails userDetails) {
+        toggleLikeService.execute(postId, userDetails);
+    }
+
+    @PostMapping("/{postId}/bookmark")
+    public void toggleBookmark(@PathVariable Long postId,
+                               @AuthenticationPrincipal CustomUserDetails userDetails) {
+        toggleBookmarkService.execute(postId, userDetails);
     }
 
 }

@@ -33,6 +33,6 @@ public class CreatePostService {
                 .writer(userRepository.findByUserId(customUserDetails.getUserId()).orElseThrow(UserNotFoundException::new))
                 .build();
 
-        return new PostResponse(postRepository.save(post));
+        return new PostResponse(postRepository.save(post), false, false);
     }
 }
