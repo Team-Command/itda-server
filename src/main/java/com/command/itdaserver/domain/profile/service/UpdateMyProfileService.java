@@ -17,8 +17,9 @@ public class UpdateMyProfileService {
 
     @Transactional
     public void execute(UserProfileRequest request, CustomUserDetails customUserDetails) {
-        userRepository.findByUserId(request.userId())
-                .orElseThrow(() -> UserIdDuplicateException.EXCEPTION);
+        if(userRepository.findByUserId(request.userId()).isPresent()) {
+            throw UserIdDuplicateException.EXCEPTION;
+        }
 
         User user = userRepository.findByUserId(customUserDetails.getUserId())
                 .orElseThrow(() -> UserNotFoundException.EXCEPTION);
