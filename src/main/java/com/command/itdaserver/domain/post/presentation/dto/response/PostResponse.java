@@ -18,6 +18,7 @@ public class PostResponse {
     private LocalDateTime createdAt;
     private LocalDateTime applyDeadline;
     private List<Major> majors;
+    private List<String> members;
     private long likeCount;
     private boolean isLikedByMe;
     private boolean isBookmarked;
@@ -31,6 +32,7 @@ public class PostResponse {
         this.createdAt = post.getCreatedAt();
         this.applyDeadline = post.getApplyDeadline();
         this.majors = post.getMajors();
+        this.members = post.getMembers().stream().map(user -> user.getUserId()).toList();
         this.likeCount = post.getLikeCount();
         this.isLikedByMe = isLikedByMe;
         this.isBookmarked = isBookmarked;

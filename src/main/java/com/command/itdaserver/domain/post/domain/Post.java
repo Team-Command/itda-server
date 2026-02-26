@@ -65,13 +65,20 @@ public class Post extends BaseIdEntity {
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     private Set<User> bookmarkedByUsers = new HashSet<>();
 
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "post_members",
+            joinColumns = @JoinColumn(name = "post_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private List<User> members = new ArrayList<>();
+
     @Builder
-    public Post(String title, String description, LocalDateTime applyDeadline, User writer, List<Major> majors) {
+    public Post(String title, String description, LocalDateTime applyDeadline, User writer, List<Major> majors, List<User> members) {
         this.title = title;
         this.description = description;
         this.applyDeadline = applyDeadline;
         this.writer = writer;
         this.majors = majors != null ? majors : new ArrayList<>();
+        this.members = members != null ? members : new ArrayList<>();
     }
 
     public void addQuestion(Question question) {
