@@ -23,10 +23,10 @@ public class DeleteUserAccountService {
     public void execute(CustomUserDetails customUserDetails) {
 
         userRepository.findById(customUserDetails.getId()).ifPresent(deleteUser -> {
-            userDisclosureRepository.findByUser(deleteUser)
+            userDisclosureRepository.findById(deleteUser.getId())
                     .ifPresent(userDisclosureRepository::delete);
-            sessionRepository.deleteByUserId(deleteUser.getUserId());
-            userRepository.delete(deleteUser);
+            sessionRepository.findByUserPk(deleteUser.getId())
+                    .ifPresent(sessionRepository::delete);
         });
 
         SecurityContextHolder.clearContext();
