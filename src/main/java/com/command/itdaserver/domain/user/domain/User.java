@@ -1,6 +1,7 @@
 package com.command.itdaserver.domain.user.domain;
 
 import com.command.itdaserver.domain.auth.presentation.dto.request.SignUpRequest;
+import com.command.itdaserver.domain.profile.presentation.dto.request.UserProfileRequest;
 import com.command.itdaserver.domain.user.domain.enums.*;
 import com.command.itdaserver.global.entity.BaseIdEntity;
 import jakarta.persistence.*;
@@ -17,6 +18,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder
 public class User extends BaseIdEntity {
+
+    private String imageUrl;
 
     @Column(name = "user_id", unique = true, nullable = false)
     private String userId; //유저아이디(로그인용)
@@ -72,5 +75,16 @@ public class User extends BaseIdEntity {
                 .build();
 
         return user;
+    }
+
+    public void update(UserProfileRequest request) {
+        this.imageUrl = request.imageUrl();
+        this.userId = request.userId();
+        this.name = request.name();
+        this.email = request.email();
+        this.major = request.major();
+        this.customMajor = request.customMajor();
+        this.school = request.school();
+        this.grade = request.grade();
     }
 }
