@@ -21,5 +21,7 @@ public record CreatePostRequest(
         @NotEmpty(message = "모집 전공은 최소 1개 이상이어야 합니다.")
         List<Major> majors,
 
-        List<String> members
+        List<String> members,
+
+        List<String> hashtags
 ) {}

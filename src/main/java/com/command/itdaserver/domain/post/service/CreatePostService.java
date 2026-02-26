@@ -1,6 +1,8 @@
 package com.command.itdaserver.domain.post.service;
 
+import com.command.itdaserver.domain.post.domain.Hashtag;
 import com.command.itdaserver.domain.post.domain.Post;
+import com.command.itdaserver.domain.post.domain.repository.HashtagRepository;
 import com.command.itdaserver.domain.post.domain.repository.PostRepository;
 import com.command.itdaserver.domain.post.exceptions.InvalidDeadlineException;
 import com.command.itdaserver.domain.post.presentation.dto.request.CreatePostRequest;
@@ -23,6 +25,7 @@ public class CreatePostService {
 
     private final PostRepository postRepository;
     private final UserRepository userRepository;
+    private final HashtagRepository hashtagRepository;
 
     @Transactional
     public PostResponse execute(CreatePostRequest request, CustomUserDetails customUserDetails) {
@@ -35,6 +38,12 @@ public class CreatePostService {
                         .map(userId -> userRepository.findByUserId(userId).orElseThrow(UserNotFoundException::new))
                         .toList();
 
+        List<Hashtag> hashtags = request.hashtags() == null ? Collections.emptyList() :
+                request.hashtags().stream()
+                        .map(name -> hashtagRepository.findByName(name)
+                                .orElseGet(() -> hashtagRepository.save(new Hashtag(name))))
+                        .toList();
+
         Post post = Post.builder()
                 .title(request.title())
                 .description(request.description())
@@ -42,6 +51,7 @@ public class CreatePostService {
                 .writer(userRepository.findByUserId(customUserDetails.getUserId()).orElseThrow(UserNotFoundException::new))
                 .majors(request.majors())
                 .members(members)
+                .hashtags(hashtags)
                 .build();
 
         return new PostResponse(postRepository.save(post), false, false);
