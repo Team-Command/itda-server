@@ -37,7 +37,7 @@ public class LoginService {
         );
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
 
-        sessionRepository.findByUserId(userDetails.getUserId())
+        sessionRepository.findByUserPk(userDetails.getId())
                 .ifPresent(sessionRepository::delete);
 
         UserSession session = UserSession.create(
@@ -56,7 +56,7 @@ public class LoginService {
         String rememberMeToken = null;
         if (request.rememberMe()) {
             // 기존 Remember Me 토큰 삭제
-            rememberMeRepository.findByUserId(userDetails.getUserId())
+            rememberMeRepository.findByUserPk(userDetails.getId())
                     .ifPresent(rememberMeRepository::delete);
 
             // 새 Remember Me 토큰 생성
