@@ -23,7 +23,7 @@ public class ChangePasswordService {
     private final PasswordResetTokenRepository passwordResetTokenRepository;
 
     @Transactional
-    public void execute(String email, String userId, ChangePasswordRequest request){
+    public void execute(String email, Long id, ChangePasswordRequest request){
 
         PasswordResetToken resetToken = passwordResetTokenRepository.findById(request.resetToken())
                 .orElseThrow(() -> ResetTokenNotFoundException.EXCEPTION);
@@ -32,7 +32,7 @@ public class ChangePasswordService {
             throw ResetTokenNotFoundException.EXCEPTION; // 또는 UnauthorizedException
         }
 
-        User user = userRepository.findByUserId(userId)
+        User user = userRepository.findById(id)
                 .orElseThrow(() -> UserNotFoundException.EXCEPTION);
 
         user.changePassword(passwordEncoder.encode(request.newPassword()));

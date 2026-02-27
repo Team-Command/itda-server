@@ -19,6 +19,8 @@ public class UserSession {
     @Id
     private String sessionId; // UUID로 생성한 세션 ID
 
+    private Long userPk;
+
     @Indexed
     private String userId;
 
@@ -29,8 +31,9 @@ public class UserSession {
     @TimeToLive
     private int expiration; // TTL (초 단위) - 예: 1800 (30분)
 
-    public static UserSession create(String userId, String email, String role, int expiration) {
+    public static UserSession create(Long userPk, String userId, String email, String role, int expiration) {
         return UserSession.builder()
+                .userPk(userPk)
                 .sessionId(UUID.randomUUID().toString()) // 랜덤 세션 ID
                 .userId(userId)
                 .email(email)

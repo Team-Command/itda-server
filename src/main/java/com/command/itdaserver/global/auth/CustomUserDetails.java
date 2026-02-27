@@ -13,19 +13,22 @@ import java.util.Collections;
 @Getter
 public class CustomUserDetails implements UserDetails {
 
+    private final Long id;
     private final String userId;
     private final String email;
     private final String password;
     private final String role;
 
     public CustomUserDetails(User user) {
+        this.id = user.getId();
         this.userId = user.getUserId();
         this.email = user.getEmail();
         this.password = user.getPassword();
         this.role = user.getRole().name();
     }
 
-    public CustomUserDetails(String userId, String email, String role) {
+    public CustomUserDetails(Long id, String userId, String email, String role) {
+        this.id = id;
         this.userId = userId;
         this.email = email;
         this.password = null;

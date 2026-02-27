@@ -59,6 +59,7 @@ public class SessionAuthenticationFilter extends OncePerRequestFilter {
                     userRepository.findByUserId(token.getUserId()).ifPresent(user -> {
                         // 새 세션 발급
                         UserSession newSession = UserSession.create(
+                                user.getId(),
                                 user.getUserId(),
                                 user.getEmail(),
                                 user.getRole().name(),
@@ -90,6 +91,7 @@ public class SessionAuthenticationFilter extends OncePerRequestFilter {
 
     private void setAuthentication(UserSession session) {
         CustomUserDetails userDetails = new CustomUserDetails(
+                session.getUserPk(),
                 session.getUserId(),
                 session.getEmail(),
                 session.getRole()

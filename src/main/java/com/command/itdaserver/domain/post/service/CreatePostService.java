@@ -30,7 +30,7 @@ public class CreatePostService {
                 .title(request.title())
                 .description(request.description())
                 .applyDeadline(request.applyDeadline())
-                .writer(userRepository.findByUserId(customUserDetails.getUserId()).orElseThrow(UserNotFoundException::new))
+                .writer(userRepository.findById(customUserDetails.getId()).orElseThrow(UserNotFoundException::new))
                 .build();
 
         return new PostResponse(postRepository.save(post));

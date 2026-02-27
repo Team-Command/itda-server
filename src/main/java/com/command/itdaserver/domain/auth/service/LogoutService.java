@@ -14,7 +14,7 @@ public class LogoutService {
     private final RememberMeRepository rememberMeRepository;
 
     public void execute(CustomUserDetails customUserDetails) {
-        sessionRepository.findByUserId(customUserDetails.getUserId())
+        sessionRepository.findByUserPk(customUserDetails.getId())
                 .ifPresent(session -> {
                     sessionRepository.delete(session);
                     rememberMeRepository.deleteByUserId(customUserDetails.getUserId());
