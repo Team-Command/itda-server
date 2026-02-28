@@ -51,6 +51,7 @@ public class Post extends BaseIdEntity {
     private List<Major> majors = new ArrayList<>();
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OrderBy("questionNumber ASC")
     private List<Question> questions = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.LAZY)
