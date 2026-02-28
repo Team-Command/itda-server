@@ -33,6 +33,8 @@ public enum ErrorCode {
     DUPLICATE_ANSWER(409, "이미 해당 질문에 답변을 제출하셨습니다."),
     REQUIRED_ANSWER_MISSING(400, "필수 질문에 답변이 없습니다."),
     MULTIPLE_SELECTION_NOT_ALLOWED(400, "단일 선택만 가능한 질문입니다."),
+    UNAUTHORIZED_POST_ACCESS(403, "해당 게시글에 대한 권한이 없습니다."),
+    POST_CLOSED(400, "모집이 마감된 게시글입니다."),
 
     // general
     BAD_REQUEST(400, "잘못된 요청입니다."),

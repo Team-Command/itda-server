@@ -7,8 +7,10 @@ import com.command.itdaserver.domain.post.domain.enums.AnswerType;
 import com.command.itdaserver.domain.post.domain.repository.PostRepository;
 import com.command.itdaserver.domain.post.exceptions.MissingQuestionOptionException;
 import com.command.itdaserver.domain.post.exceptions.PostNotFoundException;
+import com.command.itdaserver.domain.post.exceptions.UnauthorizedPostAccessException;
 import com.command.itdaserver.domain.post.presentation.dto.request.CreateFormRequest;
 import com.command.itdaserver.domain.post.presentation.dto.response.QuestionResponse;
+import com.command.itdaserver.global.auth.CustomUserDetails;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,13 +25,18 @@ public class CreateApplyFormService {
     private final PostRepository postRepository;
 
     @Transactional
-    public List<QuestionResponse> execute(Long postId, CreateFormRequest request) {
+    public List<QuestionResponse> execute(Long postId, CreateFormRequest request, CustomUserDetails userDetails) {
 
         // 반환을 위해 저장할 Question 리스트
         List<QuestionResponse> questions = new ArrayList<>();
 
         Post post = postRepository.findById(postId)
                 .orElseThrow(PostNotFoundException::new);
+
+        // 작성자 권한 확인
+        if (!post.getWriter().getUserId().equals(userDetails.getUserId())) {
+            throw UnauthorizedPostAccessException.EXCEPTION;
+        }
 
         for (var qDto : request.getQuestions()) {
             Question question = Question.builder()

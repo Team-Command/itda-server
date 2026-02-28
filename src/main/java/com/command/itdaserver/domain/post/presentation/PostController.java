@@ -54,8 +54,10 @@ public class PostController {
     }
 
     @PostMapping("/{postId}/apply-form")
-    public List<QuestionResponse> createApplyForm(@PathVariable Long postId, @Valid @RequestBody CreateFormRequest request) {
-        return createApplyFormService.execute(postId, request);
+    public List<QuestionResponse> createApplyForm(@PathVariable Long postId,
+                                                  @AuthenticationPrincipal CustomUserDetails userDetails,
+                                                  @Valid @RequestBody CreateFormRequest request) {
+        return createApplyFormService.execute(postId, request, userDetails);
     }
 
     @PostMapping("/join/{postId}")
