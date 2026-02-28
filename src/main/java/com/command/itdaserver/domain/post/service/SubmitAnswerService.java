@@ -28,6 +28,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -52,6 +54,19 @@ public class SubmitAnswerService {
 
         User answerer = userRepository.findByUserId(userDetails.getUserId())
                 .orElseThrow(UserNotFoundException::new);
+
+        // 필수 질문이 answers 리스트에 포함됐는지 사전 검증
+        Set<Long> submittedQuestionIds = request.getAnswers().stream()
+                .map(SubmitAnswerRequest.AnswerDto::getQuestionId)
+                .collect(Collectors.toSet());
+
+        boolean hasRequiredMissing = post.getQuestions().stream()
+                .filter(Question::isRequired)
+                .anyMatch(q -> !submittedQuestionIds.contains(q.getId()));
+
+        if (hasRequiredMissing) {
+            throw RequiredAnswerMissingException.EXCEPTION;
+        }
 
         List<AnswerResponse> responses = new ArrayList<>();
 

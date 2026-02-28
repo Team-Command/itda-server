@@ -5,6 +5,7 @@ import com.command.itdaserver.domain.post.domain.Question;
 import com.command.itdaserver.domain.post.domain.QuestionOption;
 import com.command.itdaserver.domain.post.domain.enums.AnswerType;
 import com.command.itdaserver.domain.post.domain.repository.PostRepository;
+import com.command.itdaserver.domain.post.exceptions.ApplyFormAlreadyExistsException;
 import com.command.itdaserver.domain.post.exceptions.MissingQuestionOptionException;
 import com.command.itdaserver.domain.post.exceptions.PostNotFoundException;
 import com.command.itdaserver.domain.post.exceptions.UnauthorizedPostAccessException;
@@ -36,6 +37,11 @@ public class CreateApplyFormService {
         // 작성자 권한 확인
         if (!post.getWriter().getUserId().equals(userDetails.getUserId())) {
             throw UnauthorizedPostAccessException.EXCEPTION;
+        }
+
+        // 이미 지원 폼이 존재하는 경우
+        if (!post.getQuestions().isEmpty()) {
+            throw ApplyFormAlreadyExistsException.EXCEPTION;
         }
 
         for (var qDto : request.getQuestions()) {
