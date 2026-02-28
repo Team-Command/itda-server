@@ -12,6 +12,7 @@ import com.command.itdaserver.domain.post.domain.repository.QuestionRepository;
 import com.command.itdaserver.domain.post.exceptions.DuplicateAnswerException;
 import com.command.itdaserver.domain.post.exceptions.InvalidQuestionOptionException;
 import com.command.itdaserver.domain.post.exceptions.MultipleSelectionNotAllowedException;
+import com.command.itdaserver.domain.post.exceptions.PostClosedException;
 import com.command.itdaserver.domain.post.exceptions.RequiredAnswerMissingException;
 import com.command.itdaserver.domain.post.exceptions.PostNotFoundException;
 import com.command.itdaserver.domain.post.exceptions.QuestionNotFoundException;
@@ -43,6 +44,11 @@ public class SubmitAnswerService {
 
         Post post = postRepository.findById(postId)
                 .orElseThrow(PostNotFoundException::new);
+
+        // 마감된 게시글 지원 방지
+        if (post.isClosed()) {
+            throw PostClosedException.EXCEPTION;
+        }
 
         User answerer = userRepository.findByUserId(userDetails.getUserId())
                 .orElseThrow(UserNotFoundException::new);
