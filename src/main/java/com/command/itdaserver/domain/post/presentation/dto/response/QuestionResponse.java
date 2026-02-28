@@ -10,6 +10,7 @@ import java.util.List;
 
 @Data
 public class QuestionResponse {
+    private Long questionId;
     private Integer questionNumber;
     private String questionContent;
     private AnswerType answerType;
@@ -18,6 +19,7 @@ public class QuestionResponse {
     private List<OptionResponse> options = new ArrayList<>();
 
     public QuestionResponse(Question question) {
+        this.questionId = question.getId();
         this.questionNumber = question.getQuestionNumber();
         this.questionContent = question.getQuestionContent();
         this.answerType = question.getAnswerType();

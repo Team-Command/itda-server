@@ -1,7 +1,9 @@
 package com.command.itdaserver.domain.post.presentation.dto.request;
 
 import com.command.itdaserver.domain.post.domain.enums.AnswerType;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
@@ -10,6 +12,8 @@ import java.util.List;
 
 @Data
 public class CreateFormRequest {
+    @Valid
+    @NotEmpty(message = "질문은 최소 1개 이상이어야 합니다.")
     private List<QuestionDto> questions = new ArrayList<>();
 
     @Data
