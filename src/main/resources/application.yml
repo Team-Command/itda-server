@@ -8,6 +8,16 @@ spring:
     hibernate:
       ddl-auto: update
 
+  cloud:
+    aws:
+      credentials:
+        accessKey: ${AWS_ACCESS_KEY}
+        secretKey: ${AWS_SECRET_KEY}
+      s3:
+        bucket: ${AWS_S3_BUCKET}
+      region:
+        static: ap-northeast-2
+
 cors:
   allowed-origins:
     local: http://localhost:8080
@@ -21,16 +31,6 @@ redis:
 app:
   cookie:
     secure: false # 테스트 환경에선 false, 운영 환경에선 https를 사용함, 따라서 true로 바꾼뒤 운영해야함
-
-  cloud:
-    aws:
-      credentials:
-        accessKey: ${AWS_ACCESS_KEY}
-        secretKey: ${AWS_SECRET_KEY}
-      s3:
-        bucket: ${AWS_S3_BUCKET}
-      region:
-        static: ap-northeast-2
 
 session:
   expiration: 1800
