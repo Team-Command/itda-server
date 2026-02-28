@@ -15,6 +15,7 @@ import com.command.itdaserver.domain.post.service.SubmitAnswerService;
 import com.command.itdaserver.domain.post.service.GetPostsService;
 import com.command.itdaserver.domain.post.service.ToggleBookmarkService;
 import com.command.itdaserver.domain.post.service.ToggleLikeService;
+import com.command.itdaserver.domain.post.service.DeletePostService;
 import com.command.itdaserver.domain.post.service.UpdatePostService;
 import com.command.itdaserver.global.auth.CustomUserDetails;
 import jakarta.validation.Valid;
@@ -37,6 +38,7 @@ public class PostController {
     private final ToggleLikeService toggleLikeService;
     private final ToggleBookmarkService toggleBookmarkService;
     private final UpdatePostService updatePostService;
+    private final DeletePostService deletePostService;
 
     @GetMapping
     public List<PostSummaryResponse> getPosts(@RequestParam(defaultValue = "0") int page,
@@ -75,6 +77,12 @@ public class PostController {
                                    @AuthenticationPrincipal CustomUserDetails userDetails,
                                    @Valid @RequestBody UpdatePostRequest request) {
         return updatePostService.execute(postId, request, userDetails);
+    }
+
+    @DeleteMapping("/{postId}")
+    public void deletePost(@PathVariable Long postId,
+                           @AuthenticationPrincipal CustomUserDetails userDetails) {
+        deletePostService.execute(postId, userDetails);
     }
 
     @PostMapping("/{postId}/like")
