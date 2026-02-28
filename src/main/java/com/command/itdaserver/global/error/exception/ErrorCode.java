@@ -36,6 +36,7 @@ public enum ErrorCode {
     UNAUTHORIZED_POST_ACCESS(403, "해당 게시글에 대한 권한이 없습니다."),
     POST_CLOSED(400, "모집이 마감된 게시글입니다."),
     APPLY_FORM_ALREADY_EXISTS(409, "이미 지원 폼이 존재합니다."),
+    DUPLICATE_OPTION_SELECT(400, "중복된 선택지가 포함되어 있습니다."),
 
     // general
     BAD_REQUEST(400, "잘못된 요청입니다."),

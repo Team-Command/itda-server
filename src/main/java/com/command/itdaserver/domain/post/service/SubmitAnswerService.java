@@ -10,6 +10,7 @@ import com.command.itdaserver.domain.post.domain.repository.PostRepository;
 import com.command.itdaserver.domain.post.domain.repository.QuestionOptionRepository;
 import com.command.itdaserver.domain.post.domain.repository.QuestionRepository;
 import com.command.itdaserver.domain.post.exceptions.DuplicateAnswerException;
+import com.command.itdaserver.domain.post.exceptions.DuplicateOptionSelectException;
 import com.command.itdaserver.domain.post.exceptions.InvalidQuestionOptionException;
 import com.command.itdaserver.domain.post.exceptions.MultipleSelectionNotAllowedException;
 import com.command.itdaserver.domain.post.exceptions.PostClosedException;
@@ -90,14 +91,20 @@ public class SubmitAnswerService {
                     continue;
                 }
 
+                // 중복 optionId 검증
+                List<Long> selectedIds = dto.getSelectedOptionIds();
+                if (selectedIds.stream().distinct().count() != selectedIds.size()) {
+                    throw DuplicateOptionSelectException.EXCEPTION;
+                }
+
                 // 객관식인데 multiple이 false인데 여러 옵션 선택한 경우 예외
-                if (!question.isMultiple() && dto.getSelectedOptionIds().size() > 1) {
+                if (!question.isMultiple() && selectedIds.size() > 1) {
                     throw MultipleSelectionNotAllowedException.EXCEPTION;
                 }
 
                 List<AnswerResponse.SelectedOptionDto> selectedOptionDtos = new ArrayList<>();
 
-                for (Long optionId : dto.getSelectedOptionIds()) {
+                for (Long optionId : selectedIds) {
                     // option이 해당 question 소속인지 검증
                     QuestionOption option = questionOptionRepository.findByIdAndQuestion(optionId, question)
                             .orElseThrow(InvalidQuestionOptionException::new);
