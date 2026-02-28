@@ -3,6 +3,7 @@ package com.command.itdaserver.domain.post.presentation;
 import com.command.itdaserver.domain.post.presentation.dto.request.CreateFormRequest;
 import com.command.itdaserver.domain.post.presentation.dto.request.CreatePostRequest;
 import com.command.itdaserver.domain.post.presentation.dto.request.SubmitAnswerRequest;
+import com.command.itdaserver.domain.post.presentation.dto.request.UpdatePostRequest;
 import com.command.itdaserver.domain.post.presentation.dto.response.AnswerResponse;
 import com.command.itdaserver.domain.post.presentation.dto.response.PostResponse;
 import com.command.itdaserver.domain.post.presentation.dto.response.PostSummaryResponse;
@@ -14,6 +15,7 @@ import com.command.itdaserver.domain.post.service.SubmitAnswerService;
 import com.command.itdaserver.domain.post.service.GetPostsService;
 import com.command.itdaserver.domain.post.service.ToggleBookmarkService;
 import com.command.itdaserver.domain.post.service.ToggleLikeService;
+import com.command.itdaserver.domain.post.service.UpdatePostService;
 import com.command.itdaserver.global.auth.CustomUserDetails;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -34,6 +36,7 @@ public class PostController {
     private final SubmitAnswerService submitAnswerService;
     private final ToggleLikeService toggleLikeService;
     private final ToggleBookmarkService toggleBookmarkService;
+    private final UpdatePostService updatePostService;
 
     @GetMapping
     public List<PostSummaryResponse> getPosts(@RequestParam(defaultValue = "0") int page,
@@ -65,6 +68,13 @@ public class PostController {
                                               @AuthenticationPrincipal CustomUserDetails customUserDetails,
                                               @Valid @RequestBody SubmitAnswerRequest request) {
         return submitAnswerService.execute(postId, request, customUserDetails);
+    }
+
+    @PatchMapping("/{postId}")
+    public PostResponse updatePost(@PathVariable Long postId,
+                                   @AuthenticationPrincipal CustomUserDetails userDetails,
+                                   @Valid @RequestBody UpdatePostRequest request) {
+        return updatePostService.execute(postId, request, userDetails);
     }
 
     @PostMapping("/{postId}/like")

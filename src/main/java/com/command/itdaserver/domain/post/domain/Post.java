@@ -117,4 +117,13 @@ public class Post extends BaseIdEntity {
         return bookmarkedByUsers.contains(user);
     }
 
+    public void update(String title, String description, LocalDateTime applyDeadline, List<Major> majors, List<User> members, List<Hashtag> hashtags) {
+        this.title = title;
+        this.description = description;
+        this.applyDeadline = applyDeadline;
+        this.majors = majors != null ? majors : new ArrayList<>();
+        this.members = members != null ? members : new ArrayList<>();
+        this.hashtags = hashtags != null ? hashtags : new ArrayList<>();
+    }
+
 }
