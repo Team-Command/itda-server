@@ -1,10 +1,13 @@
 package com.command.itdaserver.domain.user.domain;
 
+import com.command.itdaserver.domain.auth.presentation.dto.request.SignUpRequest;
+import com.command.itdaserver.domain.profile.presentation.dto.request.UserProfileRequest;
 import com.command.itdaserver.domain.user.domain.enums.*;
 import com.command.itdaserver.global.entity.BaseIdEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.*;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 
 @Entity
@@ -16,6 +19,8 @@ import lombok.*;
 @Builder
 public class User extends BaseIdEntity {
 
+    private String imageUrl;
+
     @Column(name = "user_id", unique = true, nullable = false)
     private String userId; //유저아이디(로그인용)
 
@@ -24,6 +29,8 @@ public class User extends BaseIdEntity {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private AuthProvider provider;
+
+    private String userImage; // 추후 s3 도입 후 리펙터링 예정
 
     @Column(nullable = false)
     private String name;
@@ -49,4 +56,38 @@ public class User extends BaseIdEntity {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Role role;
+
+
+    public void changePassword(String encodedPassword) {
+        this.password = encodedPassword;
+    }
+
+    public static User of(SignUpRequest request, String password) {
+
+        User user = User.builder()
+                .userId(request.userId())
+                .name(request.name())
+                .password(password)
+                .email(request.email())
+                .major(request.major())
+                .customMajor(request.customMajor())
+                .school(request.school())
+                .grade(request.grade())
+                .provider(AuthProvider.LOCAL)
+                .role(Role.USER)
+                .build();
+
+        return user;
+    }
+
+    public void update(UserProfileRequest request) {
+        this.imageUrl = request.imageUrl();
+        this.userId = request.userId();
+        this.name = request.name();
+        this.email = request.email();
+        this.major = request.major();
+        this.customMajor = request.customMajor();
+        this.school = request.school();
+        this.grade = request.grade();
+    }
 }

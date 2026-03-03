@@ -8,5 +8,7 @@ import java.util.Optional;
 public interface RememberMeRepository extends CrudRepository<RememberMeToken, String> {
     Optional<RememberMeToken> findByUserId(String userId);
 
+    Optional<RememberMeToken> findByUserPk(Long userPk);
+    
     void deleteByUserId(String userId);
 }

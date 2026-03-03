@@ -8,19 +8,22 @@ import lombok.Getter;
 @AllArgsConstructor
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum ErrorCode {
+    // profile
+    USER_DISCLOSURE_NOT_FOUND(404, "해당 유저에 관한 공개유무를 조회할 수 없습니다."),
+
     //user
-    USER_NOT_FOUND(404, "해당 유저가 존재 하지 않습니다."),
-    USER_MISMATCH(401, "유저가 일치 하지 않습니다."),
-    PASSWORD_MISMATCH(401, "비밀번호가 일치 하지 않습니다."),
     INVALID_USER(401, "유효 하지 않은 사용자입니다."),
-    USER_EXIST(401, "유저가 이미 존재합니다."),
-    COMPANION_NOT_FOUND(404, "존재하지 않는 동행인 ID입니다."),
-    USER_ACCESS_DENIED(403, "해당 유저에 관한 권한이 없습니다."),
     INVALID_CUSTOM_MAJOR(400, "기타 전공 선택 시 전공명을 입력해야 합니다."),
+    USER_NOT_FOUND(404, "존재하지 않는 사용자입니다."),
 
     // auth - 새로 추가!
     DUPLICATE_USER_ID(409, "이미 존재하는 아이디입니다."),
     DUPLICATE_EMAIL(409, "이미 가입된 이메일입니다."),
+    USER_NOT_MATCHED(401, "아이디 또는 비밀번호를 확인해주세요."),
+    VERIFICATION_CODE_EXPIRED(404, "인증 코드가 만료되었습니다."),
+    VERIFICATION_CODE_NOT_MATCHED(400, "인증 코드가 일치하지 않습니다."),
+    RESET_TOKEN_NOT_FOUND(401, "유효하지 않은 비밀번호 재설정 토큰입니다."),
+    EMAIL_NOT_MATCHED(400, "요청의 이메일이 인증된 사용자의 이메일과 일치하지 않습니다."),
 
     // post
     INVALID_MAJOR(400, "존재하지 않는 전공입니다."),
