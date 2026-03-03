@@ -76,7 +76,7 @@ public class Post extends BaseIdEntity {
             joinColumns = @JoinColumn(name = "post_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     @BatchSize(size = 10)
-    private List<User> members = new ArrayList<>();
+    private Set<User> members = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "post_hashtags",
@@ -90,13 +90,13 @@ public class Post extends BaseIdEntity {
     private List<Comment> comments = new ArrayList<>();
 
     @Builder
-    public Post(String title, String description, LocalDateTime applyDeadline, User writer, List<Major> majors, List<User> members, List<Hashtag> hashtags) {
+    public Post(String title, String description, LocalDateTime applyDeadline, User writer, List<Major> majors, Set<User> members, List<Hashtag> hashtags) {
         this.title = title;
         this.description = description;
         this.applyDeadline = applyDeadline;
         this.writer = writer;
         this.majors = majors != null ? majors : new ArrayList<>();
-        this.members = members != null ? members : new ArrayList<>();
+        this.members = members != null ? members : new HashSet<>();
         this.hashtags = hashtags != null ? hashtags : new ArrayList<>();
     }
 
@@ -129,12 +129,12 @@ public class Post extends BaseIdEntity {
         return bookmarkedByUsers.contains(user);
     }
 
-    public void update(String title, String description, LocalDateTime applyDeadline, List<Major> majors, List<User> members, List<Hashtag> hashtags) {
+    public void update(String title, String description, LocalDateTime applyDeadline, List<Major> majors, Set<User> members, List<Hashtag> hashtags) {
         this.title = title;
         this.description = description;
         this.applyDeadline = applyDeadline;
         this.majors = majors != null ? majors : new ArrayList<>();
-        this.members = members != null ? members : new ArrayList<>();
+        this.members = members != null ? members : new HashSet<>();
         this.hashtags = hashtags != null ? hashtags : new ArrayList<>();
     }
 

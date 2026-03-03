@@ -20,6 +20,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -45,10 +47,10 @@ public class UpdatePostService {
             throw new InvalidDeadlineException();
         }
 
-        List<User> members = request.members() == null ? Collections.emptyList() :
+        Set<User> members = request.members() == null ? Collections.emptySet() :
                 request.members().stream()
                         .map(userId -> userRepository.findByUserId(userId).orElseThrow(UserNotFoundException::new))
-                        .toList();
+                        .collect(Collectors.toSet());
 
         List<Hashtag> hashtags = request.hashtags() == null ? Collections.emptyList() :
                 request.hashtags().stream()
