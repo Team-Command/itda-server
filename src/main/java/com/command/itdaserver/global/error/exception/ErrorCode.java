@@ -37,6 +37,7 @@ public enum ErrorCode {
     POST_CLOSED(400, "모집이 마감된 게시글입니다."),
     APPLY_FORM_ALREADY_EXISTS(409, "이미 지원 폼이 존재합니다."),
     DUPLICATE_OPTION_SELECT(400, "중복된 선택지가 포함되어 있습니다."),
+    SUBJECTIVE_QUESTION_HAS_OPTIONS(400, "주관식 질문에는 보기를 추가할 수 없습니다."),
 
     // comment
     COMMENT_NOT_FOUND(404, "해당 댓글이 존재하지 않습니다."),

@@ -8,6 +8,7 @@ import com.command.itdaserver.domain.post.domain.repository.PostRepository;
 import com.command.itdaserver.domain.post.exceptions.ApplyFormAlreadyExistsException;
 import com.command.itdaserver.domain.post.exceptions.MissingQuestionOptionException;
 import com.command.itdaserver.domain.post.exceptions.PostNotFoundException;
+import com.command.itdaserver.domain.post.exceptions.SubjectiveQuestionHasOptionsException;
 import com.command.itdaserver.domain.post.exceptions.UnauthorizedPostAccessException;
 import com.command.itdaserver.domain.post.presentation.dto.request.CreateFormRequest;
 import com.command.itdaserver.domain.post.presentation.dto.response.QuestionResponse;
@@ -62,6 +63,10 @@ public class CreateApplyFormService {
                             .answerContent(optDto.getAnswerContent())
                             .build();
                     question.addOptions(option); // Cascade 이기 때문에 DB 저장됨
+                }
+            } else { // 주관식인 경우 옵션이 있으면 예외
+                if (qDto.getOptions() != null && !qDto.getOptions().isEmpty()) {
+                    throw SubjectiveQuestionHasOptionsException.EXCEPTION;
                 }
             }
             post.addQuestion(question); // Cascade 이기 때문에 DB 저장됨
