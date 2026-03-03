@@ -25,6 +25,7 @@ public class PostResponse {
     private boolean isLikedByMe;
     private boolean isBookmarked;
     private List<QuestionResponse> questions = new ArrayList<>();
+    private List<CommentResponse> comments = new ArrayList<>();
 
     public PostResponse(Post post, boolean isLikedByMe, boolean isBookmarked) {
         this.postId = post.getId();
@@ -42,6 +43,10 @@ public class PostResponse {
         this.isBookmarked = isBookmarked;
         this.questions = post.getQuestions().stream()
                 .map(QuestionResponse::new)
+                .toList();
+        this.comments = post.getComments().stream()
+                .filter(c -> !c.isReply())
+                .map(CommentResponse::new)
                 .toList();
     }
 }

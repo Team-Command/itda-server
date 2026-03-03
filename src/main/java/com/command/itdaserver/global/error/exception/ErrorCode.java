@@ -38,6 +38,11 @@ public enum ErrorCode {
     APPLY_FORM_ALREADY_EXISTS(409, "이미 지원 폼이 존재합니다."),
     DUPLICATE_OPTION_SELECT(400, "중복된 선택지가 포함되어 있습니다."),
 
+    // comment
+    COMMENT_NOT_FOUND(404, "해당 댓글이 존재하지 않습니다."),
+    UNAUTHORIZED_COMMENT_ACCESS(403, "해당 댓글에 대한 권한이 없습니다."),
+    CANNOT_REPLY_TO_REPLY(400, "답글에는 답글을 달 수 없습니다."),
+
     // general
     BAD_REQUEST(400, "잘못된 요청입니다."),
     INTERNAL_SERVER_ERROR(500, "내부 서버 오류가 발생했습니다.");

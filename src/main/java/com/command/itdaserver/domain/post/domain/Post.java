@@ -85,6 +85,10 @@ public class Post extends BaseIdEntity {
     @BatchSize(size = 10)
     private List<Hashtag> hashtags = new ArrayList<>();
 
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    @BatchSize(size = 10)
+    private List<Comment> comments = new ArrayList<>();
+
     @Builder
     public Post(String title, String description, LocalDateTime applyDeadline, User writer, List<Major> majors, List<User> members, List<Hashtag> hashtags) {
         this.title = title;
