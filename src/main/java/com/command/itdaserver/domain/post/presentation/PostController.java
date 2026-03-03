@@ -65,7 +65,7 @@ public class PostController {
         return createApplyFormService.execute(postId, request, userDetails);
     }
 
-    @PostMapping("/join/{postId}")
+    @PostMapping("/{postId}/answer")
     public List<AnswerResponse> submitAnswers(@PathVariable Long postId,
                                               @AuthenticationPrincipal CustomUserDetails customUserDetails,
                                               @Valid @RequestBody SubmitAnswerRequest request) {
