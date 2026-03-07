@@ -1,5 +1,6 @@
 package com.command.itdaserver.domain.post.service;
 
+import com.command.itdaserver.domain.post.domain.Comment;
 import com.command.itdaserver.domain.post.domain.Post;
 import com.command.itdaserver.domain.post.domain.repository.CommentRepository;
 import com.command.itdaserver.domain.post.domain.repository.PostRepository;
@@ -21,7 +22,7 @@ public class DeleteCommentService {
     @Transactional
     public void execute(Long postId, Long commentId, CustomUserDetails userDetails) {
         Post post = postRepository.findById(postId).orElseThrow(() -> PostNotFoundException.EXCEPTION);
-        var comment = commentRepository.findByIdAndPost(commentId, post).orElseThrow(() -> CommentNotFoundException.EXCEPTION);
+        Comment comment = commentRepository.findByIdAndPost(commentId, post).orElseThrow(() -> CommentNotFoundException.EXCEPTION);
 
         if (!comment.getWriter().getUserId().equals(userDetails.getUserId())) {
             throw UnauthorizedCommentAccessException.EXCEPTION;
