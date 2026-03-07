@@ -28,12 +28,7 @@ public class CreateCommentService {
         Post post = postRepository.findById(postId).orElseThrow(() -> PostNotFoundException.EXCEPTION);
         User writer = userRepository.findByUserId(userDetails.getUserId()).orElseThrow(() -> UserNotFoundException.EXCEPTION);
 
-        Comment comment = commentRepository.save(Comment.builder()
-                .post(post)
-                .writer(writer)
-                .content(request.content())
-                .parent(null)
-                .build());
+        Comment comment = commentRepository.save(Comment.createParent(post, writer, request.content()));
 
         return new CommentResponse(comment);
     }

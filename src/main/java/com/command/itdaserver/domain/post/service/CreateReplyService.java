@@ -36,12 +36,7 @@ public class CreateReplyService {
 
         User writer = userRepository.findByUserId(userDetails.getUserId()).orElseThrow(() -> UserNotFoundException.EXCEPTION);
 
-        Comment reply = commentRepository.save(Comment.builder()
-                .post(post)
-                .writer(writer)
-                .content(request.content())
-                .parent(parent)
-                .build());
+        Comment reply = commentRepository.save(Comment.createChild(post, writer, request.content(), parent));
 
         return new CommentResponse(reply);
     }

@@ -51,6 +51,24 @@ public class Comment extends BaseIdEntity {
         this.parent = parent;
     }
 
+    public static Comment createParent(Post post, User writer, String content) {
+        return Comment.builder()
+                .post(post)
+                .writer(writer)
+                .content(content)
+                .parent(null)
+                .build();
+    }
+
+    public static Comment createChild(Post post, User writer, String content, Comment parent) {
+        return Comment.builder()
+                .post(post)
+                .writer(writer)
+                .content(content)
+                .parent(parent)
+                .build();
+    }
+
     public boolean isReply() {
         return parent != null;
     }
