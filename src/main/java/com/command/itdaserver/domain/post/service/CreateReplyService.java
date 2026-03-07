@@ -30,10 +30,6 @@ public class CreateReplyService {
         Post post = postRepository.findById(postId).orElseThrow(() -> PostNotFoundException.EXCEPTION);
         Comment parent = commentRepository.findByIdAndPost(commentId, post).orElseThrow(() -> CommentNotFoundException.EXCEPTION);
 
-        if (parent.isReply()) {
-            throw CannotReplyToReplyException.EXCEPTION;
-        }
-
         User writer = userRepository.findByUserId(userDetails.getUserId()).orElseThrow(() -> UserNotFoundException.EXCEPTION);
 
         Comment reply = commentRepository.save(Comment.createChild(post, writer, request.content(), parent));

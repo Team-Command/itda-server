@@ -1,5 +1,6 @@
 package com.command.itdaserver.domain.post.domain;
 
+import com.command.itdaserver.domain.post.exceptions.CannotReplyToReplyException;
 import com.command.itdaserver.domain.user.domain.User;
 import com.command.itdaserver.global.entity.BaseIdEntity;
 import jakarta.persistence.*;
@@ -61,6 +62,10 @@ public class Comment extends BaseIdEntity {
     }
 
     public static Comment createChild(Post post, User writer, String content, Comment parent) {
+        if (parent.isReply()){
+            throw CannotReplyToReplyException.EXCEPTION;
+        }
+
         return Comment.builder()
                 .post(post)
                 .writer(writer)
