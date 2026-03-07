@@ -21,14 +21,14 @@ public class GetPostService {
 
     @Transactional(readOnly = true)
     public PostResponse getPost(Long id, CustomUserDetails userDetails) {
-        Post post = postRepository.findById(id).orElseThrow(PostNotFoundException::new);
+        Post post = postRepository.findById(id).orElseThrow(() -> PostNotFoundException.EXCEPTION);
 
         boolean isLikedByMe = false;
         boolean isBookmarked = false;
 
         if (userDetails != null) {
             User user = userRepository.findByUserId(userDetails.getUserId())
-                    .orElseThrow(UserNotFoundException::new);
+                    .orElseThrow(() -> UserNotFoundException.EXCEPTION);
             isLikedByMe = post.isLikedBy(user);
             isBookmarked = post.isBookmarkedBy(user);
         }

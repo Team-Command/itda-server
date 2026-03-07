@@ -20,7 +20,7 @@ public class DeletePostService {
     public void execute(Long postId, CustomUserDetails userDetails) {
 
         var post = postRepository.findById(postId)
-                .orElseThrow(PostNotFoundException::new);
+                .orElseThrow(() -> PostNotFoundException.EXCEPTION);
 
         // 작성자 권한 확인
         if (!post.getWriter().getUserId().equals(userDetails.getUserId())) {

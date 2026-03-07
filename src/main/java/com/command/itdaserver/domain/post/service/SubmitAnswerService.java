@@ -46,7 +46,7 @@ public class SubmitAnswerService {
     public List<AnswerResponse> execute(Long postId, SubmitAnswerRequest request, CustomUserDetails userDetails) {
 
         Post post = postRepository.findById(postId)
-                .orElseThrow(PostNotFoundException::new);
+                .orElseThrow(() -> PostNotFoundException.EXCEPTION);
 
         // 마감된 게시글 지원 방지
         if (post.isClosed()) {
@@ -54,7 +54,7 @@ public class SubmitAnswerService {
         }
 
         User answerer = userRepository.findByUserId(userDetails.getUserId())
-                .orElseThrow(UserNotFoundException::new);
+                .orElseThrow(() -> UserNotFoundException.EXCEPTION);
 
         // 필수 질문이 answers 리스트에 포함됐는지 사전 검증
         Set<Long> submittedQuestionIds = request.getAnswers().stream()
@@ -75,7 +75,7 @@ public class SubmitAnswerService {
 
             // questionId가 해당 post 소속인지 검증
             Question question = questionRepository.findByIdAndPost(dto.getQuestionId(), post)
-                    .orElseThrow(QuestionNotFoundException::new);
+                    .orElseThrow(() -> QuestionNotFoundException.EXCEPTION);
 
             // 중복 제출 방지
             if (answerRepository.existsByAnswererAndQuestion(answerer, question)) {
@@ -107,7 +107,7 @@ public class SubmitAnswerService {
                 for (Long optionId : selectedIds) {
                     // option이 해당 question 소속인지 검증
                     QuestionOption option = questionOptionRepository.findByIdAndQuestion(optionId, question)
-                            .orElseThrow(InvalidQuestionOptionException::new);
+                            .orElseThrow(() -> InvalidQuestionOptionException.EXCEPTION);
 
                     answerRepository.save(Answer.builder()
                             .answerer(answerer)

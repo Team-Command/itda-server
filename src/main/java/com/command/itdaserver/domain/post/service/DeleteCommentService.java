@@ -20,8 +20,8 @@ public class DeleteCommentService {
 
     @Transactional
     public void execute(Long postId, Long commentId, CustomUserDetails userDetails) {
-        Post post = postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
-        var comment = commentRepository.findByIdAndPost(commentId, post).orElseThrow(CommentNotFoundException::new);
+        Post post = postRepository.findById(postId).orElseThrow(() -> PostNotFoundException.EXCEPTION);
+        var comment = commentRepository.findByIdAndPost(commentId, post).orElseThrow(() -> CommentNotFoundException.EXCEPTION);
 
         if (!comment.getWriter().getUserId().equals(userDetails.getUserId())) {
             throw UnauthorizedCommentAccessException.EXCEPTION;

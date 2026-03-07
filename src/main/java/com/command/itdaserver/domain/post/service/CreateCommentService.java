@@ -25,8 +25,8 @@ public class CreateCommentService {
 
     @Transactional
     public CommentResponse execute(Long postId, CreateCommentRequest request, CustomUserDetails userDetails) {
-        Post post = postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
-        User writer = userRepository.findByUserId(userDetails.getUserId()).orElseThrow(UserNotFoundException::new);
+        Post post = postRepository.findById(postId).orElseThrow(() -> PostNotFoundException.EXCEPTION);
+        User writer = userRepository.findByUserId(userDetails.getUserId()).orElseThrow(() -> UserNotFoundException.EXCEPTION);
 
         Comment comment = commentRepository.save(Comment.builder()
                 .post(post)

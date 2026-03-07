@@ -25,7 +25,7 @@ public class GetPostsService {
         User user = null;
         if (userDetails != null) {
             user = userRepository.findByUserId(userDetails.getUserId())
-                    .orElseThrow(UserNotFoundException::new);
+                    .orElseThrow(() -> UserNotFoundException.EXCEPTION);
         }
 
         final User finalUser = user;

@@ -20,9 +20,9 @@ public class ToggleLikeService {
 
     @Transactional
     public void execute(Long postId, CustomUserDetails userDetails) {
-        Post post = postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
+        Post post = postRepository.findById(postId).orElseThrow(() -> PostNotFoundException.EXCEPTION);
         User user = userRepository.findByUserId(userDetails.getUserId())
-                .orElseThrow(UserNotFoundException::new);
+                .orElseThrow(() -> UserNotFoundException.EXCEPTION);
         post.toggleLike(user);
     }
 }

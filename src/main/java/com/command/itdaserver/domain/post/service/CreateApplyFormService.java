@@ -33,7 +33,7 @@ public class CreateApplyFormService {
         List<QuestionResponse> questions = new ArrayList<>();
 
         Post post = postRepository.findById(postId)
-                .orElseThrow(PostNotFoundException::new);
+                .orElseThrow(() -> PostNotFoundException.EXCEPTION);
 
         // 작성자 권한 확인
         if (!post.getWriter().getUserId().equals(userDetails.getUserId())) {

@@ -35,7 +35,7 @@ public class UpdatePostService {
     public PostResponse execute(Long postId, UpdatePostRequest request, CustomUserDetails userDetails) {
 
         Post post = postRepository.findById(postId)
-                .orElseThrow(PostNotFoundException::new);
+                .orElseThrow(() -> PostNotFoundException.EXCEPTION);
 
         // 작성자 권한 확인
         if (!post.getWriter().getUserId().equals(userDetails.getUserId())) {
@@ -49,7 +49,7 @@ public class UpdatePostService {
 
         Set<User> members = request.members() == null ? Collections.emptySet() :
                 request.members().stream()
-                        .map(userId -> userRepository.findByUserId(userId).orElseThrow(UserNotFoundException::new))
+                        .map(userId -> userRepository.findByUserId(userId).orElseThrow(() -> UserNotFoundException.EXCEPTION))
                         .collect(Collectors.toSet());
 
         List<Hashtag> hashtags = request.hashtags() == null ? Collections.emptyList() :
@@ -59,7 +59,7 @@ public class UpdatePostService {
                         .toList();
 
         User requester = userRepository.findByUserId(userDetails.getUserId())
-                .orElseThrow(UserNotFoundException::new);
+                .orElseThrow(() -> UserNotFoundException.EXCEPTION);
 
         post.update(request.title(), request.description(), request.applyDeadline(), request.majors(), members, hashtags);
 

@@ -37,7 +37,7 @@ public class CreatePostService {
 
         Set<User> members = request.members() == null ? Collections.emptySet() :
                 request.members().stream()
-                        .map(userId -> userRepository.findByUserId(userId).orElseThrow(UserNotFoundException::new))
+                        .map(userId -> userRepository.findByUserId(userId).orElseThrow(() -> UserNotFoundException.EXCEPTION))
                         .collect(Collectors.toSet());
 
         List<Hashtag> hashtags = request.hashtags() == null ? Collections.emptyList() :
@@ -50,7 +50,7 @@ public class CreatePostService {
                 .title(request.title())
                 .description(request.description())
                 .applyDeadline(request.applyDeadline())
-                .writer(userRepository.findByUserId(customUserDetails.getUserId()).orElseThrow(UserNotFoundException::new))
+                .writer(userRepository.findByUserId(customUserDetails.getUserId()).orElseThrow(() -> UserNotFoundException.EXCEPTION))
                 .majors(request.majors())
                 .members(members)
                 .hashtags(hashtags)

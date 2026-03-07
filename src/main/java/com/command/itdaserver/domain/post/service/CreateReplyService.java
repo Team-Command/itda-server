@@ -27,14 +27,14 @@ public class CreateReplyService {
 
     @Transactional
     public CommentResponse execute(Long postId, Long commentId, CreateCommentRequest request, CustomUserDetails userDetails) {
-        Post post = postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
-        Comment parent = commentRepository.findByIdAndPost(commentId, post).orElseThrow(CommentNotFoundException::new);
+        Post post = postRepository.findById(postId).orElseThrow(() -> PostNotFoundException.EXCEPTION);
+        Comment parent = commentRepository.findByIdAndPost(commentId, post).orElseThrow(() -> CommentNotFoundException.EXCEPTION);
 
         if (parent.isReply()) {
             throw CannotReplyToReplyException.EXCEPTION;
         }
 
-        User writer = userRepository.findByUserId(userDetails.getUserId()).orElseThrow(UserNotFoundException::new);
+        User writer = userRepository.findByUserId(userDetails.getUserId()).orElseThrow(() -> UserNotFoundException.EXCEPTION);
 
         Comment reply = commentRepository.save(Comment.builder()
                 .post(post)
