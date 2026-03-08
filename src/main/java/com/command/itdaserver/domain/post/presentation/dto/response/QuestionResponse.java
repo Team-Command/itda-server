@@ -1,8 +1,8 @@
 package com.command.itdaserver.domain.post.presentation.dto.response;
 
 import com.command.itdaserver.domain.post.domain.Question;
-import com.command.itdaserver.domain.post.domain.QuestionOption;
 import com.command.itdaserver.domain.post.domain.enums.AnswerType;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -10,19 +10,30 @@ import java.util.List;
 
 @Data
 public class QuestionResponse {
+    private Long questionId;
     private Integer questionNumber;
     private String questionContent;
     private AnswerType answerType;
     private boolean multiple;
     private boolean required;
-    private List<QuestionOption> options = new ArrayList<>();
+    private List<OptionResponse> options = new ArrayList<>();
 
     public QuestionResponse(Question question) {
+        this.questionId = question.getId();
         this.questionNumber = question.getQuestionNumber();
         this.questionContent = question.getQuestionContent();
         this.answerType = question.getAnswerType();
         this.multiple = question.isMultiple();
         this.required = question.isRequired();
-        this.options = question.getOptions();
+        this.options = question.getOptions().stream()
+                .map(o -> new OptionResponse(o.getAnswerNumber(), o.getAnswerContent()))
+                .toList();
+    }
+
+    @Data
+    @AllArgsConstructor
+    public static class OptionResponse {
+        private Integer answerNumber;
+        private String answerContent;
     }
 }

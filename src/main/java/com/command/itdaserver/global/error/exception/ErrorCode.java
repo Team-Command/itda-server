@@ -26,6 +26,7 @@ public enum ErrorCode {
     EMAIL_NOT_MATCHED(400, "요청의 이메일이 인증된 사용자의 이메일과 일치하지 않습니다."),
 
     // post
+    INVALID_MAJOR(400, "존재하지 않는 전공입니다."),
     INVALID_DEADLINE(400, "마감 기간이 현재 기간보다 이전입니다."),
     POST_NOT_FOUND(404, "해당 게시글이 존재하지 않습니다."),
     MISSING_QUESTION_OPTION(400, "객관식 질문에 보기가 없습니다."),
@@ -35,6 +36,16 @@ public enum ErrorCode {
     DUPLICATE_ANSWER(409, "이미 해당 질문에 답변을 제출하셨습니다."),
     REQUIRED_ANSWER_MISSING(400, "필수 질문에 답변이 없습니다."),
     MULTIPLE_SELECTION_NOT_ALLOWED(400, "단일 선택만 가능한 질문입니다."),
+    UNAUTHORIZED_POST_ACCESS(403, "해당 게시글에 대한 권한이 없습니다."),
+    POST_CLOSED(400, "모집이 마감된 게시글입니다."),
+    APPLY_FORM_ALREADY_EXISTS(409, "이미 지원 폼이 존재합니다."),
+    DUPLICATE_OPTION_SELECT(400, "중복된 선택지가 포함되어 있습니다."),
+    SUBJECTIVE_QUESTION_HAS_OPTIONS(400, "주관식 질문에는 보기를 추가할 수 없습니다."),
+
+    // comment
+    COMMENT_NOT_FOUND(404, "해당 댓글이 존재하지 않습니다."),
+    UNAUTHORIZED_COMMENT_ACCESS(403, "해당 댓글에 대한 권한이 없습니다."),
+    CANNOT_REPLY_TO_REPLY(400, "답글에는 답글을 달 수 없습니다."),
 
     // general
     BAD_REQUEST(400, "잘못된 요청입니다."),

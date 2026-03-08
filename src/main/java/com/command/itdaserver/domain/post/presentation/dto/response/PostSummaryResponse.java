@@ -5,11 +5,10 @@ import com.command.itdaserver.domain.user.domain.enums.Major;
 import lombok.Data;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Data
-public class PostResponse {
+public class PostSummaryResponse {
 
     private Long postId;
     private String writer;
@@ -24,10 +23,8 @@ public class PostResponse {
     private long likeCount;
     private boolean isLikedByMe;
     private boolean isBookmarked;
-    private List<QuestionResponse> questions = new ArrayList<>();
-    private List<CommentResponse> comments = new ArrayList<>();
 
-    public PostResponse(Post post, boolean isLikedByMe, boolean isBookmarked) {
+    public PostSummaryResponse(Post post, boolean isLikedByMe, boolean isBookmarked) {
         this.postId = post.getId();
         this.writer = post.getWriter().getUserId();
         this.title = post.getTitle();
@@ -41,12 +38,5 @@ public class PostResponse {
         this.likeCount = post.getLikeCount();
         this.isLikedByMe = isLikedByMe;
         this.isBookmarked = isBookmarked;
-        this.questions = post.getQuestions().stream()
-                .map(QuestionResponse::new)
-                .toList();
-        this.comments = post.getComments().stream()
-                .filter(c -> !c.isReply())
-                .map(CommentResponse::new)
-                .toList();
     }
 }

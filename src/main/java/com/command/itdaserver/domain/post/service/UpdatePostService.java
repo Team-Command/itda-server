@@ -5,7 +5,9 @@ import com.command.itdaserver.domain.post.domain.Post;
 import com.command.itdaserver.domain.post.domain.repository.HashtagRepository;
 import com.command.itdaserver.domain.post.domain.repository.PostRepository;
 import com.command.itdaserver.domain.post.exceptions.InvalidDeadlineException;
-import com.command.itdaserver.domain.post.presentation.dto.request.CreatePostRequest;
+import com.command.itdaserver.domain.post.exceptions.PostNotFoundException;
+import com.command.itdaserver.domain.post.exceptions.UnauthorizedPostAccessException;
+import com.command.itdaserver.domain.post.presentation.dto.request.UpdatePostRequest;
 import com.command.itdaserver.domain.post.presentation.dto.response.PostResponse;
 import com.command.itdaserver.domain.user.domain.User;
 import com.command.itdaserver.domain.user.domain.repository.UserRepository;
@@ -23,14 +25,24 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class CreatePostService {
+public class UpdatePostService {
 
     private final PostRepository postRepository;
     private final UserRepository userRepository;
     private final HashtagRepository hashtagRepository;
 
     @Transactional
-    public PostResponse execute(CreatePostRequest request, CustomUserDetails customUserDetails) {
+    public PostResponse execute(Long postId, UpdatePostRequest request, CustomUserDetails userDetails) {
+
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> PostNotFoundException.EXCEPTION);
+
+        // 작성자 권한 확인
+        if (!post.getWriter().getUserId().equals(userDetails.getUserId())) {
+            throw UnauthorizedPostAccessException.EXCEPTION;
+        }
+
+        // 마감일 유효성 검증
         if (request.applyDeadline().isBefore(LocalDateTime.now())) {
             throw new InvalidDeadlineException();
         }
@@ -46,16 +58,11 @@ public class CreatePostService {
                                 .orElseGet(() -> hashtagRepository.save(new Hashtag(name))))
                         .toList();
 
-        Post post = Post.builder()
-                .title(request.title())
-                .description(request.description())
-                .applyDeadline(request.applyDeadline())
-                .writer(userRepository.findByUserId(customUserDetails.getUserId()).orElseThrow(() -> UserNotFoundException.EXCEPTION))
-                .majors(request.majors())
-                .members(members)
-                .hashtags(hashtags)
-                .build();
+        User requester = userRepository.findByUserId(userDetails.getUserId())
+                .orElseThrow(() -> UserNotFoundException.EXCEPTION);
 
-        return new PostResponse(postRepository.save(post), false, false);
+        post.update(request.title(), request.description(), request.applyDeadline(), request.majors(), members, hashtags);
+
+        return new PostResponse(post, post.isLikedBy(requester), post.isBookmarkedBy(requester));
     }
 }

@@ -1,0 +1,35 @@
+package com.command.itdaserver.domain.post.service;
+
+import com.command.itdaserver.domain.post.domain.repository.AnswerRepository;
+import com.command.itdaserver.domain.post.domain.repository.PostRepository;
+import com.command.itdaserver.domain.post.exceptions.PostNotFoundException;
+import com.command.itdaserver.domain.post.exceptions.UnauthorizedPostAccessException;
+import com.command.itdaserver.global.auth.CustomUserDetails;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+@Service
+@RequiredArgsConstructor
+public class DeletePostService {
+
+    private final PostRepository postRepository;
+    private final AnswerRepository answerRepository;
+
+    @Transactional
+    public void execute(Long postId, CustomUserDetails userDetails) {
+
+        var post = postRepository.findById(postId)
+                .orElseThrow(() -> PostNotFoundException.EXCEPTION);
+
+        // 작성자 권한 확인
+        if (!post.getWriter().getUserId().equals(userDetails.getUserId())) {
+            throw UnauthorizedPostAccessException.EXCEPTION;
+        }
+
+        // Answer가 Question을 참조하므로 먼저 삭제
+        answerRepository.deleteAllByQuestionIn(post.getQuestions());
+
+        postRepository.delete(post);
+    }
+}

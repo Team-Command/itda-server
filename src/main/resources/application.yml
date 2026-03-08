@@ -19,6 +19,16 @@ spring:
           starttls:
             enable: true
 
+  cloud:
+    aws:
+      credentials:
+        accessKey: ${AWS_ACCESS_KEY}
+        secretKey: ${AWS_SECRET_KEY}
+      s3:
+        bucket: ${AWS_S3_BUCKET}
+      region:
+        static: ap-northeast-2
+
 cors:
   allowed-origins:
     local: http://localhost:8080
