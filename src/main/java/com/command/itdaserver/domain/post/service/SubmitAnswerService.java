@@ -1,22 +1,24 @@
 package com.command.itdaserver.domain.post.service;
 
 import com.command.itdaserver.domain.post.domain.Answer;
+import com.command.itdaserver.domain.post.domain.Application;
 import com.command.itdaserver.domain.post.domain.Post;
 import com.command.itdaserver.domain.post.domain.Question;
 import com.command.itdaserver.domain.post.domain.QuestionOption;
 import com.command.itdaserver.domain.post.domain.enums.AnswerType;
 import com.command.itdaserver.domain.post.domain.repository.AnswerRepository;
+import com.command.itdaserver.domain.post.domain.repository.ApplicationRepository;
 import com.command.itdaserver.domain.post.domain.repository.PostRepository;
 import com.command.itdaserver.domain.post.domain.repository.QuestionOptionRepository;
 import com.command.itdaserver.domain.post.domain.repository.QuestionRepository;
-import com.command.itdaserver.domain.post.exceptions.DuplicateAnswerException;
+import com.command.itdaserver.domain.post.exceptions.DuplicateApplicationException;
 import com.command.itdaserver.domain.post.exceptions.DuplicateOptionSelectException;
 import com.command.itdaserver.domain.post.exceptions.InvalidQuestionOptionException;
 import com.command.itdaserver.domain.post.exceptions.MultipleSelectionNotAllowedException;
 import com.command.itdaserver.domain.post.exceptions.PostClosedException;
-import com.command.itdaserver.domain.post.exceptions.RequiredAnswerMissingException;
 import com.command.itdaserver.domain.post.exceptions.PostNotFoundException;
 import com.command.itdaserver.domain.post.exceptions.QuestionNotFoundException;
+import com.command.itdaserver.domain.post.exceptions.RequiredAnswerMissingException;
 import com.command.itdaserver.domain.post.presentation.dto.request.SubmitAnswerRequest;
 import com.command.itdaserver.domain.post.presentation.dto.response.AnswerResponse;
 import com.command.itdaserver.domain.user.domain.User;
@@ -40,6 +42,7 @@ public class SubmitAnswerService {
     private final QuestionRepository questionRepository;
     private final QuestionOptionRepository questionOptionRepository;
     private final AnswerRepository answerRepository;
+    private final ApplicationRepository applicationRepository;
     private final UserRepository userRepository;
 
     @Transactional
@@ -53,8 +56,13 @@ public class SubmitAnswerService {
             throw PostClosedException.EXCEPTION;
         }
 
-        User answerer = userRepository.findByUserId(userDetails.getUserId())
+        User applicant = userRepository.findByUserId(userDetails.getUserId())
                 .orElseThrow(() -> UserNotFoundException.EXCEPTION);
+
+        // 중복 지원 방지
+        if (applicationRepository.existsByPostAndApplicant(post, applicant)) {
+            throw DuplicateApplicationException.EXCEPTION;
+        }
 
         // 필수 질문이 answers 리스트에 포함됐는지 사전 검증
         Set<Long> submittedQuestionIds = request.getAnswers().stream()
@@ -69,6 +77,14 @@ public class SubmitAnswerService {
             throw RequiredAnswerMissingException.EXCEPTION;
         }
 
+        // Application 생성
+        Application application = applicationRepository.save(
+                Application.builder()
+                        .post(post)
+                        .applicant(applicant)
+                        .build()
+        );
+
         List<AnswerResponse> responses = new ArrayList<>();
 
         for (SubmitAnswerRequest.AnswerDto dto : request.getAnswers()) {
@@ -76,11 +92,6 @@ public class SubmitAnswerService {
             // questionId가 해당 post 소속인지 검증
             Question question = questionRepository.findByIdAndPost(dto.getQuestionId(), post)
                     .orElseThrow(() -> QuestionNotFoundException.EXCEPTION);
-
-            // 중복 제출 방지
-            if (answerRepository.existsByAnswererAndQuestion(answerer, question)) {
-                throw DuplicateAnswerException.EXCEPTION;
-            }
 
             if (question.getAnswerType() == AnswerType.OBJECTIVE) {
 
@@ -110,7 +121,7 @@ public class SubmitAnswerService {
                             .orElseThrow(() -> InvalidQuestionOptionException.EXCEPTION);
 
                     answerRepository.save(Answer.builder()
-                            .answerer(answerer)
+                            .application(application)
                             .question(question)
                             .selectedOption(option)
                             .build());
@@ -132,7 +143,7 @@ public class SubmitAnswerService {
                 }
 
                 answerRepository.save(Answer.builder()
-                        .answerer(answerer)
+                        .application(application)
                         .question(question)
                         .textAnswer(dto.getTextAnswer())
                         .build());
