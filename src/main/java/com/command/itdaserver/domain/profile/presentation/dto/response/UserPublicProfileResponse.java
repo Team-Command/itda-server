@@ -23,10 +23,10 @@ public record UserPublicProfileResponse(
                 user.getUserId(),
                 disclosure.isNamePublic() ? user.getName() : null,
                 disclosure.isEmailPublic() ? user.getEmail() : null,
-                disclosure.isMajorPublic() ? user.getMajor() : null,
-                disclosure.isCustomMajorPublic() ? user.getCustomMajor() : null,
+                user.getMajor(),
+                user.getCustomMajor(),
                 disclosure.isGradePublic() ? user.getGrade() : null,
-                disclosure.isSchoolPublic() ? user.getSchool() : null
+                user.getSchool()
         );
     }
 }

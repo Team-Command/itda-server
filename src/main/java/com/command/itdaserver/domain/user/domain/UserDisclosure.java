@@ -24,23 +24,11 @@ public class UserDisclosure extends BaseIdEntity {
     private boolean isEmailPublic;
 
     @Column(nullable = false)
-    private boolean isMajorPublic;
-
-    @Column(nullable = false)
-    private boolean isCustomMajorPublic;
-
-    @Column(nullable = false)
-    private boolean isSchoolPublic;
-
-    @Column(nullable = false)
     private boolean isGradePublic;
 
     public void update(UserPublicProfileRequest request) {
         this.isNamePublic = request.isNamePublic();
         this.isEmailPublic = request.isEmailPublic();
-        this.isMajorPublic = request.isMajorPublic();
-        this.isCustomMajorPublic = request.isCustomMajorPublic();
-        this.isSchoolPublic = request.isSchoolPublic();
         this.isGradePublic = request.isGradePublic();
     }
 
@@ -49,9 +37,6 @@ public class UserDisclosure extends BaseIdEntity {
                 .user(user)
                 .isNamePublic(true)
                 .isEmailPublic(true)
-                .isMajorPublic(true)
-                .isCustomMajorPublic(true)
-                .isSchoolPublic(true)
                 .isGradePublic(true)
                 .build();
     }

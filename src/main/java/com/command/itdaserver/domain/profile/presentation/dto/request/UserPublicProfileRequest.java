@@ -10,16 +10,8 @@ public record UserPublicProfileRequest(
         @JsonProperty("email_view")
         boolean isEmailPublic,
 
-        @JsonProperty("major_view")
-        boolean isMajorPublic,
-
-        @JsonProperty("custom_major_view")
-        boolean isCustomMajorPublic,
-
         @JsonProperty("grade_view")
-        boolean isGradePublic,
+        boolean isGradePublic
 
-        @JsonProperty("school_view")
-        boolean isSchoolPublic
 ) {
 }
