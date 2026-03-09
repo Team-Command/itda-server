@@ -24,7 +24,7 @@ public record ApplicationDetailResponse(
                 .collect(Collectors.groupingBy(a -> a.getQuestion().getId()));
 
         List<AnswerDetailDto> answerDtos = answersByQuestionId.entrySet().stream()
-                .sorted(Map.Entry.comparingByKey())
+                .sorted(java.util.Comparator.comparing(entry -> entry.getValue().get(0).getQuestion().getQuestionNumber()))
                 .map(entry -> {
                     List<Answer> answers = entry.getValue();
                     Question question = answers.get(0).getQuestion();
