@@ -34,7 +34,7 @@ public class Application extends BaseIdEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
-    private ApplicationStatus status = ApplicationStatus.PENDING;
+    private ApplicationStatus status;
 
     @CreationTimestamp
     @Column(name = "applied_at", nullable = false, updatable = false)
