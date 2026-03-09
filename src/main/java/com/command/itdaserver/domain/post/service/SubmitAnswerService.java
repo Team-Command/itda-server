@@ -78,12 +78,7 @@ public class SubmitAnswerService {
         }
 
         // Application 생성
-        Application application = applicationRepository.save(
-                Application.builder()
-                        .post(post)
-                        .applicant(applicant)
-                        .build()
-        );
+        Application application = applicationRepository.save(Application.create(post, applicant));
 
         List<AnswerResponse> responses = new ArrayList<>();
 

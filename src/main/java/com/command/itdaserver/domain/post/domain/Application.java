@@ -5,7 +5,6 @@ import com.command.itdaserver.domain.user.domain.User;
 import com.command.itdaserver.global.entity.BaseIdEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.BatchSize;
@@ -44,11 +43,12 @@ public class Application extends BaseIdEntity {
     @BatchSize(size = 10)
     private List<Answer> answers = new ArrayList<>();
 
-    @Builder
-    public Application(Post post, User applicant) {
-        this.post = post;
-        this.applicant = applicant;
-        this.status = ApplicationStatus.PENDING;
+    public static Application create(Post post, User applicant) {
+        Application application = new Application();
+        application.post = post;
+        application.applicant = applicant;
+        application.status = ApplicationStatus.PENDING;
+        return application;
     }
 
     public void updateStatus(ApplicationStatus status) {
