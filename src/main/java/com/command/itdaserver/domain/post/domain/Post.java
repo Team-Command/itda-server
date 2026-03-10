@@ -57,6 +57,9 @@ public class Post extends BaseIdEntity {
     @BatchSize(size = 10)
     private List<Question> questions = new ArrayList<>();
 
+    @OneToOne(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    private ApplyForm applyForm;
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "post_likes",
             joinColumns = @JoinColumn(name = "post_id"),
@@ -102,6 +105,10 @@ public class Post extends BaseIdEntity {
 
     public boolean isClosed() {
         return applyDeadline.isBefore(LocalDateTime.now());
+    }
+
+    public boolean hasApplyForm() {
+        return applyForm != null;
     }
 
     public void addQuestion(Question question) {
