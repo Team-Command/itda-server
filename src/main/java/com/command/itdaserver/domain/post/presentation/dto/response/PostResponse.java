@@ -24,7 +24,7 @@ public class PostResponse {
     private long likeCount;
     private boolean isLikedByMe;
     private boolean isBookmarked;
-    private List<QuestionResponse> questions = new ArrayList<>();
+    private boolean hasApplyForm;
     private List<CommentResponse> comments = new ArrayList<>();
 
     public PostResponse(Post post, boolean isLikedByMe, boolean isBookmarked) {
@@ -41,9 +41,7 @@ public class PostResponse {
         this.likeCount = post.getLikeCount();
         this.isLikedByMe = isLikedByMe;
         this.isBookmarked = isBookmarked;
-        this.questions = post.getQuestions().stream()
-                .map(QuestionResponse::new)
-                .toList();
+        this.hasApplyForm = post.hasApplyForm();
         this.comments = post.getComments().stream()
                 .filter(c -> !c.isReply())
                 .map(CommentResponse::new)
