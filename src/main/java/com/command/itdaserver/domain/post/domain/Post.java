@@ -52,11 +52,6 @@ public class Post extends BaseIdEntity {
     @BatchSize(size = 10)
     private List<Major> majors = new ArrayList<>();
 
-    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
-    @OrderBy("questionNumber ASC")
-    @BatchSize(size = 10)
-    private List<Question> questions = new ArrayList<>();
-
     @OneToOne(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     private ApplyForm applyForm;
 
@@ -109,11 +104,6 @@ public class Post extends BaseIdEntity {
 
     public boolean hasApplyForm() {
         return applyForm != null;
-    }
-
-    public void addQuestion(Question question) {
-        questions.add(question);
-        question.assignPost(this);
     }
 
     public void toggleLike(User user) {

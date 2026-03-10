@@ -20,11 +20,6 @@ import java.util.List;
 public class Question extends BaseIdEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "post_id")
-    @JsonIgnore
-    private Post post;
-
-    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "apply_form_id")
     @JsonIgnore
     private ApplyForm applyForm;
@@ -56,10 +51,6 @@ public class Question extends BaseIdEntity {
         this.answerType = answerType;
         this.multiple = multiple;
         this.required = required;
-    }
-
-    void assignPost(Post post) {
-        this.post = post;
     }
 
     void assignApplyForm(ApplyForm applyForm) {
