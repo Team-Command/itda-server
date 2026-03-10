@@ -42,6 +42,9 @@ public enum ErrorCode {
     DUPLICATE_OPTION_SELECT(400, "중복된 선택지가 포함되어 있습니다."),
     SUBJECTIVE_QUESTION_HAS_OPTIONS(400, "주관식 질문에는 보기를 추가할 수 없습니다."),
 
+    // apply form
+    APPLY_FORM_NOT_FOUND(404, "해당 신청서가 존재하지 않습니다."),
+
     // application
     APPLICATION_NOT_FOUND(404, "해당 지원서가 존재하지 않습니다."),
     DUPLICATE_APPLICATION(409, "이미 해당 게시글에 지원하셨습니다."),
