@@ -24,6 +24,11 @@ public class Question extends BaseIdEntity {
     @JsonIgnore
     private Post post;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "apply_form_id")
+    @JsonIgnore
+    private ApplyForm applyForm;
+
     @NotNull
     private Integer questionNumber;
 
@@ -55,6 +60,10 @@ public class Question extends BaseIdEntity {
 
     void assignPost(Post post) {
         this.post = post;
+    }
+
+    void assignApplyForm(ApplyForm applyForm) {
+        this.applyForm = applyForm;
     }
 
     public void addOptions(QuestionOption option) {

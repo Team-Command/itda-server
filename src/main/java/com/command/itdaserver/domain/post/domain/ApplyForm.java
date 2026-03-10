@@ -44,5 +44,6 @@ public class ApplyForm extends BaseIdEntity {
 
     public void addQuestion(Question question) {
         questions.add(question);
+        question.assignApplyForm(this);
     }
 }
