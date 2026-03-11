@@ -13,14 +13,11 @@ import com.command.itdaserver.domain.post.exceptions.PostNotFoundException;
 import com.command.itdaserver.domain.post.exceptions.SubjectiveQuestionHasOptionsException;
 import com.command.itdaserver.domain.post.exceptions.UnauthorizedPostAccessException;
 import com.command.itdaserver.domain.post.presentation.dto.request.CreateFormRequest;
-import com.command.itdaserver.domain.post.presentation.dto.response.QuestionResponse;
+import com.command.itdaserver.domain.post.presentation.dto.response.ApplyFormResponse;
 import com.command.itdaserver.global.auth.CustomUserDetails;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -30,9 +27,7 @@ public class CreateApplyFormService {
     private final ApplyFormRepository applyFormRepository;
 
     @Transactional
-    public List<QuestionResponse> execute(Long postId, CreateFormRequest request, CustomUserDetails userDetails) {
-
-        List<QuestionResponse> questions = new ArrayList<>();
+    public ApplyFormResponse execute(Long postId, CreateFormRequest request, CustomUserDetails userDetails) {
 
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> PostNotFoundException.EXCEPTION);
@@ -74,10 +69,9 @@ public class CreateApplyFormService {
                 }
             }
             applyForm.addQuestion(question);
-            questions.add(new QuestionResponse(question));
         }
 
         applyFormRepository.save(applyForm);
-        return questions;
+        return new ApplyFormResponse(applyForm);
     }
 }
