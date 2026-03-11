@@ -1,6 +1,7 @@
 package com.command.itdaserver.domain.post.service;
 
 import com.command.itdaserver.domain.post.domain.Answer;
+import com.command.itdaserver.domain.post.domain.ApplyForm;
 import com.command.itdaserver.domain.post.domain.Application;
 import com.command.itdaserver.domain.post.domain.Post;
 import com.command.itdaserver.domain.post.domain.Question;
@@ -11,6 +12,7 @@ import com.command.itdaserver.domain.post.domain.repository.ApplicationRepositor
 import com.command.itdaserver.domain.post.domain.repository.PostRepository;
 import com.command.itdaserver.domain.post.domain.repository.QuestionOptionRepository;
 import com.command.itdaserver.domain.post.domain.repository.QuestionRepository;
+import com.command.itdaserver.domain.post.exceptions.ApplyFormNotFoundException;
 import com.command.itdaserver.domain.post.exceptions.DuplicateApplicationException;
 import com.command.itdaserver.domain.post.exceptions.DuplicateOptionSelectException;
 import com.command.itdaserver.domain.post.exceptions.InvalidQuestionOptionException;
@@ -64,12 +66,18 @@ public class SubmitAnswerService {
             throw DuplicateApplicationException.EXCEPTION;
         }
 
+        // ApplyForm 존재 확인
+        ApplyForm applyForm = post.getApplyForm();
+        if (applyForm == null) {
+            throw ApplyFormNotFoundException.EXCEPTION;
+        }
+
         // 필수 질문이 answers 리스트에 포함됐는지 사전 검증
         Set<Long> submittedQuestionIds = request.getAnswers().stream()
                 .map(SubmitAnswerRequest.AnswerDto::getQuestionId)
                 .collect(Collectors.toSet());
 
-        boolean hasRequiredMissing = post.getQuestions().stream()
+        boolean hasRequiredMissing = applyForm.getQuestions().stream()
                 .filter(Question::isRequired)
                 .anyMatch(q -> !submittedQuestionIds.contains(q.getId()));
 
@@ -84,8 +92,8 @@ public class SubmitAnswerService {
 
         for (SubmitAnswerRequest.AnswerDto dto : request.getAnswers()) {
 
-            // questionId가 해당 post 소속인지 검증
-            Question question = questionRepository.findByIdAndPost(dto.getQuestionId(), post)
+            // questionId가 해당 applyForm 소속인지 검증
+            Question question = questionRepository.findByIdAndApplyForm(dto.getQuestionId(), applyForm)
                     .orElseThrow(() -> QuestionNotFoundException.EXCEPTION);
 
             if (question.getAnswerType() == AnswerType.OBJECTIVE) {

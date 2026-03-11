@@ -52,10 +52,8 @@ public class Post extends BaseIdEntity {
     @BatchSize(size = 10)
     private List<Major> majors = new ArrayList<>();
 
-    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
-    @OrderBy("questionNumber ASC")
-    @BatchSize(size = 10)
-    private List<Question> questions = new ArrayList<>();
+    @OneToOne(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    private ApplyForm applyForm;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "post_likes",
@@ -104,9 +102,8 @@ public class Post extends BaseIdEntity {
         return applyDeadline.isBefore(LocalDateTime.now());
     }
 
-    public void addQuestion(Question question) {
-        questions.add(question);
-        question.assignPost(this);
+    public boolean hasApplyForm() {
+        return applyForm != null;
     }
 
     public void toggleLike(User user) {

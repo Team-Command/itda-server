@@ -1,5 +1,6 @@
 package com.command.itdaserver.domain.post.service;
 
+import com.command.itdaserver.domain.post.domain.ApplyForm;
 import com.command.itdaserver.domain.post.domain.repository.AnswerRepository;
 import com.command.itdaserver.domain.post.domain.repository.PostRepository;
 import com.command.itdaserver.domain.post.exceptions.PostNotFoundException;
@@ -28,7 +29,10 @@ public class DeletePostService {
         }
 
         // Answer가 Question을 참조하므로 먼저 삭제
-        answerRepository.deleteAllByQuestionIn(post.getQuestions());
+        ApplyForm applyForm = post.getApplyForm();
+        if (applyForm != null) {
+            answerRepository.deleteAllByQuestionIn(applyForm.getQuestions());
+        }
 
         postRepository.delete(post);
     }

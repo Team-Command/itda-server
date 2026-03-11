@@ -12,6 +12,12 @@ import java.util.List;
 
 @Data
 public class CreateFormRequest {
+    @NotBlank(message = "신청서 제목은 필수입니다.")
+    private String title;
+
+    @NotBlank(message = "신청서 설명은 필수입니다.")
+    private String description;
+
     @Valid
     @NotEmpty(message = "질문은 최소 1개 이상이어야 합니다.")
     private List<QuestionDto> questions = new ArrayList<>();

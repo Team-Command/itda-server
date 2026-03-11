@@ -5,11 +5,12 @@ import com.command.itdaserver.domain.post.presentation.dto.request.CreatePostReq
 import com.command.itdaserver.domain.post.presentation.dto.request.SubmitAnswerRequest;
 import com.command.itdaserver.domain.post.presentation.dto.request.UpdatePostRequest;
 import com.command.itdaserver.domain.post.presentation.dto.response.AnswerResponse;
+import com.command.itdaserver.domain.post.presentation.dto.response.ApplyFormResponse;
 import com.command.itdaserver.domain.post.presentation.dto.response.PostResponse;
 import com.command.itdaserver.domain.post.presentation.dto.response.PostSummaryResponse;
-import com.command.itdaserver.domain.post.presentation.dto.response.QuestionResponse;
 import com.command.itdaserver.domain.post.service.CreateApplyFormService;
 import com.command.itdaserver.domain.post.service.CreatePostService;
+import com.command.itdaserver.domain.post.service.GetApplyFormService;
 import com.command.itdaserver.domain.post.service.GetPostService;
 import com.command.itdaserver.domain.post.service.SubmitAnswerService;
 import com.command.itdaserver.domain.post.service.GetPostsService;
@@ -34,6 +35,7 @@ public class PostController {
     private final GetPostsService getPostsService;
     private final CreatePostService createPostService;
     private final CreateApplyFormService createApplyFormService;
+    private final GetApplyFormService getApplyFormService;
     private final SubmitAnswerService submitAnswerService;
     private final ToggleLikeService toggleLikeService;
     private final ToggleBookmarkService toggleBookmarkService;
@@ -58,10 +60,15 @@ public class PostController {
         return createPostService.execute(request, customUserDetails);
     }
 
+    @GetMapping("/{postId}/apply-form")
+    public ApplyFormResponse getApplyForm(@PathVariable Long postId) {
+        return getApplyFormService.execute(postId);
+    }
+
     @PostMapping("/{postId}/apply-form")
-    public List<QuestionResponse> createApplyForm(@PathVariable Long postId,
-                                                  @AuthenticationPrincipal CustomUserDetails userDetails,
-                                                  @Valid @RequestBody CreateFormRequest request) {
+    public ApplyFormResponse createApplyForm(@PathVariable Long postId,
+                                             @AuthenticationPrincipal CustomUserDetails userDetails,
+                                             @Valid @RequestBody CreateFormRequest request) {
         return createApplyFormService.execute(postId, request, userDetails);
     }
 
