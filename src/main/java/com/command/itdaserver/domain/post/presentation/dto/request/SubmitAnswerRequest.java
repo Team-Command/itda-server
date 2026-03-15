@@ -21,7 +21,7 @@ public class SubmitAnswerRequest {
         @NotNull
         private Long questionId;
 
-        private List<Long> selectedOptionIds; // OBJECTIVE
+        private List<Integer> selectedOptionNumbers; // OBJECTIVE
 
         private String textAnswer; // SUBJECTIVE
     }

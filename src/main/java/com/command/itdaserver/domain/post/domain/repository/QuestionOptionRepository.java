@@ -8,4 +8,6 @@ import java.util.Optional;
 
 public interface QuestionOptionRepository extends JpaRepository<QuestionOption, Long> {
     Optional<QuestionOption> findByIdAndQuestion(Long id, Question question);
+
+    Optional<QuestionOption> findByAnswerNumberAndQuestion(Integer answerNumber, Question question);
 }
