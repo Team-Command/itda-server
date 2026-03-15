@@ -16,4 +16,6 @@ public interface ApplicationRepository extends JpaRepository<Application, Long> 
 
     Optional<Application> findByIdAndPost(Long id, Post post);
 
+    void deleteAllByPost(Post post);
+
 }
