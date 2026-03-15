@@ -36,8 +36,8 @@ public class DeletePostService {
             answerRepository.deleteAllByQuestionIn(applyForm.getQuestions());
         }
 
-        // Application이 post_id FK를 가지므로 Post 삭제 전에 먼저 삭제
-        applicationRepository.deleteAllByPost(post);
+        // Application이 post_id FK를 가지므로 Post 삭제 전에 먼저 삭제 (cascade 적용을 위해 영속성 컨텍스트 통해 삭제)
+        applicationRepository.deleteAll(applicationRepository.findAllByPost(post));
 
         postRepository.delete(post);
     }
