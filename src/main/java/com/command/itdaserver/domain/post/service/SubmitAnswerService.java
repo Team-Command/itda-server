@@ -98,29 +98,29 @@ public class SubmitAnswerService {
 
             if (question.getAnswerType() == AnswerType.OBJECTIVE) {
 
-                boolean noOptionSelected = dto.getSelectedOptionIds() == null || dto.getSelectedOptionIds().isEmpty();
+                boolean noOptionSelected = dto.getSelectedOptionNumbers() == null || dto.getSelectedOptionNumbers().isEmpty();
                 // 객관식인데 옵션을 하나도 선택하지 않은 경우
                 if (noOptionSelected) {
                     if (question.isRequired()) throw RequiredAnswerMissingException.EXCEPTION;
                     continue;
                 }
 
-                // 중복 optionId 검증
-                List<Long> selectedIds = dto.getSelectedOptionIds();
-                if (selectedIds.stream().distinct().count() != selectedIds.size()) {
+                // 중복 answerNumber 검증
+                List<Integer> selectedNumbers = dto.getSelectedOptionNumbers();
+                if (selectedNumbers.stream().distinct().count() != selectedNumbers.size()) {
                     throw DuplicateOptionSelectException.EXCEPTION;
                 }
 
                 // 객관식인데 multiple이 false인데 여러 옵션 선택한 경우 예외
-                if (!question.isMultiple() && selectedIds.size() > 1) {
+                if (!question.isMultiple() && selectedNumbers.size() > 1) {
                     throw MultipleSelectionNotAllowedException.EXCEPTION;
                 }
 
                 List<AnswerResponse.SelectedOptionDto> selectedOptionDtos = new ArrayList<>();
 
-                for (Long optionId : selectedIds) {
+                for (Integer answerNumber : selectedNumbers) {
                     // option이 해당 question 소속인지 검증
-                    QuestionOption option = questionOptionRepository.findByIdAndQuestion(optionId, question)
+                    QuestionOption option = questionOptionRepository.findByAnswerNumberAndQuestion(answerNumber, question)
                             .orElseThrow(() -> InvalidQuestionOptionException.EXCEPTION);
 
                     answerRepository.save(Answer.builder()
