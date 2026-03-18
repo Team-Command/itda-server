@@ -9,5 +9,5 @@ import org.springframework.stereotype.Service;
 public class CreateChatRoomService {
     private final ChatRoomRepository chatRoomRepository;
 
-    
+    public
 }
