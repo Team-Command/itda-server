@@ -1,5 +1,6 @@
 package com.command.itdaserver.domain.chat.domain;
 
+import com.command.itdaserver.global.entity.BaseIdEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -10,11 +11,7 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder
-public class ChatRoom {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+public class ChatRoom extends BaseIdEntity {
     @Column(nullable = false)
     private String roomName;
 }
