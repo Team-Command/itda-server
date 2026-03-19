@@ -12,6 +12,6 @@ public class CreateChatRoomService {
     private final ChatRoomRepository chatRoomRepository;
 
     public FirstChatRoomResponse firstCreate(ChatRoomUserRequest chatRoomUserRequest) {
-        
+        List<Long>
     }
 }
