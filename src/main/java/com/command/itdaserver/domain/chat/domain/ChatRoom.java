@@ -14,4 +14,10 @@ import lombok.*;
 public class ChatRoom extends BaseIdEntity {
     @Column(nullable = false)
     private String roomName;
+
+    public static ChatRoom of(String roomName) {
+        return ChatRoom.builder()
+                .roomName(roomName)
+                .build();
+    }
 }

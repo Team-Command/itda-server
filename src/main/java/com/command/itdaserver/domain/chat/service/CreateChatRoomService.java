@@ -1,6 +1,5 @@
 package com.command.itdaserver.domain.chat.service;
 
-import com.command.itdaserver.domain.chat.domain.ChatRoomUser;
 import com.command.itdaserver.domain.chat.domain.repository.ChatRoomRepository;
 import com.command.itdaserver.domain.chat.domain.repository.ChatRoomUserRepository;
 import com.command.itdaserver.domain.chat.presentaion.dto.request.ChatRoomUserRequest;
@@ -19,12 +18,16 @@ public class CreateChatRoomService {
     private final ChatRoomUserRepository chatRoomUserRepository;
     private final UserRepository userRepository;
 
+    private final static String SINGLE_ROOM;
+
     public FirstChatRoomResponse firstCreate(ChatRoomUserRequest chatRoomUserRequest) {
         List<Long> ids = chatRoomUserRequest.id();
 
         List<User> users = userRepository.findAllById(ids);
 
+        if(users.size() > 2){
 
-        List<ChatRoomUser> chatRoomUsers =
+        }
+
     }
 }
