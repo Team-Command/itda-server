@@ -1,5 +1,6 @@
 package com.command.itdaserver.domain.chat.domain;
 
+import com.command.itdaserver.domain.user.domain.User;
 import com.command.itdaserver.global.entity.BaseIdEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -13,19 +14,21 @@ import lombok.*;
 @Builder
 public class ChatRoomUser extends BaseIdEntity {
 
-    @Column(name = "room_id", nullable = false, unique = true)
-    private String roomId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "room_id", nullable = false)
+    private ChatRoom room;
 
-    @Column(name = "user_id", nullable = false, unique = true)
-    private String userId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     @Column(nullable = false)
     private String lastReadMessage;
 
-    public static ChatRoomUser of(String roomId, String userId, String lastReadMessage) {
+    public static ChatRoomUser of(ChatRoom room,  User user, String lastReadMessage) {
         return ChatRoomUser.builder()
-                .roomId(roomId)
-                .userId(userId)
+                .room(room)
+                .user(user)
                 .lastReadMessage(lastReadMessage)
                 .build();
     }
