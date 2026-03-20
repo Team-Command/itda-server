@@ -23,9 +23,9 @@ public class ChatRoomUser extends BaseIdEntity {
     private User user;
 
     @Column(nullable = false)
-    private String lastReadMessage;
+    private Long lastReadMessage;
 
-    public static ChatRoomUser of(ChatRoom room,  User user, String lastReadMessage) {
+    public static ChatRoomUser of(ChatRoom room,  User user, Long lastReadMessage) {
         return ChatRoomUser.builder()
                 .room(room)
                 .user(user)
