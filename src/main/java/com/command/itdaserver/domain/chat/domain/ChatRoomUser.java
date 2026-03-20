@@ -22,7 +22,6 @@ public class ChatRoomUser extends BaseIdEntity {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @Column(nullable = false)
     private Long lastReadMessage;
 
     public static ChatRoomUser of(ChatRoom room,  User user, Long lastReadMessage) {
