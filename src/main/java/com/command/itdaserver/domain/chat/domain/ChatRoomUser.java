@@ -21,4 +21,12 @@ public class ChatRoomUser extends BaseIdEntity {
 
     @Column(nullable = false)
     private String lastReadMessage;
+
+    public static ChatRoomUser of(String roomId, String userId, String lastReadMessage) {
+        return ChatRoomUser.builder()
+                .roomId(roomId)
+                .userId(userId)
+                .lastReadMessage(lastReadMessage)
+                .build();
+    }
 }
