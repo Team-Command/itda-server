@@ -43,6 +43,10 @@ public class CreateChatRoomService {
 
         String roomName = createRoomName(userNames);
 
+        if(chatRoomRepository.findByRoomName(roomName).isPresent()) {
+            throw
+        }
+
         List<String> roomImage = users
                 .stream()
                 .map(user -> user.getImageUrl())
