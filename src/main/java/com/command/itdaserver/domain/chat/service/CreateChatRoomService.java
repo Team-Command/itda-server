@@ -27,8 +27,9 @@ public class CreateChatRoomService {
     private final static int SINGLE_ROOM = 2;
 
     @Transactional
-    public FirstChatRoomResponse execute(ChatRoomUserRequest chatRoomUserRequest) {
+    public FirstChatRoomResponse execute(ChatRoomUserRequest chatRoomUserRequest, Long myId) {
         List<Long> ids = chatRoomUserRequest.id();
+        ids.add(myId);
 
         List<User> users = userRepository.findAllById(ids);
 
