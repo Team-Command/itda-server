@@ -27,7 +27,7 @@ public class CreateChatRoomService {
     private final static int SINGLE_ROOM = 2;
 
     @Transactional
-    public FirstChatRoomResponse firstCreate(ChatRoomUserRequest chatRoomUserRequest) {
+    public FirstChatRoomResponse execute(ChatRoomUserRequest chatRoomUserRequest) {
         List<Long> ids = chatRoomUserRequest.id();
 
         List<User> users = userRepository.findAllById(ids);
@@ -42,10 +42,6 @@ public class CreateChatRoomService {
                 .collect(Collectors.toList());
 
         String roomName = createRoomName(userNames);
-
-        if(chatRoomRepository.findByRoomName(roomName).isPresent()) {
-            throw
-        }
 
         List<String> roomImage = users
                 .stream()
