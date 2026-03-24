@@ -15,7 +15,7 @@ import lombok.*;
 public class ChatRoomUser extends BaseIdEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "room_id", nullable = false)
+    @JoinColumn(name = "cr_id", nullable = false)
     private ChatRoom room;
 
     @ManyToOne(fetch = FetchType.LAZY)
