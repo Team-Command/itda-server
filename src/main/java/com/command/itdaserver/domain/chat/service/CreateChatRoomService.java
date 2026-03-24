@@ -80,7 +80,7 @@ public class CreateChatRoomService {
         else  {
             int otherCount = userNames.size() - SINGLE_ROOM;
 
-            return userNames.get(0) + userNames.get(1) + " 외 " + otherCount + "명";
+            return userNames.get(0) + ", " + userNames.get(1) + " 외 " + otherCount + "명";
         }
     }
 }
