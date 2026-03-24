@@ -19,7 +19,7 @@ public class ChatRoomUser extends BaseIdEntity {
     private ChatRoom room;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "u_id", nullable = false)
     private User user;
 
     private Long lastReadMessage;
