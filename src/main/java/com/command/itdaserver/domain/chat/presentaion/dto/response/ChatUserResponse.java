@@ -5,7 +5,7 @@ import com.command.itdaserver.domain.user.domain.User;
 public record ChatUserResponse(
         Long userId,
         String name,
-        String userImage
+        String userImageUrl
 ) {
     public static ChatUserResponse from(User user) {
         return new ChatUserResponse(
