@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,14 +29,22 @@ public class CreateChatRoomService {
 
     @Transactional
     public FirstChatRoomResponse execute(ChatRoomUserRequest chatRoomUserRequest, Long myId) {
-        List<Long> ids = chatRoomUserRequest.userIds();
-        ids.add(myId);
+        List<Long> ids = chatRoomUserRequest.userIds()
+                .stream()
+                .distinct()
+                .collect(Collectors.toList());
+
+        if (!ids.contains(myId)) {
+            ids.add(myId);
+        }
 
         List<User> users = userRepository.findAllById(ids);
 
         if(users.size() != ids.size()) {
             throw UserNotFoundException.EXCEPTION;
         }
+
+        Optional<ChatRoom> existingRoom = chatRoomUserRepository.findChatRoomByUsers(ids, (long) ids.size());
 
         List<String> userNames = users
                 .stream()
@@ -46,12 +55,25 @@ public class CreateChatRoomService {
 
         List<String> roomImage = users
                 .stream()
-                .map(user -> user.getImageUrl())
+                .map(User::getImageUrl)
                 .limit(2)
                 .collect(Collectors.toList());
 
-        ChatRoom chatRoom = ChatRoom.of(roomName);
+        List<ChatUserResponse> chatUserResponses = users
+                .stream()
+                .map(ChatUserResponse::from)
+                .collect(Collectors.toList());
 
+        if (chatRoomUserRepository.findChatRoomByUsers(ids, (long) ids.size()).isPresent()) {
+            return FirstChatRoomResponse.of(
+                    existingRoom.get().getId(),
+                    roomName,
+                    roomImage,
+                    chatUserResponses
+            );
+        }
+
+        ChatRoom chatRoom = ChatRoom.of(roomName);
         chatRoomRepository.save(chatRoom);
 
         List<ChatRoomUser> chatRoomUsers = users.stream()
@@ -59,11 +81,6 @@ public class CreateChatRoomService {
                 .collect(Collectors.toList());
 
         chatRoomUserRepository.saveAll(chatRoomUsers);
-
-        List<ChatUserResponse> chatUserResponses = users
-                .stream()
-                .map(ChatUserResponse::from)
-                .collect(Collectors.toList());
 
         return FirstChatRoomResponse.of(
                 chatRoom.getId(),
