@@ -8,6 +8,7 @@ import com.command.itdaserver.domain.user.domain.enums.School;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 public record UserPublicProfileResponse(
+        Long id,
         String userImage,
         String userId,
         String name,
@@ -19,6 +20,7 @@ public record UserPublicProfileResponse(
 ) {
     public static UserPublicProfileResponse from(User user, UserDisclosure disclosure) {
         return new UserPublicProfileResponse(
+                user.getId(),
                 user.getUserImage(),
                 user.getUserId(),
                 disclosure.isNamePublic() ? user.getName() : null,
